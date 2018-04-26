@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <configuration>
     <feature automatic="selected" name="ColourKisteTask1"/>
-    <feature automatic="selected" name="Base"/>
     <feature automatic="selected" name="Type"/>
     <feature automatic="selected" name="Application"/>
     <feature automatic="selected" manual="selected" name="GUI"/>
