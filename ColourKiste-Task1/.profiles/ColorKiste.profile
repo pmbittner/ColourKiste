@@ -1,0 +1,6 @@
+true
+ImageLoadingArgs=Orange
+ImageLoadingGUI=Light_Green
+ImageSavingGUI=Light_Green
+GUI=Light_Green
+Application=Orange
