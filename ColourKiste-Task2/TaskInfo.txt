@@ -5,3 +5,11 @@ Daher habe ich vier Features ausgewählt und über Runtime-Properties konfigurierb
 Die beiliegenden Konfigurationsdateien unterscheiden sich von denen, der letzten Hausaufgabe,
 um sinnvolle Beispiele für Varianten zu geben, die diese vier implementierten Features
 verwenden, statt der nicht-implementierten.
+
+
+Methoden, die Runtime-Properties verwenden, um die jeweiligen Features zu konfigurieren
+
+Main.main                     - ImageLoadingArgs
+ImagePanel (Constructor)      - ImageLoadingDragAndDrop
+MainFrame (Constructor)       - ImageLoadingWizard, ImageSavingWizard
+MainFrame.updateGuiComponents - ImageSavingWizard
