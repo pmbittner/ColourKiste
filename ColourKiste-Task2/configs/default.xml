@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<configuration>
+    <feature automatic="selected" name="ColourKisteTask1"/>
+    <feature automatic="selected" name="Type"/>
+    <feature automatic="selected" manual="selected" name="Application"/>
+    <feature automatic="selected" name="GUI"/>
+    <feature automatic="selected" name="Workspace"/>
+    <feature automatic="unselected" name="Library"/>
+    <feature automatic="selected" name="ImageSaving"/>
+    <feature automatic="selected" name="ImageSavingGUI"/>
+    <feature manual="selected" name="ImageSavingWizard"/>
+    <feature automatic="selected" manual="selected" name="ImageLoading"/>
+    <feature manual="selected" name="ImageLoadingArgs"/>
+    <feature automatic="selected" name="ImageLoadingGUI"/>
+    <feature manual="selected" name="ImageLoadingWizard"/>
+    <feature manual="selected" name="ImageLoadingDragAndDrop"/>
+</configuration>

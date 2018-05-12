@@ -1,0 +1,25 @@
+package commands;
+import java.awt.Color;
+
+import rendering.Texture;
+
+public class SetColorCommand implements ICommand<Texture>
+{
+    private int x, y;
+    private Color color, colorBefore;
+    
+    public SetColorCommand(int x, int y, Color color) {
+        this.x = x;
+        this.y = y;
+        this.color = color;
+    }
+    
+    public void execute(Texture t) {
+        colorBefore = t.getColorAt(x, y);
+        t.setColorAt(x, y, color);
+    }
+    
+    public void undo(Texture t) {
+        t.setColorAt(x, y, colorBefore);
+    }
+}

@@ -1,0 +1,7 @@
+Aufgabe 2
+
+Ich habe eine bereits selbstgeschriebene Software als Basis für mein Projekt genommen.
+Daher habe ich vier Features ausgewählt und über Runtime-Properties konfigurierbar gestaltet.
+Die beiliegenden Konfigurationsdateien unterscheiden sich von denen, der letzten Hausaufgabe,
+um sinnvolle Beispiele für Varianten zu geben, die diese vier implementierten Features
+verwenden, statt der nicht-implementierten.
