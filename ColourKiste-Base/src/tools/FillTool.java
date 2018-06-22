@@ -4,7 +4,6 @@ import java.awt.Color;
 
 import commands.FillCommand;
 import commands.ICommand;
-import commands.SetColorCommand;
 import rendering.Texture;
 
 public class FillTool extends ToolAdapter

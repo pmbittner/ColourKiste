@@ -1,4 +1,14 @@
 package gui;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.dnd.DropTargetAdapter;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
+
 import javax.swing.JPanel;
 
 import commands.ICommand;
@@ -6,24 +16,6 @@ import rendering.Camera;
 import rendering.Texture;
 import rendering.TextureWorkingElement;
 import rendering.WorkingElement;
-import tools.NullTool;
-import tools.PencilTool;
-import tools.Tool;
-import tools.ToolBox;
-
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.LayoutManager;
-import java.awt.Point;
-import java.awt.Color;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
-import java.io.File;
-import java.awt.dnd.*;
-
-import java.util.Stack;
-import java.util.List;
-import java.util.ArrayList;
 
 public class ImagePanel extends JPanel
 {

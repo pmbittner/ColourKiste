@@ -6,7 +6,6 @@ import commands.ICommand;
 import gui.ImagePanel;
 import rendering.Texture;
 import rendering.TextureWorkingElement;
-import rendering.WorkingElement;
 
 public class PencilTool extends ToolAdapter
 {

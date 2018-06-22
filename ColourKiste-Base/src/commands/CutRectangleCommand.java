@@ -1,7 +1,6 @@
 package commands;
 
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 
 import rendering.Texture;
 

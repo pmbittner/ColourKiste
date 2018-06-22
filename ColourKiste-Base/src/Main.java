@@ -11,7 +11,12 @@ import gui.menu.MenuBarItem;
 import gui.menu.RedoMenuBarItem;
 import gui.menu.SaveMenuBarItem;
 import gui.menu.UndoMenuBarItem;
-import tools.*;
+import tools.AreaSelectionTool;
+import tools.ColorSwitchTool;
+import tools.DotTool;
+import tools.FillTool;
+import tools.PencilTool;
+import tools.Tool;
 
 public abstract class Main
 {

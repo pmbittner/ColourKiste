@@ -2,9 +2,6 @@ package gui;
 import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,18 +10,12 @@ import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import gui.io.OpenImageFileDialog;
-import gui.io.SaveImageFileDialog;
 import gui.menu.MenuBarItem;
-import gui.menu.SaveMenuBarItem;
-import rendering.Texture;
 import tools.Tool;
 import tools.ToolBox;
 

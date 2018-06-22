@@ -1,7 +1,7 @@
 package gui.io;
-import javax.swing.JFrame;
-
 import java.io.File;
+
+import javax.swing.JFrame;
 
 public class SaveImageFileDialog extends ImageFileChooserFrame
 {

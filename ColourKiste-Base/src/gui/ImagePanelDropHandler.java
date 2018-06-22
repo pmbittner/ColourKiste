@@ -1,12 +1,14 @@
 package gui;
-import java.awt.dnd.*;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetAdapter;
+import java.awt.dnd.DropTargetDropEvent;
 import java.io.File;
 import java.util.List;
-import java.awt.datatransfer.*;
-import javax.activation.MimetypesFileTypeMap;
-import javax.swing.JOptionPane;
 
-import gui.menu.LoadMenuBarItem;
+import javax.swing.JOptionPane;
 
 public class ImagePanelDropHandler extends DropTargetAdapter
 {
