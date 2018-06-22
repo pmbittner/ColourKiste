@@ -1,6 +1,10 @@
 package commands;
 
 import java.awt.Color;
+import java.awt.Point;
+import java.util.AbstractQueue;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import rendering.Texture;
 
@@ -18,6 +22,37 @@ public class FillCommand implements ICommand<Texture> {
 	}
 	
 	private void fill(Texture t, int fillX, int fillY) {
+		boolean[][] visited = new boolean[t.getWidth()][t.getHeight()];
+		Queue<Point> pixelsToVisit = new LinkedList<>();
+		
+		pixelsToVisit.add(new Point(fillX, fillY));
+		
+		Point current;
+		Point[] neighbours = new Point[4];
+		
+		while (!pixelsToVisit.isEmpty()) {
+			current = pixelsToVisit.poll();
+			visited[current.x][current.y] = true;
+			
+			if (t.getColorAt(current.x, current.y).equals(colorToReplace)
+					&& !t.getColorAt(current.x, current.y).equals(color))
+			{
+				t.setColorAt(current.x, current.y, color);
+
+				neighbours[0] = new Point(current.x - 1, current.y);
+				neighbours[1] = new Point(current.x + 1, current.y);
+				neighbours[2] = new Point(current.x, current.y - 1);
+				neighbours[3] = new Point(current.x, current.y + 1);
+				
+				for (int i = 0; i < 4; ++i) {
+					Point ni = neighbours[i];
+					if (!(ni.x < 0 || ni.y < 0 || ni.x >= t.getWidth() || ni.y >= t.getHeight() || visited[ni.x][ni.y])) {
+						pixelsToVisit.add(ni);
+					}
+				}
+			}
+		}
+		
 		if (fillX < 0 || fillY < 0 || fillX >= t.getWidth() || fillY >= t.getHeight())
 			return;
 		
