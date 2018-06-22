@@ -10,23 +10,26 @@ import java.awt.geom.Point2D;
 import commands.ICommand;
 import rendering.Camera;
 import rendering.Texture;
+import tools.ToolBox;
 
 public class InputHandler implements MouseListener, MouseMotionListener, MouseWheelListener
 {
-    private ImagePanel imagePanel;
+	private ImagePanel imagePanel;
+    private ToolBox toolBox;
 
     private double xOnPress, yOnPress;
 
     private int buttonHold;
 
-    public InputHandler(ImagePanel imagePanel) {
-        this.imagePanel = imagePanel;
+    public InputHandler(ImagePanel imagePanel, ToolBox user) {
+    	this.imagePanel = imagePanel;
+        this.toolBox = user;
         buttonHold = -1;
     }
 
     private void cancelButtonAction() {
         buttonHold = -1;
-        imagePanel.getTool().abortUsage();
+        toolBox.getTool().abortUsage();
     }
 
     /**
@@ -38,7 +41,7 @@ public class InputHandler implements MouseListener, MouseMotionListener, MouseWh
         if (arg0.getButton() == MouseEvent.BUTTON1) {
             Point2D p = imagePanel.screenToTextureCoord(arg0.getX(), arg0.getY());
             if (imagePanel.isPointOnImage(p.getX(), p.getY())) {
-                ICommand<Texture> toolCommand = imagePanel.getTool().use(
+                ICommand<Texture> toolCommand = toolBox.getTool().use(
                         imagePanel.getTexture(),
                         (int) p.getX(),
                         (int) p.getY());
@@ -76,7 +79,7 @@ public class InputHandler implements MouseListener, MouseMotionListener, MouseWh
         
         if (buttonHold == MouseEvent.BUTTON1) {
             Point2D p = imagePanel.screenToTextureCoord(arg0.getX(), arg0.getY());
-            imagePanel.getTool().startUsage(imagePanel.getTexture(), (int)p.getX(), (int)p.getY());
+            toolBox.getTool().startUsage(imagePanel.getTexture(), (int)p.getX(), (int)p.getY());
             imagePanel.update();
         } else if (buttonHold == MouseEvent.BUTTON3) {
             Camera c = imagePanel.getCamera();
@@ -93,7 +96,7 @@ public class InputHandler implements MouseListener, MouseMotionListener, MouseWh
         if (buttonHold == arg0.getButton()) {
             if (buttonHold == MouseEvent.BUTTON1) {
                 Point2D p = imagePanel.screenToTextureCoord(arg0.getX(), arg0.getY());
-                ICommand<Texture> command = imagePanel.getTool().finishUsage(imagePanel.getTexture(), (int)p.getX(), (int)p.getY());
+                ICommand<Texture> command = toolBox.getTool().finishUsage(imagePanel.getTexture(), (int)p.getX(), (int)p.getY());
                 if (command != null)
                     imagePanel.runCommand(command);
             }
@@ -109,7 +112,7 @@ public class InputHandler implements MouseListener, MouseMotionListener, MouseWh
     public void mouseDragged(MouseEvent arg0){
         if (buttonHold == MouseEvent.BUTTON1) {
             Point2D p = imagePanel.screenToTextureCoord(arg0.getX(), arg0.getY());
-            imagePanel.getTool().updateUsage(imagePanel.getTexture(), (int)p.getX(), (int)p.getY());
+            toolBox.getTool().updateUsage(imagePanel.getTexture(), (int)p.getX(), (int)p.getY());
         } else if (buttonHold == MouseEvent.BUTTON3) {
             imagePanel.getCamera().setLocation(
                 arg0.getX() - xOnPress,

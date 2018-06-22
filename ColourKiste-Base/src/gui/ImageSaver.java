@@ -1,9 +1,9 @@
 package gui;
 
 public interface ImageSaver {
-	void showSavingPrompt(MainFrame mainFrame);
+	void showSavingPrompt(WorkspaceTab workspaceTab);
 
-	public void saveAs(MainFrame frame);
+	public void saveAs(WorkspaceTab workspaceTab);
 	
-	public void save(MainFrame frame);
+	public void save(WorkspaceTab workspaceTab);
 }

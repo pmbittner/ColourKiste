@@ -9,7 +9,7 @@ import rendering.WorkingElement;
 import tools.NullTool;
 import tools.PencilTool;
 import tools.Tool;
-import tools.ToolUser;
+import tools.ToolBox;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -18,13 +18,14 @@ import java.awt.Point;
 import java.awt.Color;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.io.File;
 import java.awt.dnd.*;
 
 import java.util.Stack;
 import java.util.List;
 import java.util.ArrayList;
 
-public class ImagePanel extends JPanel implements ToolUser
+public class ImagePanel extends JPanel
 {
     /** GUI **/
     private MainFrame frame;
@@ -35,12 +36,9 @@ public class ImagePanel extends JPanel implements ToolUser
     private Stack<ICommand<Texture>> actionsDone;
     private Stack<ICommand<Texture>> actionsUndone;
 
-    private Tool currentTool;
 
     private TextureWorkingElement mainImage;
     private List<WorkingElement> workingElements;
-    
-    private List<ToolChangedListener> toolChangedListeners;
 
     /** GRAPHICS and RENDERING **/
     private Camera camera;
@@ -52,11 +50,9 @@ public class ImagePanel extends JPanel implements ToolUser
     	
         this.frame = frame;
         
-        toolChangedListeners = new ArrayList<>();
-
         dropTargetHandler = new ImagePanelDropHandler(this);
         
-        inputHandler = new InputHandler(this);
+        inputHandler = new InputHandler(this, frame.getToolBox());
 
         this.addMouseListener(inputHandler);
         this.addMouseMotionListener(inputHandler);
@@ -64,7 +60,6 @@ public class ImagePanel extends JPanel implements ToolUser
 
         actionsDone = new Stack<ICommand<Texture>>();
         actionsUndone = new Stack<ICommand<Texture>>();
-        setTool(NullTool.Instance);
 
         mainImage = new TextureWorkingElement(null);
         workingElements = new ArrayList<WorkingElement>();
@@ -157,7 +152,7 @@ public class ImagePanel extends JPanel implements ToolUser
             camera.getX() + getWidth() / 2,
             camera.getY() + getHeight() / 2);
     }
-
+    
     /** GET AND SET **/
 
     public void setTexture(Texture texture){
@@ -174,8 +169,6 @@ public class ImagePanel extends JPanel implements ToolUser
         actionsDone.clear();
         actionsUndone.clear();
 
-        setTool(NullTool.Instance);
-
         camera.setLocation(0, 0);
         camera.setZoom(1);
             
@@ -189,36 +182,6 @@ public class ImagePanel extends JPanel implements ToolUser
     public MainFrame getMainFrame() {
         return frame;
     }
-    
-    public void setTool(Tool tool) {
-    	if (currentTool != null)
-    		currentTool.setImagePanel(null);
-    	
-    	if (tool == null)
-    		tool = NullTool.Instance;
-    	
-        currentTool = tool;
-        
-        currentTool.setImagePanel(this);
-        
-        for (ToolChangedListener l : toolChangedListeners)
-        	l.onToolChanged(currentTool);
-    }
-
-    public Tool getTool() {
-        return currentTool;
-    }
-
-	@Override
-	public void addToolChangedListener(ToolChangedListener listener) {
-		if (!toolChangedListeners.contains(listener))
-			toolChangedListeners.add(listener);
-	}
-
-	@Override
-	public boolean removeToolChangedListener(ToolChangedListener listener) {
-		return toolChangedListeners.remove(listener);
-	}
 
     public Camera getCamera() {
         return camera;

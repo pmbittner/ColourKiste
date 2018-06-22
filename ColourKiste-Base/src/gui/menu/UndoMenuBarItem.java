@@ -14,7 +14,7 @@ public class UndoMenuBarItem implements MenuBarItem {
         undoMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_MASK));
         undoMenuItem.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    frame.getImagePanel().undo();
+                	frame.getCurrentWorkspaceTab().getImagePanel().undo();
                 }
             });
         frame.getMenuWithName("Edit").add(undoMenuItem);
@@ -22,6 +22,10 @@ public class UndoMenuBarItem implements MenuBarItem {
 
 	@Override
 	public void update(MainFrame frame) {
-		undoMenuItem.setEnabled(frame.getImagePanel().canUndo());
+		boolean enabled = false;
+		if (frame.getCurrentWorkspaceTab() != null) {
+			enabled = frame.getCurrentWorkspaceTab().getImagePanel().canUndo();
+		}
+		undoMenuItem.setEnabled(enabled);
 	}
 }

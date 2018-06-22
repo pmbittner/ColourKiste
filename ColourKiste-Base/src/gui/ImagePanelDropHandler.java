@@ -42,7 +42,7 @@ public class ImagePanelDropHandler extends DropTargetAdapter
         MainFrame frame = imagePanel.getMainFrame();
         for (File f : files) {
             try {
-                frame.setWorkingFile(f);
+                frame.getCurrentWorkspaceTab().setWorkingFile(f);
             } catch(IllegalArgumentException iae) {
                 JOptionPane.showMessageDialog(
                     frame,

@@ -5,6 +5,7 @@ import java.io.File;
 import javax.swing.JMenuItem;
 
 import gui.MainFrame;
+import gui.WorkspaceTab;
 import gui.io.OpenImageFileDialog;
 
 public class LoadMenuBarItem implements MenuBarItem {
@@ -18,7 +19,8 @@ public class LoadMenuBarItem implements MenuBarItem {
                 	OpenImageFileDialog od = new OpenImageFileDialog(frame, null);
                     File choosenFile = od.getFile();
                     if(choosenFile != null) {
-                    	frame.setWorkingFile(choosenFile);
+                    	WorkspaceTab t = frame.createWorkspace(choosenFile.getName());
+                    	t.setWorkingFile(choosenFile);
                     }
                 }
             });

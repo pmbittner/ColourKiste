@@ -16,6 +16,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import gui.io.OpenImageFileDialog;
 import gui.io.SaveImageFileDialog;
@@ -23,22 +26,28 @@ import gui.menu.MenuBarItem;
 import gui.menu.SaveMenuBarItem;
 import rendering.Texture;
 import tools.Tool;
+import tools.ToolBox;
 
 public class MainFrame extends JFrame
 {
-	private JPanel toolPanel;
-    private ImagePanel imagePanel;
-    private File workingFile;
     private ImageSaver saver;
+    private ToolBox tools;
+    
+	private JPanel toolPanel;
+	private JTabbedPane tabbedPane;
+	private WorkspaceTab currentWorkspace;
     
     private Map<String, JMenu> menusByName;
     private List<MenuBarItem> menuBarItems;
     private JMenuBar menuBar;
 
+    private boolean newTabClickLock;
+    
     public MainFrame(int resolutionWidth, int resolutionHeight, ImageSaver saver) {
         super("ColorKiller");
         
         this.saver = saver;
+        tools = new ToolBox();
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(true);
@@ -54,16 +63,30 @@ public class MainFrame extends JFrame
 
         toolPanel = new JPanel(new GridBagLayout());
         
-        imagePanel = new ImagePanel(this);
-        addComponentListener(new ComponentListener() {
-                public void componentHidden(ComponentEvent e) {}
-                public void componentMoved(ComponentEvent e) {}
-                public void componentShown(ComponentEvent e) {}
-                public void componentResized(ComponentEvent e) {
-                    imagePanel.onWindowResized();
+        tabbedPane = new JTabbedPane();
+        tabbedPane.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent e) {
+            	if (newTabClickLock) return;
+            	
+            	if (tabbedPane.getSelectedComponent() instanceof WorkspaceTab) {
+                    WorkspaceTab wt = (WorkspaceTab) tabbedPane.getSelectedComponent();
+                    if (wt != null)
+                    	setCurrentWorkspace(wt);
+            	}
+                
+                JTabbedPane tabbedPane = (JTabbedPane)e.getSource();
+                if(tabbedPane.getSelectedIndex() == tabbedPane.indexOfTab(" + "))
+                {
+                	newTabClickLock = true;
+                	WorkspaceTab wt = createWorkspace("new");
+                    tabbedPane.setSelectedComponent(wt);
+                    newTabClickLock = false;
                 }
-            });
-
+                
+                updateGuiComponents();
+            }
+        });
+        
         
         Container contentPane = getContentPane();
         contentPane.setLayout(new GridBagLayout());
@@ -79,8 +102,24 @@ public class MainFrame extends JFrame
         c.gridx = 1;
         c.weightx = 1.0;
         c.fill = GridBagConstraints.BOTH;
-        contentPane.add(imagePanel, c);
+        contentPane.add(tabbedPane, c);
+
+        tabbedPane.addTab(" + ", null, new JPanel(), null);
+        //createWorkspace("new"); // This is done implicitly, as addChangeListener is invoked once the tabbedPane is added.
+        setCurrentWorkspace((WorkspaceTab) tabbedPane.getSelectedComponent());
     }
+    
+    public WorkspaceTab createWorkspace(String title) {
+    	WorkspaceTab wt = new WorkspaceTab(this, tabbedPane);
+        tabbedPane.insertTab(title, null, wt, "", tabbedPane.getTabCount() - 1);
+        return wt;
+    }
+
+	private void setCurrentWorkspace(WorkspaceTab wt) {
+		this.currentWorkspace = wt;
+		tools.setCurrentWorkspace(wt.getImagePanel());
+        updateGuiComponents();
+	}
     
     public void addMenuBarItems(List<MenuBarItem> items) {
     	menuBarItems.addAll(items);
@@ -100,7 +139,7 @@ public class MainFrame extends JFrame
             int row = 0;
     		for (Tool t : tools) {
     			c.gridy = row;
-    			toolPanel.add(new ToolChooserButton(imagePanel, t), c);
+    			toolPanel.add(new ToolChooserButton(this.tools, t), c);
     			++row;
     		}
 
@@ -125,27 +164,21 @@ public class MainFrame extends JFrame
     	}
     	return menu;
     }
-    
-    public void setWorkingFile(File file) {
-    	if (workingFile != null) {
-    		saver.showSavingPrompt(this);
-    	}
-    	
-        Texture t = new Texture(file);
-        imagePanel.setTexture(t);
-        workingFile = file;
-    }
-
-	public File getWorkingFile() {
-		return workingFile;
-	}
 
     public void updateGuiComponents() {
     	for (MenuBarItem mbi : menuBarItems)
     		mbi.update(this);
     }
-    
-    public ImagePanel getImagePanel() {
-        return imagePanel;
-    }
+
+	public WorkspaceTab getCurrentWorkspaceTab() {
+		return (WorkspaceTab) tabbedPane.getSelectedComponent();
+	}
+
+	public ImageSaver getSaver() {
+		return saver;
+	}
+
+	public ToolBox getToolBox() {
+		return tools;
+	}
 }

@@ -6,14 +6,14 @@ import java.awt.event.ActionListener;
 import javax.swing.JToggleButton;
 
 import tools.Tool;
-import tools.ToolUser;
-import tools.ToolUser.ToolChangedListener;
+import tools.ToolBox;
+import tools.ToolBox.ToolChangedListener;
 
 public class ToolChooserButton extends JToggleButton implements ActionListener, ToolChangedListener {
-	private ToolUser user;
+	private ToolBox user;
 	private Tool tool;
 	
-	public ToolChooserButton(ToolUser user, Tool tool) {
+	public ToolChooserButton(ToolBox user, Tool tool) {
 		super(tool.getName());
 		
 		this.user = user;

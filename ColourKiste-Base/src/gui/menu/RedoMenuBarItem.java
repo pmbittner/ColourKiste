@@ -14,7 +14,7 @@ public class RedoMenuBarItem implements MenuBarItem {
         redoMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Y, java.awt.event.InputEvent.CTRL_MASK));
         redoMenuItem.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    frame.getImagePanel().redo();
+                    frame.getCurrentWorkspaceTab().getImagePanel().redo();
                 }
             });
         frame.getMenuWithName("Edit").add(redoMenuItem);
@@ -22,7 +22,11 @@ public class RedoMenuBarItem implements MenuBarItem {
 
 	@Override
 	public void update(MainFrame frame) {
-		redoMenuItem.setEnabled(frame.getImagePanel().canRedo());
+		boolean enabled = false;
+		if (frame.getCurrentWorkspaceTab() != null) {
+			enabled = frame.getCurrentWorkspaceTab().getImagePanel().canRedo();
+		}
+		redoMenuItem.setEnabled(enabled);
 	}
 
 }
