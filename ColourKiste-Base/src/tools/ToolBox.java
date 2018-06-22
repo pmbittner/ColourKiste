@@ -3,7 +3,7 @@ package tools;
 import java.util.ArrayList;
 import java.util.List;
 
-import gui.ImagePanel;
+import gui.Workspace;
 
 public class ToolBox {
 	public interface ToolChangedListener {
@@ -13,7 +13,7 @@ public class ToolBox {
     private Tool currentTool;
     private List<ToolChangedListener> toolChangedListeners;
     
-    private ImagePanel currentWorkspace;
+    private Workspace currentWorkspace;
     
     public ToolBox() {
         toolChangedListeners = new ArrayList<>();
@@ -48,7 +48,7 @@ public class ToolBox {
 		return toolChangedListeners.remove(listener);
 	}
 
-	public void setCurrentWorkspace(ImagePanel imagePanel) {
+	public void setCurrentWorkspace(Workspace imagePanel) {
 		currentWorkspace = imagePanel;
 		if (currentTool != null)
 			currentTool.setImagePanel(currentWorkspace);

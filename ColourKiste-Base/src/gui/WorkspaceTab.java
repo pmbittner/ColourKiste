@@ -14,14 +14,14 @@ import rendering.Texture;
 public class WorkspaceTab extends JPanel {
 	private File workingFile;
 	private JTabbedPane tabbedPane;
-	private ImagePanel imagePanel;
+	private Workspace imagePanel;
     private MainFrame frame;
     
     public WorkspaceTab(MainFrame frame, JTabbedPane tabbedPane) {
     	this.frame = frame;
     	this.tabbedPane = tabbedPane;
     	
-    	imagePanel = new ImagePanel(frame);
+    	imagePanel = new Workspace(frame);
         frame.addComponentListener(new ComponentListener() {
                 public void componentHidden(ComponentEvent e) {}
                 public void componentMoved(ComponentEvent e) {}
@@ -70,7 +70,7 @@ public class WorkspaceTab extends JPanel {
 		return workingFile;
 	}
 	
-	public ImagePanel getImagePanel() {
+	public Workspace getImagePanel() {
 		return imagePanel;
 	}
 	

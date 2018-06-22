@@ -12,10 +12,10 @@ import javax.swing.JOptionPane;
 
 public class ImagePanelDropHandler extends DropTargetAdapter
 {
-    private ImagePanel imagePanel;
+    private Workspace imagePanel;
     private DropTarget dropTarget;
 
-    public ImagePanelDropHandler(ImagePanel imagePanel) {
+    public ImagePanelDropHandler(Workspace imagePanel) {
         this.imagePanel = imagePanel;
         dropTarget = new DropTarget(this.imagePanel, this);
     }

@@ -13,14 +13,14 @@ import tools.ToolBox;
 
 public class InputHandler implements MouseListener, MouseMotionListener, MouseWheelListener
 {
-	private ImagePanel imagePanel;
+	private Workspace imagePanel;
     private ToolBox toolBox;
 
     private double xOnPress, yOnPress;
 
     private int buttonHold;
 
-    public InputHandler(ImagePanel imagePanel, ToolBox user) {
+    public InputHandler(Workspace imagePanel, ToolBox user) {
     	this.imagePanel = imagePanel;
         this.toolBox = user;
         buttonHold = -1;

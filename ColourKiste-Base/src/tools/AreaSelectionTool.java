@@ -5,7 +5,7 @@ import java.awt.geom.Rectangle2D;
 
 import commands.CutRectangleCommand;
 import commands.ICommand;
-import gui.ImagePanel;
+import gui.Workspace;
 import rendering.RectangleWorkingElement;
 import rendering.Texture;
 
@@ -50,7 +50,7 @@ public class AreaSelectionTool extends ToolAdapter {
     }
 
     public void abortUsage() {
-        ImagePanel ip = getImagePanel();
+        Workspace ip = getImagePanel();
         ip.despawn(selectionArea);
         ip.update();
     }

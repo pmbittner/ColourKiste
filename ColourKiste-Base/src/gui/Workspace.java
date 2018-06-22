@@ -17,7 +17,7 @@ import rendering.Texture;
 import rendering.TextureWorkingElement;
 import rendering.WorkingElement;
 
-public class ImagePanel extends JPanel
+public class Workspace extends JPanel
 {
     /** GUI **/
     private MainFrame frame;
@@ -37,7 +37,7 @@ public class ImagePanel extends JPanel
     private Texture background;
     AffineTransform viewTransform;
 
-    public ImagePanel(MainFrame frame) {
+    public Workspace(MainFrame frame) {
     	super(true);
     	
         this.frame = frame;

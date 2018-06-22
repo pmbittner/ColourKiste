@@ -3,7 +3,7 @@ import java.awt.Color;
 
 import commands.DrawImageCommand;
 import commands.ICommand;
-import gui.ImagePanel;
+import gui.Workspace;
 import rendering.Texture;
 import rendering.TextureWorkingElement;
 
@@ -85,7 +85,7 @@ public class PencilTool extends ToolAdapter
 
     public void abortUsage() {
     	if (myElement != null) {
-	        ImagePanel ip = getImagePanel();
+	        Workspace ip = getImagePanel();
 	        ip.despawn(myElement);
 	        ip.update();
 	        myElement = null;

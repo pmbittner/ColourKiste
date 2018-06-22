@@ -1,22 +1,22 @@
 package tools;
 import commands.ICommand;
-import gui.ImagePanel;
+import gui.Workspace;
 import rendering.Texture;
 
 public abstract class ToolAdapter implements Tool
 {
-	private ImagePanel imagePanel;
+	private Workspace imagePanel;
 	private String name;
 	
 	public ToolAdapter(String name) {
 		this.name = name;
 	}
 	
-	public void setImagePanel(ImagePanel panel) {
+	public void setImagePanel(Workspace panel) {
 		imagePanel = panel;
 	}
 	
-	protected ImagePanel getImagePanel() {
+	protected Workspace getImagePanel() {
 		return imagePanel;
 	}
 	

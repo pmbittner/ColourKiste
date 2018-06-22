@@ -26,7 +26,7 @@ public class MainFrame extends JFrame
     
 	private JPanel toolPanel;
 	private JTabbedPane tabbedPane;
-	private WorkspaceTab currentWorkspace;
+	private WorkspaceTab currentWorkspaceTab;
     
     private Map<String, JMenu> menusByName;
     private List<MenuBarItem> menuBarItems;
@@ -62,7 +62,7 @@ public class MainFrame extends JFrame
             	if (tabbedPane.getSelectedComponent() instanceof WorkspaceTab) {
                     WorkspaceTab wt = (WorkspaceTab) tabbedPane.getSelectedComponent();
                     if (wt != null)
-                    	setCurrentWorkspace(wt);
+                    	setCurrentWorkspaceTab(wt);
             	}
                 
                 JTabbedPane tabbedPane = (JTabbedPane)e.getSource();
@@ -97,7 +97,7 @@ public class MainFrame extends JFrame
 
         tabbedPane.addTab(" + ", null, new JPanel(), null);
         //createWorkspace("new"); // This is done implicitly, as addChangeListener is invoked once the tabbedPane is added.
-        setCurrentWorkspace((WorkspaceTab) tabbedPane.getSelectedComponent());
+        setCurrentWorkspaceTab((WorkspaceTab) tabbedPane.getSelectedComponent());
     }
     
     public WorkspaceTab createWorkspace(String title) {
@@ -106,8 +106,8 @@ public class MainFrame extends JFrame
         return wt;
     }
 
-	private void setCurrentWorkspace(WorkspaceTab wt) {
-		this.currentWorkspace = wt;
+	private void setCurrentWorkspaceTab(WorkspaceTab wt) {
+		this.currentWorkspaceTab = wt;
 		tools.setCurrentWorkspace(wt.getImagePanel());
         updateGuiComponents();
 	}

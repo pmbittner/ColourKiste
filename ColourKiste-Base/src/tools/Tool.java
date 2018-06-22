@@ -1,11 +1,11 @@
 package tools;
 import commands.ICommand;
-import gui.ImagePanel;
+import gui.Workspace;
 import rendering.Texture;
 
 public interface Tool
 {
-	public void setImagePanel(ImagePanel panel);
+	public void setImagePanel(Workspace panel);
 	
     public ICommand<Texture> use(Texture workpiece, int x, int y);
     
