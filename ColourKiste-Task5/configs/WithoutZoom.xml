@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<configuration>
+    <feature automatic="selected" name="ColourKiste"/>
+    <feature automatic="selected" name="Type"/>
+    <feature automatic="selected" name="Application"/>
+    <feature automatic="selected" manual="selected" name="GUI"/>
+    <feature automatic="selected" name="Workspace"/>
+    <feature automatic="selected" name="Navigation"/>
+    <feature manual="selected" name="Move"/>
+    <feature automatic="selected" name="Tools"/>
+    <feature manual="selected" name="Pencil"/>
+    <feature automatic="selected" manual="selected" name="AreaSelection"/>
+    <feature manual="selected" name="Cut"/>
+    <feature automatic="selected" name="SelectionType"/>
+    <feature manual="selected" name="Rectangle"/>
+    <feature manual="selected" name="Fill"/>
+    <feature automatic="unselected" name="Library"/>
+    <feature automatic="selected" manual="selected" name="ImageEditing"/>
+    <feature automatic="selected" manual="selected" name="ImageSaving"/>
+    <feature automatic="selected" name="ImageSavingGUI"/>
+    <feature manual="selected" name="ImageSavingWizard"/>
+    <feature manual="selected" name="SaveAs"/>
+    <feature automatic="selected" manual="selected" name="ImageLoading"/>
+    <feature manual="selected" name="ImageLoadingArgs"/>
+    <feature automatic="selected" manual="selected" name="ImageLoadingGUI"/>
+    <feature manual="selected" name="ImageLoadingWizard"/>
+    <feature manual="selected" name="ImageLoadingDragAndDrop"/>
+</configuration>

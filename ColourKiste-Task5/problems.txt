@@ -1,0 +1,41 @@
+=== 1 ===================================
+
+Features, die ursprünglich mit Branching unterschieden wurden, lassen sich nicht direkt featureorientiert übersetzen.
+
+if (button == leftMouseButton) {
+    doFeature1Code();
+} else if (button == rightMouseButton) {
+    doFeature2Code();
+}
+
+
+=== 2 ===================================
+
+Verwendung lokaler Variablen in Methoden des "Eltern"-Features nicht möglich! So müssen diese eventuell neu berechnet oder als Member angelegt werden!
+=> Code Duplication vs (Performanz und Pre-Planning)
+
+
+=== 3 ===================================
+
+Reihenfolgen der super/original-Calls sehr empfindlich. Leichte Änderungen am Original können Bugs in ableitenden Features verursachen. In meinem Fall
+muss nach der Ausführung einiger Methoden eine Update-Funktion aufgerufen werden. Das führt zu Problem 4;
+
+
+=== 4 ===================================
+
+void method() {
+    doCriticalInitialization();
+    feature1Code();
+    doCriticalUpdate();
+}
+
+Frage: Wie soll hier in der Methode feature2Code() eingefügt werden?
+void method() {
+    doCriticalInitialization();
+    feature1Code();
+    feature2Code();
+    doCriticalUpdate();
+}
+
+==> Dafuer waeren extramethoden notwendig! Verkomplizierung und Preplanning notwendig.
+Beachte dafuer die Features: Pencil, Cut und dafür notwendige Anpassungen
