@@ -1,0 +1,15 @@
+=== 1 ===
+Private Member nicht nutzbar -> Einfachste Lösung zu Lasten der Codequalität und des Unbewusstheitsprinzips: Member öffentlich machen.
+
+=== 2 ===
+Editor-Tool kann teilweise Änderungen des Aspektes nicht erkennen. Beispiel aus Zoom.aj:
+
+	declare parents : InputHandler implements java.awt.event.MouseWheelListener;
+	
+	/** stuff **/
+	    
+	after(Workspace w) : target(w) && execution(public Workspace.new(MainFrame)) {
+		w.addMouseWheelListener(w.inputHandler); // InputHandler not recognized as MouseWheelListener
+	}
+	
+Aber AspectJ funktioniert dennoch korrekt. :)

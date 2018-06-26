@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<configuration>
+    <feature automatic="selected" name="ColourKisteTask1"/>
+    <feature automatic="selected" name="Type"/>
+    <feature automatic="selected" manual="selected" name="Application"/>
+    <feature automatic="selected" name="GUI"/>
+    <feature automatic="selected" name="Workspace"/>
+    <feature automatic="selected" name="Navigation"/>
+    <feature manual="selected" name="Zoom"/>
+    <feature manual="selected" name="Move"/>
+    <feature automatic="selected" manual="selected" name="Tools"/>
+    <feature manual="selected" name="Pencil"/>
+    <feature automatic="selected" manual="selected" name="AreaSelection"/>
+    <feature manual="selected" name="Cut"/>
+    <feature automatic="selected" name="SelectionType"/>
+    <feature manual="selected" name="Rectangle"/>
+    <feature automatic="unselected" name="Library"/>
+    <feature automatic="selected" name="ImageEditing"/>
+    <feature automatic="selected" name="ImageSaving"/>
+    <feature automatic="selected" name="ImageSavingGUI"/>
+    <feature manual="selected" name="ImageSavingWizard"/>
+    <feature automatic="selected" name="ImageLoading"/>
+    <feature automatic="selected" name="ImageLoadingGUI"/>
+    <feature manual="selected" name="ImageLoadingWizard"/>
+    <feature manual="selected" name="ImageLoadingDragAndDrop"/>
+</configuration>
