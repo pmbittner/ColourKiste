@@ -22,6 +22,8 @@ public abstract class Main
 {
     public static MainFrame mainFrame;
     
+    private static void createTools(List<Tool> tools) {}
+    
     public static void main(String[] args) {
     	try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -30,14 +32,9 @@ public abstract class Main
 	    catch (ClassNotFoundException e) {}
 	    catch (InstantiationException e) {}
 	    catch (IllegalAccessException e) {}
-    	
-    	
+
         List<Tool> tools = new ArrayList<>();
-        tools.add(new DotTool(Color.BLACK));
-        tools.add(new PencilTool(Color.BLACK));
-        tools.add(new FillTool(Color.ORANGE));
-        tools.add(new ColorSwitchTool());
-        tools.add(new AreaSelectionTool());
+    	createTools(tools);
         
         List<MenuBarItem> menu = new ArrayList<>();
         SaveMenuBarItem save = new SaveMenuBarItem();

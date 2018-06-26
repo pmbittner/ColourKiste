@@ -10,10 +10,13 @@
     <feature manual="selected" name="Move"/>
     <feature automatic="selected" manual="selected" name="Tools"/>
     <feature manual="selected" name="Pencil"/>
+    <feature manual="selected" name="ChangeColor"/>
     <feature automatic="selected" manual="selected" name="AreaSelection"/>
     <feature manual="selected" name="Cut"/>
     <feature automatic="selected" name="SelectionType"/>
     <feature manual="selected" name="Rectangle"/>
+    <feature manual="selected" name="Dot"/>
+    <feature manual="selected" name="Fill"/>
     <feature automatic="unselected" name="Library"/>
     <feature automatic="selected" name="ImageEditing"/>
     <feature automatic="selected" name="ImageSaving"/>

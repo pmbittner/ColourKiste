@@ -51,12 +51,12 @@ A widget for the selection of the current working colour.
                             <description>
 Enables support for Tools, that allow to edit the image through the Workspace.
 </description>
-                            <feature abstract="true" name="Pencil">
+                            <feature name="Pencil">
                                 <description>
 Allows drawing lines below the cursor onto the image in the current working colour.
 </description>
                             </feature>
-                            <feature abstract="true" name="ChangeColor">
+                            <feature name="ChangeColor">
                                 <description>
 Changes all occurrences of a single color to another value.
 </description>
@@ -70,7 +70,7 @@ Connected subsets of the images can be selected for arbitrary purposes.
 Copies a selected area to the clipboard.
 </description>
                                 </feature>
-                                <feature abstract="true" name="Cut">
+                                <feature name="Cut">
                                     <description>
 A part of an image can be cut out and moved around.
 </description>
@@ -91,6 +91,8 @@ Arbitrary areas can be selected.
                                     </feature>
                                 </and>
                             </and>
+                            <feature name="Dot"/>
+                            <feature name="Fill"/>
                         </and>
                     </and>
                 </and>
