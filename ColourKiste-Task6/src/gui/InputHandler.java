@@ -14,9 +14,7 @@ public class InputHandler implements MouseListener, MouseMotionListener
 	public Workspace imagePanel;
     private ToolBox toolBox;
 
-    private double xOnPress, yOnPress;
-
-    private int buttonHold;
+    public int buttonHold;
 
     public InputHandler(Workspace imagePanel, ToolBox user) {
     	this.imagePanel = imagePanel;
@@ -78,10 +76,6 @@ public class InputHandler implements MouseListener, MouseMotionListener
             Point2D p = imagePanel.screenToTextureCoord(arg0.getX(), arg0.getY());
             toolBox.getTool().startUsage(imagePanel.getTexture(), (int)p.getX(), (int)p.getY());
             imagePanel.update();
-        } else if (buttonHold == MouseEvent.BUTTON3) {
-            Camera c = imagePanel.getCamera();
-            xOnPress = arg0.getX() - c.getX();
-            yOnPress = arg0.getY() - c.getY();
         }
     }
 
@@ -110,10 +104,6 @@ public class InputHandler implements MouseListener, MouseMotionListener
         if (buttonHold == MouseEvent.BUTTON1) {
             Point2D p = imagePanel.screenToTextureCoord(arg0.getX(), arg0.getY());
             toolBox.getTool().updateUsage(imagePanel.getTexture(), (int)p.getX(), (int)p.getY());
-        } else if (buttonHold == MouseEvent.BUTTON3) {
-            imagePanel.getCamera().setLocation(
-                arg0.getX() - xOnPress,
-                arg0.getY() - yOnPress);
         }
         imagePanel.update();
     }

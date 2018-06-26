@@ -29,7 +29,7 @@ The user will be able to zoom the view of the Workspace. Though, any point in th
 Zooming means scaling the image.
 </description>
                                 </feature>
-                                <feature abstract="true" name="Move">
+                                <feature name="Move">
                                     <description>
 Allows to move the image around.
 This is useful for zoomed views, where the image is greater than the viewport. Though the user is able to navigate to any part of the image without changing the zoom factor.
