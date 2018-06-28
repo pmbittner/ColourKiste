@@ -1,4 +1,3 @@
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -6,21 +5,16 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import gui.MainFrame;
-import gui.menu.LoadMenuBarItem;
 import gui.menu.MenuBarItem;
 import gui.menu.RedoMenuBarItem;
 import gui.menu.SaveMenuBarItem;
 import gui.menu.UndoMenuBarItem;
-import tools.AreaSelectionTool;
-import tools.ColorSwitchTool;
-import tools.DotTool;
-import tools.FillTool;
-import tools.PencilTool;
 import tools.Tool;
 
 public abstract class Main
 {
     public static MainFrame mainFrame;
+    static List<MenuBarItem> menu;
     
     private static void createTools(List<Tool> tools) {}
     
@@ -36,9 +30,8 @@ public abstract class Main
         List<Tool> tools = new ArrayList<>();
     	createTools(tools);
         
-        List<MenuBarItem> menu = new ArrayList<>();
+        menu = new ArrayList<MenuBarItem>();
         SaveMenuBarItem save = new SaveMenuBarItem();
-        menu.add(new LoadMenuBarItem());
         menu.add(save);
         menu.add(new UndoMenuBarItem());
         menu.add(new RedoMenuBarItem());

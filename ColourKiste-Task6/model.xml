@@ -126,7 +126,7 @@ Saving the current image file through a FileDialog.
                 <description>
 Loading of image files into memory.
 </description>
-                <feature abstract="true" name="ImageLoadingArgs">
+                <feature name="ImageLoadingArgs">
                     <description>
 Loads an image to the Workspace, whose file path has been given as a program argument. This enforces the GUI feature.
 </description>
@@ -135,12 +135,12 @@ Loads an image to the Workspace, whose file path has been given as a program arg
                     <description>
 GUI features for loading images.
 </description>
-                    <feature abstract="true" name="ImageLoadingWizard">
+                    <feature name="ImageLoadingWizard">
                         <description>
 Loading an image file through a FileDialog.
 </description>
                     </feature>
-                    <feature abstract="true" name="ImageLoadingDragAndDrop">
+                    <feature name="ImageLoadingDragAndDrop">
                         <description>
 Images can be loaded, by dragging them from the OS into the application.
 </description>

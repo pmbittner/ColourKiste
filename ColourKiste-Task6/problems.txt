@@ -13,3 +13,38 @@ Editor-Tool kann teilweise Änderungen des Aspektes nicht erkennen. Beispiel aus 
 	}
 	
 Aber AspectJ funktioniert dennoch korrekt. :)
+
+=== 3 ===
+Neue Klassen nur als innere Klassen möglich.
+
+=== 4 ===
+Es ist sehr schwer gezielt Stellen in Methoden anzusprechen. In diesem Beispiel war es das Ziel an der mit # markierten Stelle etwas einzufügen:
+
+public static void main(String[] args) {
+    	try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+	    } 
+	    catch (UnsupportedLookAndFeelException e) {}
+	    catch (ClassNotFoundException e) {}
+	    catch (InstantiationException e) {}
+	    catch (IllegalAccessException e) {}
+
+        List<Tool> tools = new ArrayList<>();
+    	createTools(tools);
+        
+        List<MenuBarItem> menu = new ArrayList<MenuBarItem>();
+        #
+        SaveMenuBarItem save = new SaveMenuBarItem();
+        menu.add(new LoadMenuBarItem());
+        menu.add(save);
+        menu.add(new UndoMenuBarItem());
+        menu.add(new RedoMenuBarItem());
+        
+        mainFrame = new MainFrame(800, 600, save);
+        mainFrame.addTools(tools);
+        mainFrame.addMenuBarItems(menu);
+        mainFrame.finalize();
+    }
+    
+=== 5 ===
+Lokale Variablen können nicht verwendet werden (siehe Beispiel 4).

@@ -2,7 +2,6 @@ package gui;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.dnd.DropTargetAdapter;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -21,7 +20,6 @@ public class Workspace extends JPanel
 {
     /** GUI **/
     private MainFrame frame;
-    private DropTargetAdapter dropTargetHandler;
     public InputHandler inputHandler;
 
     /** EDITING **/
@@ -41,8 +39,6 @@ public class Workspace extends JPanel
     	super(true);
     	
         this.frame = frame;
-        
-        dropTargetHandler = new ImagePanelDropHandler(this);
         
         inputHandler = new InputHandler(this, frame.getToolBox());
 

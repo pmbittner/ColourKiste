@@ -55,6 +55,7 @@ public class MainFrame extends JFrame
         toolPanel = new JPanel(new GridBagLayout());
         
         tabbedPane = new JTabbedPane();
+        
         tabbedPane.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
             	if (newTabClickLock) return;
@@ -77,7 +78,7 @@ public class MainFrame extends JFrame
                 updateGuiComponents();
             }
         });
-        
+       
         
         Container contentPane = getContentPane();
         contentPane.setLayout(new GridBagLayout());

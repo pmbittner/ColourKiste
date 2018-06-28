@@ -23,6 +23,7 @@
     <feature automatic="selected" name="ImageSavingGUI"/>
     <feature manual="selected" name="ImageSavingWizard"/>
     <feature automatic="selected" name="ImageLoading"/>
+    <feature manual="selected" name="ImageLoadingArgs"/>
     <feature automatic="selected" name="ImageLoadingGUI"/>
     <feature manual="selected" name="ImageLoadingWizard"/>
     <feature manual="selected" name="ImageLoadingDragAndDrop"/>
