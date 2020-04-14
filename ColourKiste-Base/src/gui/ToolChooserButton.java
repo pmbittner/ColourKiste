@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JToggleButton;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import tools.Tool;
 import tools.ToolBox;
@@ -22,13 +24,22 @@ public class ToolChooserButton extends JToggleButton implements ActionListener, 
 		user.addToolChangedListener(this);
 		this.addActionListener(this);
 	}
+	
+	private void updateSelectionStatus() {
+		if (this.isSelected() && user.getTool() != this) {
+			user.setTool(tool);
+		}
+	}
+	
+	@Override
+	public void setSelected(boolean selected) {
+		super.setSelected(selected);
+		updateSelectionStatus();
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		if (this.isSelected())
-			user.setTool(tool);
-		else
-			user.setTool(null);
+		updateSelectionStatus();
 	}
 
 	@Override

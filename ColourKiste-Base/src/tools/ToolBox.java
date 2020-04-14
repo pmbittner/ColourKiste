@@ -22,6 +22,8 @@ public class ToolBox {
     }
     
     public void setTool(Tool tool) {
+    	if (currentTool == tool) return;
+    	
     	if (currentTool != null)
     		currentTool.setImagePanel(null);
     	

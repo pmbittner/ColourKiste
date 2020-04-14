@@ -17,4 +17,8 @@ public class DotTool extends ToolAdapter
     public ICommand<Texture> use(Texture workpiece, int x, int y) {
         return new SetColorCommand(x, y, color);
     }
+    
+    public ICommand<Texture> finishUsage(Texture workpiece, int x, int y) {
+        return new SetColorCommand(x, y, color);
+    }
 }

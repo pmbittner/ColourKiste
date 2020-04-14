@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import commands.FillCommand;
 import commands.ICommand;
+import commands.SetColorCommand;
 import rendering.Texture;
 
 public class FillTool extends ToolAdapter
@@ -16,6 +17,10 @@ public class FillTool extends ToolAdapter
     }
 
     public ICommand<Texture> use(Texture workpiece, int x, int y) {
+        return new FillCommand(x, y, color);
+    }
+    
+    public ICommand<Texture> finishUsage(Texture workpiece, int x, int y) {
         return new FillCommand(x, y, color);
     }
 }

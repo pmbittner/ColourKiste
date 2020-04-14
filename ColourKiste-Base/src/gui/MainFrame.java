@@ -128,11 +128,17 @@ public class MainFrame extends JFrame
             c.weightx = 1;
             
             int row = 0;
+        	ToolChooserButton firstTool = null;
     		for (Tool t : tools) {
     			c.gridy = row;
-    			toolPanel.add(new ToolChooserButton(this.tools, t), c);
+    			ToolChooserButton toolButton = new ToolChooserButton(this.tools, t);
+    			if (firstTool == null) {
+    				firstTool = toolButton;
+    			}
+    			toolPanel.add(toolButton, c);
     			++row;
     		}
+    		firstTool.setSelected(true);
 
     		// Empty space at bottom (a bit hacky)
             c.weighty = 1;
