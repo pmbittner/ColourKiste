@@ -11,12 +11,7 @@ import gui.menu.MenuBarItem;
 import gui.menu.RedoMenuBarItem;
 import gui.menu.SaveMenuBarItem;
 import gui.menu.UndoMenuBarItem;
-import tools.AreaSelectionTool;
-import tools.ColorSwitchTool;
-import tools.DotTool;
-import tools.FillTool;
-import tools.PencilTool;
-import tools.Tool;
+import tools.*;
 
 public abstract class Main
 {
@@ -31,13 +26,14 @@ public abstract class Main
 	    catch (InstantiationException e) {}
 	    catch (IllegalAccessException e) {}
     	
-    	
-        List<Tool> tools = new ArrayList<>();
-        tools.add(new DotTool(Color.BLACK));
-        tools.add(new PencilTool(Color.BLACK));
-        tools.add(new FillTool(Color.ORANGE));
-        tools.add(new ColorSwitchTool());
-        tools.add(new AreaSelectionTool());
+    	ComicTool comicTool = new ComicTool();
+        List<Tool> tools = List.of(
+                new DotTool(Color.BLACK),
+                new PencilTool(Color.BLACK),
+                new FillTool(Color.ORANGE),
+                new ColorSwitchTool(),
+                new AreaSelectionTool(),
+                comicTool);
         
         List<MenuBarItem> menu = new ArrayList<>();
         SaveMenuBarItem save = new SaveMenuBarItem();
@@ -50,5 +46,7 @@ public abstract class Main
         mainFrame.addTools(tools);
         mainFrame.addMenuBarItems(menu);
         mainFrame.finalize();
+
+        mainFrame.getToolBox().setTool(comicTool);
     }
 }

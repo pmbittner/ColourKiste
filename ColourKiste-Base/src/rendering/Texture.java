@@ -64,9 +64,8 @@ public class Texture implements Serializable
     /**
      * Creates a copy of the given texture.
      */
-    public Texture(Texture texture){
-        image = new BufferedImage(texture.getWidth(), texture.getHeight(), BufferedImage.TYPE_INT_ARGB);
-        image.createGraphics().drawImage(texture.getAwtImage(), null, 0, 0);
+    public Texture(Texture texture) {
+        this.image = copy(texture);
         init();
     }
 
@@ -74,8 +73,7 @@ public class Texture implements Serializable
      * Creates a new Texture from a BufferedImage.
      */
     public Texture(BufferedImage image){
-        this.image = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
-        this.image.createGraphics().drawImage(image, null, 0, 0);
+        this.image = copy(image);
         init();
     }
 
@@ -135,6 +133,18 @@ public class Texture implements Serializable
     private void init(){
         drawingColor = Color.BLACK;
         font = new Font(Font.DIALOG, Font.PLAIN, 20);
+    }
+
+    private BufferedImage copy(Texture texture) {
+        BufferedImage copy = new BufferedImage(texture.getWidth(), texture.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        copy.createGraphics().drawImage(texture.getAwtImage(), null, 0, 0);
+        return copy;
+    }
+
+    private BufferedImage copy(BufferedImage image) {
+        BufferedImage copy = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        copy.createGraphics().drawImage(image, null, 0, 0);
+        return copy;
     }
 
     /**image change methods**/
@@ -493,6 +503,10 @@ public class Texture implements Serializable
     
     public void setAwtImage(BufferedImage image) {
         this.image = image;
+    }
+
+    public void set(Texture other) {
+        this.image = copy(other.getAwtImage());
     }
 
     /**getters**/
