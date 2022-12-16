@@ -1,7 +1,7 @@
 package commands;
+
 public interface ICommand<T>
 {
-    public boolean execute(T t);
-    
-    public void undo(T t);
+    boolean execute(T t);
+    void undo(T t);
 }
