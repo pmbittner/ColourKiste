@@ -26,7 +26,7 @@ public class ToolChooserButton extends JToggleButton implements ActionListener, 
 	}
 	
 	private void updateSelectionStatus() {
-		if (this.isSelected() && user.getTool() != this) {
+		if (this.isSelected() && user.getTool() != tool) {
 			user.setTool(tool);
 		}
 	}
