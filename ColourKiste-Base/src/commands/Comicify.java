@@ -1,6 +1,7 @@
 package commands;
 
 import rendering.Texture;
+import rendering.kernels.Erosion;
 
 public class Comicify implements ICommand<Texture> {
     private Texture previous = null;
@@ -18,6 +19,18 @@ public class Comicify implements ICommand<Texture> {
     }
 
     private void comicify(Texture texture) {
-        texture.set(texture.contrast(145));
+        Erosion erode = Erosion.Erosion();
+        Erosion dilate = Erosion.Dilatation();
+
+        Texture bw = texture.contrast(120);
+
+        bw = erode.apply(bw);
+        bw = erode.apply(bw);
+        //bw = erode.apply(bw);
+        bw = dilate.apply(bw);
+        bw = dilate.apply(bw);
+        bw = dilate.apply(bw);
+
+        texture.set(bw);
     }
 }

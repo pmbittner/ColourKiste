@@ -617,9 +617,9 @@ public class Texture implements Serializable
         for(int y = 0; y < getHeight(); y++){
             for(int x = 0; x < getWidth(); x++){
                 c = getColorAt(x,y);
-                if((c.getRed()> blackTop &&
+                if((c.getRed()   > blackTop &&
                     c.getGreen() > blackTop &&
-                    c.getBlue() > blackTop &&
+                    c.getBlue()  > blackTop &&
                     c.getAlpha() > blackTop))
                     n = Color.WHITE;
                 else
@@ -716,6 +716,20 @@ public class Texture implements Serializable
         return new Texture(copy);
     }
 
+    public Texture convolution(Kernel k) {
+        final int w = this.getWidth();
+        final int h = this.getHeight();
+        final Texture convolution = new Texture(w, h);
+
+        for (int y = 0; y < h; ++y) {
+            for (int x = 0; x < w; ++x) {
+                convolution.setColorAt(x, y, k.foldAt(this, x, y));
+            }
+        }
+
+        return convolution;
+    }
+
     /**static methods**/
 
     /**
@@ -790,5 +804,13 @@ public class Texture implements Serializable
         try {
             ImageIO.write(texture.getAwtImage(), "png", file);
         } catch (IOException e) {}
+    }
+
+    public boolean inHeight(int y) {
+        return 0 <= y && y < getHeight();
+    }
+
+    public boolean inWidth(int x) {
+        return 0 <= x && x < getWidth();
     }
 }
