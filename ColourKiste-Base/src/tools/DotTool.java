@@ -9,8 +9,8 @@ public class DotTool extends ToolAdapter
 {
     private Color color;
     
-    public DotTool(Color color) {
-    	super("Dot");
+    public DotTool(Color color, String colorName) {
+    	super(colorName + " dot");
         this.color = color;
     }
 

@@ -28,7 +28,8 @@ public abstract class Main
     	
     	ComicTool comicTool = new ComicTool();
         List<Tool> tools = List.of(
-                new DotTool(Color.BLACK),
+                new DotTool(Color.BLACK, "Black"),
+                new DotTool(Color.WHITE, "White"),
                 new PencilTool(Color.BLACK),
                 new FillTool(Color.ORANGE),
                 new ColorSwitchTool(),
