@@ -5,12 +5,16 @@ import java.util.List;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import commands.Comicify;
+import commands.UndoableTextureManipulation;
 import gui.MainFrame;
 import gui.menu.LoadMenuBarItem;
 import gui.menu.MenuBarItem;
 import gui.menu.RedoMenuBarItem;
 import gui.menu.SaveMenuBarItem;
 import gui.menu.UndoMenuBarItem;
+import rendering.Vec4;
+import rendering.kernels.Convolution;
 import tools.*;
 
 public abstract class Main
@@ -26,15 +30,19 @@ public abstract class Main
 	    catch (InstantiationException e) {}
 	    catch (IllegalAccessException e) {}
     	
-    	ComicTool comicTool = new ComicTool();
+    	Tool comicTool = new ClickTool("Comic", Comicify::new);
         List<Tool> tools = List.of(
                 new DotTool(Color.BLACK, "Black"),
                 new DotTool(Color.WHITE, "White"),
                 new PencilTool(Color.BLACK),
-                new FillTool(Color.ORANGE),
+                new FillTool(Color.WHITE),
                 new ColorSwitchTool(),
                 new AreaSelectionTool(),
-                comicTool);
+                comicTool,
+                new ClickTool(
+                        "Smoothen",
+                        () -> UndoableTextureManipulation.Convert(t -> Convolution.smoothing().apply(t))
+                        ));
         
         List<MenuBarItem> menu = new ArrayList<>();
         SaveMenuBarItem save = new SaveMenuBarItem();
