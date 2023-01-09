@@ -18,9 +18,9 @@ public record Erosion(int kernelsize, int offset) implements Kernel {
     public Color foldAt(Texture t, int x, int y) {
         int blackNeighbors = 0;
         int kernelLen = 1;
-        for (int ky = -kernelLen; ky <= kernelLen && t.inHeight(ky + y); ++ky) {
-            for (int kx = -kernelLen; kx <= kernelLen && t.inWidth(kx + x); ++kx) {
-                if (t.getColorAt(kx + x, ky + y).getBlue() == 0) {
+        for (int ky = -kernelLen; ky <= kernelLen; ++ky) {
+            for (int kx = -kernelLen; kx <= kernelLen; ++kx) {
+                if (t.inHeight(ky + y)  && t.inWidth(kx + x)  && t.getColorAt(kx + x, ky + y).getBlue() == 0) {
                     ++blackNeighbors;
                 }
             }
