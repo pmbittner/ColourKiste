@@ -22,19 +22,11 @@ public class SaveMenuBarItem implements MenuBarItem, ImageSaver {
 		
 		saveMenuItem = new JMenuItem("Save");
         saveMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
-        saveMenuItem.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    save(frame.getCurrentWorkspaceTab());
-                }
-            });
+        saveMenuItem.addActionListener(evt -> save(frame.getCurrentWorkspaceTab()));
         fileMenu.add(saveMenuItem);
 
         saveAsMenuItem = new JMenuItem("Save as");
-        saveAsMenuItem.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    saveAs(frame.getCurrentWorkspaceTab());
-                }
-            });
+        saveAsMenuItem.addActionListener(evt -> saveAs(frame.getCurrentWorkspaceTab()));
         fileMenu.add(saveAsMenuItem);
 	}
 

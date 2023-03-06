@@ -22,8 +22,8 @@ public class TextureWorkingElement extends WorkingElement {
 		}
 		
     	double
-        xpos = getX() - w / 2,
-        ypos = getY() - h / 2;
+        xpos = getX() - w / 2.0,
+        ypos = getY() - h / 2.0;
         
     	relativeTransform.setTransform(
             1, 0,

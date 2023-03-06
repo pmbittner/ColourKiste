@@ -10,7 +10,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  * @author Paul
  */
 public abstract class ImageFileChooserFrame {
-    private boolean selectionValid;
+    private final boolean selectionValid;
     
     protected JFileChooser jFileChooser;
 
@@ -28,7 +28,7 @@ public abstract class ImageFileChooserFrame {
             jFileChooser.setCurrentDirectory(defaultDirectory);
 
         int result = showDialog(parentFrame);
-        selectionValid = result == jFileChooser.APPROVE_OPTION;
+        selectionValid = result == JFileChooser.APPROVE_OPTION;
     }
     
     protected abstract int showDialog(JFrame parentFrame);

@@ -9,10 +9,14 @@ import rendering.Texture;
 
 public class FillTool extends ToolAdapter
 {
-    private Color color;
+    private final Color color;
     
     public FillTool(Color color) {
-    	super("Fill");
+    	this(color, "Fill");
+    }
+
+    public FillTool(Color color, String name) {
+        super(name);
         this.color = color;
     }
 

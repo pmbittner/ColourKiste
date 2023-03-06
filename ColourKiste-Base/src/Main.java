@@ -35,7 +35,7 @@ public abstract class Main
                 new DotTool(Color.BLACK, "Black"),
                 new DotTool(Color.WHITE, "White"),
                 new PencilTool(Color.BLACK),
-                new FillTool(Color.WHITE),
+                new FillTool(new Color(0, 0, 0, 0), "Make Transparent"),
                 new ColorSwitchTool(),
                 new AreaSelectionTool(),
                 comicTool,
