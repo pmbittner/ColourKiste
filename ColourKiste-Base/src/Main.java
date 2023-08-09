@@ -32,9 +32,10 @@ public abstract class Main
 
         Tool comicTool = new ClickTool("Comic", Comicify::new);
         List<Tool> tools = List.of(
-                new DotTool(Color.BLACK, "Black"),
-                new DotTool(Color.WHITE, "White"),
-                new PencilTool(Color.BLACK),
+                new Pipette(),
+                new DotTool(),
+                new PencilTool(1),
+                new PencilTool(12),
                 new FillTool(new Color(0, 0, 0, 0), "Make Transparent"),
                 new ColorSwitchTool(),
                 new AreaSelectionTool(),
