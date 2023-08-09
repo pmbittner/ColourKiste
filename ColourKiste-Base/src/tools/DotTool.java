@@ -7,18 +7,15 @@ import rendering.Texture;
 
 public class DotTool extends ToolAdapter
 {
-    private Color color;
-    
-    public DotTool(Color color, String colorName) {
-    	super(colorName + " dot");
-        this.color = color;
+    public DotTool() {
+    	super("Dot");
     }
 
     public ICommand<Texture> use(Texture workpiece, int x, int y) {
-        return new SetColorCommand(x, y, color);
+        return new SetColorCommand(x, y, getActiveColor());
     }
     
     public ICommand<Texture> finishUsage(Texture workpiece, int x, int y) {
-        return new SetColorCommand(x, y, color);
+        return new SetColorCommand(x, y, getActiveColor());
     }
 }
