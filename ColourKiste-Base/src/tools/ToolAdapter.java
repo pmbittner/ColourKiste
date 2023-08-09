@@ -3,6 +3,8 @@ import commands.ICommand;
 import gui.Workspace;
 import rendering.Texture;
 
+import java.awt.*;
+
 public abstract class ToolAdapter implements Tool
 {
 	private Workspace imagePanel;
@@ -18,6 +20,10 @@ public abstract class ToolAdapter implements Tool
 	
 	protected Workspace getImagePanel() {
 		return imagePanel;
+	}
+	
+	protected Color getActiveColor() {
+		return getImagePanel().getMainFrame().getColor();
 	}
 	
     public ICommand<Texture> use(Texture workpiece, int x, int y) { return null; }
