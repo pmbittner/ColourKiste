@@ -25,12 +25,12 @@ public abstract class Main
     	try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 	    } 
-	    catch (UnsupportedLookAndFeelException e) {}
-	    catch (ClassNotFoundException e) {}
-	    catch (InstantiationException e) {}
-	    catch (IllegalAccessException e) {}
-    	
-    	Tool comicTool = new ClickTool("Comic", Comicify::new);
+	    catch (UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException |
+               IllegalAccessException e) {
+            System.err.println("Error when setting look and feel");
+        }
+
+        Tool comicTool = new ClickTool("Comic", Comicify::new);
         List<Tool> tools = List.of(
                 new DotTool(Color.BLACK, "Black"),
                 new DotTool(Color.WHITE, "White"),
