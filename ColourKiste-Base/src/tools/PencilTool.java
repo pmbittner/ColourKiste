@@ -1,5 +1,5 @@
 package tools;
-import java.awt.Color;
+import java.awt.*;
 
 import commands.DrawImageCommand;
 import commands.ICommand;
@@ -9,13 +9,24 @@ import rendering.TextureWorkingElement;
 
 public class PencilTool extends ToolAdapter
 {
-    private Color color;
+    private final Stroke stroke;
     private TextureWorkingElement myElement;
     private int lastX, lastY;
 
-    public PencilTool(Color color) {
-    	super("Pencil");
-        this.color = color;
+    public PencilTool() {
+    	this(1.0f);
+    }
+
+    public PencilTool(float thickness) {
+        this(
+                thickness + "px Pencil",
+                new BasicStroke(thickness, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND)
+        );
+    }
+
+    public PencilTool(String title, final Stroke stroke) {
+        super(title);
+        this.stroke = stroke;
     }
     
     private void strokeAtEdge(Texture t, int xIn, int yIn, int xOut, int yOut) {
@@ -23,7 +34,7 @@ public class PencilTool extends ToolAdapter
     	// use clamp for now for easier calculation
     	int sx = Math.max(Math.min(t.getWidth(), xOut), 0);
     	int sy = Math.max(Math.min(t.getHeight(), yOut), 0);
-    	t.drawLine(xIn, yIn, sx, sy);
+    	t.drawLine(xIn, yIn, sx, sy, this.stroke);
     }
     
     private void strokeTo(int x, int y) {
@@ -33,7 +44,7 @@ public class PencilTool extends ToolAdapter
 	        boolean oldIn = t.contains(lastX, lastY);
 	        
 	        if (newIn && oldIn) {
-		        t.drawLine(lastX, lastY, x, y);
+		        t.drawLine(lastX, lastY, x, y, this.stroke);
 	        } else if (oldIn) {
 	        	strokeAtEdge(t, lastX, lastY, x, y);
 	        } else if (newIn) {
@@ -54,10 +65,10 @@ public class PencilTool extends ToolAdapter
                 workpiece.getWidth(),
                 workpiece.getHeight()
             );
-        t.setColor(color);
+        t.setColor(getActiveColor());
         
         if (t.contains(x, y)) {
-            t.setColorAt(x, y, color);
+            t.setColorAt(x, y, getActiveColor());
         }
         
         myElement = new TextureWorkingElement(t);
