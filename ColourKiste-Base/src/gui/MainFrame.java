@@ -147,7 +147,7 @@ public class MainFrame extends JFrame
     	}
     }
     
-    public void finalize() {
+    public void finalizeInitialization() {
         updateGuiComponents();
         setVisible(true);
     }

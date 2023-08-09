@@ -54,7 +54,7 @@ public abstract class Main
         mainFrame = new MainFrame(800, 600, save);
         mainFrame.addTools(tools);
         mainFrame.addMenuBarItems(menu);
-        mainFrame.finalize();
+        mainFrame.finalizeInitialization();
 
         mainFrame.getToolBox().setTool(comicTool);
     }
