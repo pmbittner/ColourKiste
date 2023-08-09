@@ -1,9 +1,5 @@
 package rendering;
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
@@ -297,10 +293,29 @@ public class Texture implements Serializable
      * @param x2 the x coordinate of the second point
      * @param y2 the y coordinate of the second point
      */
-    public void drawLine(int x1, int y1, int x2, int y2){
+    public void drawLine(int x1, int y1, int x2, int y2) {
         Graphics2D g2 = image.createGraphics();
         g2.setColor(drawingColor);
         g2.drawLine(x1, y1, x2, y2);
+    }
+
+    /**
+     * Draws a line onto the Texture from P(x1/y1) to Q(x2/y2)
+     * with the current drawing color.
+     * @param x1 the x coordinate of the first point
+     * @param y1 the y coordinate of the first point
+     * @param x2 the x coordinate of the second point
+     * @param y2 the y coordinate of the second point
+     */
+    public void drawLine(int x1, int y1, int x2, int y2, Stroke stroke){
+        Graphics2D g2 = image.createGraphics();
+        final Stroke strokeBefore = g2.getStroke();
+
+        g2.setStroke(stroke);
+        g2.setColor(drawingColor);
+        g2.drawLine(x1, y1, x2, y2);
+        
+        g2.setStroke(strokeBefore);
     }
 
     /**
@@ -782,6 +797,7 @@ public class Texture implements Serializable
     }
 
     /**
+     * 
      * The texture will be saved with the given name as a png-file
      * into the screenshots folder.
      * @param texture the texture, that should be saved
