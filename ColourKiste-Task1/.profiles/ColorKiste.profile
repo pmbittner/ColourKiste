@@ -1,8 +1,0 @@
-true
-ImageEditing=Magenta
-ImageLoadingArgs=Orange
-ImageLoadingGUI=Light_Green
-ImageSavingGUI=Light_Green
-Tools=Magenta
-GUI=Light_Green
-Application=Orange
