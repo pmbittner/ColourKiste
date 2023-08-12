@@ -28,7 +28,14 @@ public String name;
 
             if (size > capacity) {
                 Assert.assertTrue(size == capacity + 1);
+
+                // remove the deepest counted element and everything before it
+                while (!countTowardsCapacity.test(get(0))) {
+                    Logger.debug("Forget " + get(0));
+                    this.removeElementAt(0);
+                }
                 this.removeElementAt(0);
+
                 --size;
             }
         }

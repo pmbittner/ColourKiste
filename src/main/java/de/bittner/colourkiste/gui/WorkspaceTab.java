@@ -43,7 +43,13 @@ public class WorkspaceTab extends JPanel {
 
     private void setupWorkspace() {
         workspace.OnWorkingFileChanged.addListener(file -> title.set(file.getName()));
-        workspace.OnSave.addListener(file -> title.set(file.getName()));
+        workspace.OnSave.addListener(file -> {
+            if (file == null) {
+                title.set(TITLE_FOR_TABS_WITHOUT_FILE);
+            } else {
+                title.set(file.getName());
+            }
+        });
         workspace.AfterEdit.addListener(wp -> title.set("*" + wp.getWorkingFile().getName()));
     }
 

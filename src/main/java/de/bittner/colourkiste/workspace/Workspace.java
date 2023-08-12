@@ -19,7 +19,7 @@ import java.io.IOException;
 
 public class Workspace
 {
-    private static final int UNDOABLE_ACTIONS_MAX = 10;
+    private static final int UNDOABLE_ACTIONS_MAX = 50;
 
     /** GUI **/
     private final MainFrame frame;
@@ -84,6 +84,10 @@ public class Workspace
         }
 
         actionsDone.push(remembrance);
+
+        if (remembrance instanceof RememberFileSave) {
+            OnSave.fire(getWorkingFile());
+        }
     }
 
     private void rememberFileSave() {
@@ -103,7 +107,6 @@ public class Workspace
             }
 
             if (!actionsDone.empty() && actionsDone.peek() instanceof RememberFileSave) {
-                Logger.debug("save on top");
                 OnSave.fire(getWorkingFile());
             } else {
                 AfterEdit.fire(this);
@@ -113,24 +116,22 @@ public class Workspace
 
     public void redo() {
         if (canRedo()) {
+            // take the last undone command and mark it as done
             final ICommand<Texture> redoCommand = actionsUndone.pop();
             actionsDone.push(redoCommand);
 
             if (redoCommand instanceof RememberSomething) {
+                // if it was just a remembrance, go ahead until we redo an actual edit
                 redo();
             } else {
+                // redo the command
                 redoCommand.execute(workpiece.getTexture());
                 AfterEdit.fire(this);
                 refreshAll();
 
-                // Now redo all remembrances
+                // Now remember all remembrances that came after the edit and before the subsequent (undone) edit
                 while (!actionsUndone.empty() && actionsUndone.peek() instanceof RememberSomething) {
-                    final RememberSomething remembrance = (RememberSomething) actionsUndone.pop();
-                    actionsDone.push(remembrance);
-
-                    if (remembrance instanceof RememberFileSave) {
-                        OnSave.fire(getWorkingFile());
-                    }
+                    remember((RememberSomething) actionsUndone.pop());
                 }
             }
         }
