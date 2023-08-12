@@ -1,6 +1,7 @@
 package de.bittner.colourkiste.workspace.commands;
 
 import de.bittner.colourkiste.rendering.Texture;
+import de.bittner.colourkiste.workspace.ICommand;
 
 import java.awt.*;
 import java.util.function.Consumer;

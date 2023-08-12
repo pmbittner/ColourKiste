@@ -2,10 +2,19 @@ package de.bittner.colourkiste.gui;
 
 import de.bittner.colourkiste.workspace.Workspace;
 
-public interface ImageSaver {
-	void showSavingPrompt(Workspace workspace);
+import java.io.IOException;
 
-	void saveAs(Workspace workspaceTab);
+public interface ImageSaver {
+	enum SaveResult {
+		SAVED,
+		DISCARDED,
+		ERROR,
+		ABORT;
+	}
+
+	SaveResult showSavingPrompt(Workspace workspace);
+
+	void saveAs(Workspace workspaceTab) throws IOException;
 	
-	void save(Workspace workspaceTab);
+	void save(Workspace workspaceTab) throws IOException;
 }

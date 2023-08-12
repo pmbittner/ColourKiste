@@ -1,7 +1,6 @@
 package de.bittner.colourkiste.engine;
 
 import de.bittner.colourkiste.math.Vec2;
-import de.bittner.colourkiste.rendering.Camera;
 
 public interface Screen {
     Camera getCamera();

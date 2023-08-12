@@ -1,12 +1,10 @@
-package de.bittner.colourkiste.rendering;
+package de.bittner.colourkiste.workspace;
 
-import de.bittner.colourkiste.engine.Entity;
-import de.bittner.colourkiste.engine.InputListener;
-import de.bittner.colourkiste.engine.Screen;
-import de.bittner.colourkiste.engine.World;
+import de.bittner.colourkiste.engine.*;
 import de.bittner.colourkiste.engine.components.EntityGraphics;
 import de.bittner.colourkiste.math.Transform;
 import de.bittner.colourkiste.math.Vec2;
+import de.bittner.colourkiste.rendering.Texture;
 import de.bittner.colourkiste.workspace.Workspace;
 
 import javax.swing.*;

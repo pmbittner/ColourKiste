@@ -1,7 +1,6 @@
 package de.bittner.colourkiste.engine;
 
 import de.bittner.colourkiste.event.EventHandler;
-import de.bittner.colourkiste.workspace.Workspace;
 
 import java.util.ArrayList;
 import java.util.Comparator;

@@ -3,11 +3,10 @@ package de.bittner.colourkiste.gui.io;
 import de.bittner.colourkiste.engine.InputListener;
 import de.bittner.colourkiste.math.Vec2;
 import de.bittner.colourkiste.rendering.Texture;
-import de.bittner.colourkiste.rendering.WorkspaceScreen;
+import de.bittner.colourkiste.workspace.WorkspaceScreen;
 import de.bittner.colourkiste.workspace.Workspace;
-import de.bittner.colourkiste.workspace.commands.ICommand;
+import de.bittner.colourkiste.workspace.ICommand;
 import de.bittner.colourkiste.workspace.tools.ToolBox;
-import org.tinylog.Logger;
 
 import java.awt.event.MouseEvent;
 

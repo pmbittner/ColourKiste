@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 import de.bittner.colourkiste.rendering.Texture;
+import de.bittner.colourkiste.workspace.ICommand;
 
 public class SwitchColorCommand implements ICommand<Texture>
 {

@@ -1,4 +1,4 @@
-package de.bittner.colourkiste.rendering;
+package de.bittner.colourkiste.engine;
 
 import de.bittner.colourkiste.math.Vec2;
 

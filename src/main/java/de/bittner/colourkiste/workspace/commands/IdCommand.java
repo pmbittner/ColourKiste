@@ -1,13 +1,13 @@
 package de.bittner.colourkiste.workspace.commands;
 
+import de.bittner.colourkiste.workspace.ICommand;
+
 public class IdCommand<T> implements ICommand<T> {
     @Override
-    public boolean execute(T t) {
+    public final boolean execute(T t) {
         return false;
     }
 
     @Override
-    public void undo(T t) {
-
-    }
+    public final void undo(T t) {}
 }

@@ -4,16 +4,23 @@ import de.bittner.colourkiste.engine.Entity;
 import de.bittner.colourkiste.engine.World;
 import de.bittner.colourkiste.engine.components.TextureGraphics;
 import de.bittner.colourkiste.event.EventHandler;
+import de.bittner.colourkiste.gui.ImageSaver;
 import de.bittner.colourkiste.gui.MainFrame;
 import de.bittner.colourkiste.math.Vec2;
 import de.bittner.colourkiste.rendering.Texture;
-import de.bittner.colourkiste.workspace.commands.ICommand;
+import de.bittner.colourkiste.util.SizedStack;
+import de.bittner.colourkiste.workspace.remember.RememberFileSave;
+import de.bittner.colourkiste.workspace.remember.RememberSomething;
+import org.tinylog.Logger;
+import org.variantsync.functjonal.Unit;
 
 import java.io.File;
-import java.util.Stack;
+import java.io.IOException;
 
 public class Workspace
 {
+    private static final int UNDOABLE_ACTIONS_MAX = 10;
+
     /** GUI **/
     private final MainFrame frame;
 
@@ -22,18 +29,20 @@ public class Workspace
     private File workingFile = null;
 
     /** EDITING **/
-    private final Stack<ICommand<Texture>> actionsDone;
-    private final Stack<ICommand<Texture>> actionsUndone;
+    private final SizedStack<ICommand<Texture>> actionsDone;
+    private final SizedStack<ICommand<Texture>> actionsUndone;
 
     private final World world;
 
     public final EventHandler<File> OnWorkingFileChanged = new EventHandler<>();
+    public final EventHandler<Workspace> AfterEdit = new EventHandler<>();
+    public final EventHandler<File> OnSave = new EventHandler<>();
 
     public Workspace(MainFrame frame) {
         this.frame = frame;
 
-        actionsDone = new Stack<>();
-        actionsUndone = new Stack<>();
+        actionsDone = new SizedStack<>(UNDOABLE_ACTIONS_MAX, cmd -> !(cmd instanceof RememberSomething));
+        actionsUndone = new SizedStack<>(UNDOABLE_ACTIONS_MAX, cmd -> !(cmd instanceof RememberSomething));
 
         world = new World();
 
@@ -54,33 +63,81 @@ public class Workspace
     /** EDITING **/
 
     public void runCommand(ICommand<Texture> command) {
+        if (command instanceof RememberSomething rs) {
+            Logger.warn("Did not expect a remembrance command but got " + rs + " of type " + rs.getClass() + ". I am going to remember it but you should fix your code.");
+            remember(rs);
+            return;
+        }
+
         if (command.execute(workpiece.getTexture())) {
 	        actionsDone.push(command);
 	        actionsUndone.clear();
+            AfterEdit.fire(this);
         }
+
         refreshAll();
+    }
+
+    public void remember(RememberSomething remembrance) {
+        if (remembrance.policy() == RememberSomething.Policy.REMEMBER_LAST) {
+            actionsDone.removeIf(r -> r.getClass().equals(remembrance.getClass()));
+        }
+
+        actionsDone.push(remembrance);
+    }
+
+    private void rememberFileSave() {
+        remember(new RememberFileSave());
     }
 
     public void undo() {
         if (canUndo()) {
-            ICommand<Texture> undoCommand = actionsDone.pop();
-            undoCommand.undo(workpiece.getTexture());
+            final ICommand<Texture> undoCommand = actionsDone.pop();
             actionsUndone.push(undoCommand);
-            refreshAll();
+
+            if (undoCommand instanceof RememberSomething) {
+                undo();
+            } else {
+                undoCommand.undo(workpiece.getTexture());
+                refreshAll();
+            }
+
+            if (!actionsDone.empty() && actionsDone.peek() instanceof RememberFileSave) {
+                Logger.debug("save on top");
+                OnSave.fire(getWorkingFile());
+            } else {
+                AfterEdit.fire(this);
+            }
         }
     }
 
     public void redo() {
         if (canRedo()) {
-            ICommand<Texture> redoCommand = actionsUndone.pop();
-            redoCommand.execute(workpiece.getTexture());
+            final ICommand<Texture> redoCommand = actionsUndone.pop();
             actionsDone.push(redoCommand);
-            refreshAll();
+
+            if (redoCommand instanceof RememberSomething) {
+                redo();
+            } else {
+                redoCommand.execute(workpiece.getTexture());
+                AfterEdit.fire(this);
+                refreshAll();
+
+                // Now redo all remembrances
+                while (!actionsUndone.empty() && actionsUndone.peek() instanceof RememberSomething) {
+                    final RememberSomething remembrance = (RememberSomething) actionsUndone.pop();
+                    actionsDone.push(remembrance);
+
+                    if (remembrance instanceof RememberFileSave) {
+                        OnSave.fire(getWorkingFile());
+                    }
+                }
+            }
         }
     }
 
     public boolean canUndo() {
-        return !actionsDone.empty();
+        return !(actionsDone.empty() || actionsDone.stream().allMatch(cmd -> cmd instanceof RememberSomething));
     }
 
     public boolean canRedo() {
@@ -147,13 +204,17 @@ public class Workspace
 
     public void closeWorkingFile() {
         if (workingFile != null) {
-            frame.getSaver().showSavingPrompt(this);
+            if (actionsDone.empty() || !(actionsDone.peek() instanceof RememberFileSave)) {
+                frame.getSaver().showSavingPrompt(this);
+            }
         }
     }
 
     public void setWorkingFile(File file) {
         closeWorkingFile();
         setTexture(new Texture(file));
+        // initially, the new files is saved
+        rememberFileSave();
         reassignWorkingFile(file);
     }
 
@@ -169,5 +230,12 @@ public class Workspace
 
     public boolean hasWorkingFile() {
         return workingFile != null;
+    }
+
+    public void save() throws IOException {
+        final File dest = getWorkingFile();
+        Texture.saveAsPng(getTexture(), dest);
+        rememberFileSave();
+        OnSave.fire(dest);
     }
 }

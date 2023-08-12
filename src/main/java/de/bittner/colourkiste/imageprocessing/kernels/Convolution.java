@@ -1,6 +1,6 @@
-package de.bittner.colourkiste.rendering.kernels;
+package de.bittner.colourkiste.imageprocessing.kernels;
 
-import de.bittner.colourkiste.rendering.Kernel;
+import de.bittner.colourkiste.imageprocessing.Kernel;
 import de.bittner.colourkiste.math.Matrix3x3;
 import de.bittner.colourkiste.rendering.Texture;
 import de.bittner.colourkiste.math.Vec4;

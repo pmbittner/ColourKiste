@@ -3,6 +3,7 @@ package de.bittner.colourkiste.workspace.commands;
 import java.awt.geom.Rectangle2D;
 
 import de.bittner.colourkiste.rendering.Texture;
+import de.bittner.colourkiste.workspace.ICommand;
 
 public class CutRectangleCommand implements ICommand<Texture>
 {

@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import de.bittner.colourkiste.rendering.Texture;
+import de.bittner.colourkiste.workspace.ICommand;
 
 public class FillCommand implements ICommand<Texture> {
 

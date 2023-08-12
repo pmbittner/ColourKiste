@@ -14,7 +14,6 @@ import java.util.Map;
 
 public class MainFrame extends JFrame
 {
-    private static final String TITLE_FOR_TABS_WITHOUT_FILE = "unnamed";
     private static final String MAKE_NEW_TAB_TITLE = " + ";
 
     private final ImageSaver saver;
@@ -63,8 +62,6 @@ public class MainFrame extends JFrame
         tabbedPane = new JTabbedPane();
         tabbedPane.addChangeListener(e -> {
             if (newTabClickLock) return;
-
-            System.out.println("TabbedPane Change: " + e);
 
             final JTabbedPane tabbedPane = (JTabbedPane) e.getSource();
             if(tabbedPane.getSelectedIndex() == tabbedPane.indexOfTab(MAKE_NEW_TAB_TITLE))
@@ -151,24 +148,20 @@ public class MainFrame extends JFrame
     public WorkspaceTab createWorkspace(final File file) {
         final WorkspaceTab wt = new WorkspaceTab(this, tabbedPane);
         wt.getWorkspace().setWorkingFile(file);
-        addTab(wt, file.getName());
+        addTab(wt);
         return wt;
     }
     
     public WorkspaceTab createWorkspace() {
         WorkspaceTab wt = new WorkspaceTab(this, tabbedPane);
-        addTab(wt, TITLE_FOR_TABS_WITHOUT_FILE);
+        addTab(wt);
         return wt;
     }
 
-    private void addTab(final WorkspaceTab wt, final String title) {
+    private void addTab(final WorkspaceTab wt) {
         final int newTabIndex = tabbedPane.getTabCount() - 1;
-
-        tabbedPane.insertTab(title, null, wt, "", newTabIndex);
-
-        final ClosableTabComponent closer = new ClosableTabComponent(tabbedPane);
-        closer.OnClose.addListener(u -> wt.getWorkspace().closeWorkingFile());
-        tabbedPane.setTabComponentAt(newTabIndex, closer);
+        wt.addToTabPaneAt(newTabIndex);
+//        tabbedPane.insertTab(title, null, wt, "", newTabIndex);
     }
 
 	public void setCurrentWorkspace(WorkspaceTab wt) {

@@ -1,7 +1,7 @@
 package de.bittner.colourkiste.workspace.commands;
 
 import de.bittner.colourkiste.rendering.Texture;
-import de.bittner.colourkiste.rendering.kernels.Erosion;
+import de.bittner.colourkiste.imageprocessing.kernels.Erosion;
 
 public class Comicify extends UndoableTextureManipulation {
     public void manipulate(Texture texture) {

@@ -1,4 +1,6 @@
 package de.bittner.colourkiste.rendering;
+import de.bittner.colourkiste.imageprocessing.Kernel;
+
 import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
@@ -802,11 +804,9 @@ public class Texture implements Serializable
      * @param texture the texture, that should be saved
      * @param name the name the file, in which the texture is saved, should have
      */
-    public static void saveAsPng(Texture texture, String name){
-        try {
-            File outputfile = new File(name + ".png");
-            ImageIO.write(texture.getAwtImage(), "png", outputfile);
-        } catch (IOException e) {}
+    public static void saveAsPng(Texture texture, String name) throws IOException {
+        final File outputfile = new File(name + ".png");
+        saveAsPng(texture, outputfile);
     }
     
     /**
@@ -815,10 +815,8 @@ public class Texture implements Serializable
      * @param texture the texture, that should be saved
      * @param file the file, in which the texture is saved
      */
-    public static void saveAsPng(Texture texture, File file){
-        try {
-            ImageIO.write(texture.getAwtImage(), "png", file);
-        } catch (IOException e) {}
+    public static void saveAsPng(Texture texture, File file) throws IOException {
+        ImageIO.write(texture.getAwtImage(), "png", file);
     }
 
     public boolean inHeight(int y) {

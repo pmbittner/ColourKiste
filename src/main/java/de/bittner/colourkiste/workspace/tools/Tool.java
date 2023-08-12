@@ -1,5 +1,5 @@
 package de.bittner.colourkiste.workspace.tools;
-import de.bittner.colourkiste.workspace.commands.ICommand;
+import de.bittner.colourkiste.workspace.ICommand;
 import de.bittner.colourkiste.workspace.Workspace;
 import de.bittner.colourkiste.rendering.Texture;
 

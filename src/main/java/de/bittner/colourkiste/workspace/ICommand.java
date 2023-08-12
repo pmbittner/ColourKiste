@@ -1,4 +1,4 @@
-package de.bittner.colourkiste.workspace.commands;
+package de.bittner.colourkiste.workspace;
 
 public interface ICommand<T>
 {

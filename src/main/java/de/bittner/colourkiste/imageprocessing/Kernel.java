@@ -1,4 +1,6 @@
-package de.bittner.colourkiste.rendering;
+package de.bittner.colourkiste.imageprocessing;
+
+import de.bittner.colourkiste.rendering.Texture;
 
 import java.awt.*;
 

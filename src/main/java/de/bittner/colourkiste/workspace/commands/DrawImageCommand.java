@@ -2,6 +2,7 @@ package de.bittner.colourkiste.workspace.commands;
 import java.awt.image.BufferedImage;
 
 import de.bittner.colourkiste.rendering.Texture;
+import de.bittner.colourkiste.workspace.ICommand;
 
 public class DrawImageCommand implements ICommand<Texture>
 {

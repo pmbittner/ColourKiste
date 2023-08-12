@@ -4,9 +4,8 @@ import de.bittner.colourkiste.workspace.commands.Comicify;
 import de.bittner.colourkiste.workspace.commands.UndoableTextureManipulation;
 import de.bittner.colourkiste.gui.MainFrame;
 import de.bittner.colourkiste.gui.menu.*;
-import de.bittner.colourkiste.rendering.kernels.Convolution;
+import de.bittner.colourkiste.imageprocessing.kernels.Convolution;
 import de.bittner.colourkiste.workspace.tools.*;
-import org.tinylog.Logger;
 
 import javax.swing.*;
 import java.util.ArrayList;

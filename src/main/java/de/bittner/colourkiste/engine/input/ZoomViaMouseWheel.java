@@ -2,7 +2,7 @@ package de.bittner.colourkiste.engine.input;
 
 import de.bittner.colourkiste.engine.InputListener;
 import de.bittner.colourkiste.math.Vec2;
-import de.bittner.colourkiste.rendering.Camera;
+import de.bittner.colourkiste.engine.Camera;
 
 import java.awt.event.MouseWheelEvent;
 

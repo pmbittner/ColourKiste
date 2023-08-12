@@ -1,12 +1,7 @@
 package de.bittner.colourkiste.workspace.tools;
 
-import java.awt.Color;
-import java.awt.geom.Rectangle2D;
-
-import de.bittner.colourkiste.workspace.commands.CutRectangleCommand;
-import de.bittner.colourkiste.workspace.commands.ICommand;
+import de.bittner.colourkiste.workspace.ICommand;
 import de.bittner.colourkiste.workspace.Workspace;
-import de.bittner.colourkiste.rendering.RectangleWorkingElement;
 import de.bittner.colourkiste.rendering.Texture;
 
 public class AreaSelectionTool extends ToolAdapter {

@@ -2,6 +2,7 @@ package de.bittner.colourkiste.workspace.commands;
 import java.awt.Color;
 
 import de.bittner.colourkiste.rendering.Texture;
+import de.bittner.colourkiste.workspace.ICommand;
 
 public class SetColorCommand implements ICommand<Texture>
 {

@@ -1,7 +1,7 @@
 package de.bittner.colourkiste.workspace.tools;
 import java.awt.Color;
 
-import de.bittner.colourkiste.workspace.commands.ICommand;
+import de.bittner.colourkiste.workspace.ICommand;
 import de.bittner.colourkiste.workspace.commands.SwitchColorCommand;
 import de.bittner.colourkiste.rendering.Texture;
 

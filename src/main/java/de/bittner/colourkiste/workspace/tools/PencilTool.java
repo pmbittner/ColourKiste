@@ -5,10 +5,9 @@ import de.bittner.colourkiste.engine.Entity;
 import de.bittner.colourkiste.engine.components.TextureGraphics;
 import de.bittner.colourkiste.math.Vec2;
 import de.bittner.colourkiste.workspace.commands.DrawImageCommand;
-import de.bittner.colourkiste.workspace.commands.ICommand;
+import de.bittner.colourkiste.workspace.ICommand;
 import de.bittner.colourkiste.workspace.Workspace;
 import de.bittner.colourkiste.rendering.Texture;
-import de.bittner.colourkiste.rendering.TextureWorkingElement;
 
 public class PencilTool extends ToolAdapter
 {

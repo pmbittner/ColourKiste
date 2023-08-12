@@ -1,7 +1,7 @@
 package de.bittner.colourkiste.engine.input;
 
 import de.bittner.colourkiste.math.Vec2;
-import de.bittner.colourkiste.rendering.Camera;
+import de.bittner.colourkiste.engine.Camera;
 
 public final class CameraDragAndDrop extends MouseDragListener {
     private Vec2 camDelta;
