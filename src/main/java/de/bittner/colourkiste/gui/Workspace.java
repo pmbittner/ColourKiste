@@ -157,7 +157,7 @@ public class Workspace
     }
 
     public Point2D screenToTextureCoord(int x, int y) {
-        return screenToTextureCoord((double)x, (double)y);
+        return screenToTextureCoord((double) x, y);
     }
 
     public Point2D screenToTextureCoord(double x, double y) {
@@ -165,7 +165,7 @@ public class Workspace
             return mainImage.getAbsoluteTransform(viewTransform).inverseTransform(
                 new Point2D.Double(x, y),
                 null);
-        } catch (java.awt.geom.NoninvertibleTransformException e) {System.out.println(e);}
+        } catch (java.awt.geom.NoninvertibleTransformException e) {e.printStackTrace();}
         return null;
     }
     
@@ -183,7 +183,7 @@ public class Workspace
             return viewTransform.inverseTransform(
             		new Point2D.Double(x, y),
                 null);
-        } catch (java.awt.geom.NoninvertibleTransformException e) {System.out.println(e);}
+        } catch (java.awt.geom.NoninvertibleTransformException e) { e.printStackTrace(); }
         return null;
     }
 

@@ -5,8 +5,10 @@ import de.bittner.colourkiste.rendering.Texture;
 
 public class SetColorCommand implements ICommand<Texture>
 {
-    private int x, y;
-    private Color color, colorBefore;
+    private final int x;
+    private final int y;
+    private final Color color;
+    private Color colorBefore;
     
     public SetColorCommand(int x, int y, Color color) {
         this.x = x;

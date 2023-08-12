@@ -10,8 +10,8 @@ import de.bittner.colourkiste.tools.ToolBox;
 import de.bittner.colourkiste.tools.ToolBox.ToolChangedListener;
 
 public class ToolChooserButton extends JToggleButton implements ActionListener, ToolChangedListener {
-	private ToolBox user;
-	private Tool tool;
+	private final ToolBox user;
+	private final Tool tool;
 	
 	public ToolChooserButton(ToolBox user, Tool tool) {
 		super(tool.getName());

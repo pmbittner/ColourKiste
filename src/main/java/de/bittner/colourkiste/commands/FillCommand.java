@@ -9,8 +9,9 @@ import de.bittner.colourkiste.rendering.Texture;
 
 public class FillCommand implements ICommand<Texture> {
 
-	private int x, y;
-	private Color color;
+	private final int x;
+    private final int y;
+	private final Color color;
 	private Color colorToReplace;
 	private Texture textureBefore;
 	

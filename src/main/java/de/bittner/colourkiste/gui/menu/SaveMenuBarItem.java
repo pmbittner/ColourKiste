@@ -1,17 +1,13 @@
 package de.bittner.colourkiste.gui.menu;
 
-import java.io.File;
-
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-
 import de.bittner.colourkiste.gui.ImageSaver;
 import de.bittner.colourkiste.gui.MainFrame;
 import de.bittner.colourkiste.gui.Workspace;
-import de.bittner.colourkiste.gui.WorkspaceTab;
 import de.bittner.colourkiste.gui.io.SaveImageFileDialog;
 import de.bittner.colourkiste.rendering.Texture;
+
+import javax.swing.*;
+import java.io.File;
 
 public class SaveMenuBarItem implements MenuBarItem, ImageSaver {
 

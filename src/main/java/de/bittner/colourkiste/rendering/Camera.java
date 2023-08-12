@@ -1,7 +1,7 @@
 package de.bittner.colourkiste.rendering;
 public class Camera
 {
-    private double zoomMin = 0.5, zoomMax = 50;
+    private static final double zoomMin = 0.5, zoomMax = 50;
 
     private double x, y;
     private double zoom = 1;

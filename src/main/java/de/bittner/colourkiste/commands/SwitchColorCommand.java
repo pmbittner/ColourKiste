@@ -6,7 +6,7 @@ import de.bittner.colourkiste.rendering.Texture;
 
 public class SwitchColorCommand implements ICommand<Texture>
 {
-    private Color from, to;
+    private final Color from, to;
     private BufferedImage textureBefore = null;
 
     public SwitchColorCommand(Color from, Color to) {

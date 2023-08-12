@@ -7,9 +7,9 @@ import java.awt.geom.Rectangle2D;
 
 public class RectangleWorkingElement extends WorkingElement {	
     private double w, h;
-    private Color color;
+    private final Color color;
     
-    private Rectangle2D.Double rect;
+    private final Rectangle2D.Double rect;
     
     public RectangleWorkingElement(Color color) {
     	this.color = color;

@@ -5,17 +5,17 @@ import de.bittner.colourkiste.rendering.Texture;
 
 public interface Tool
 {
-	public void setWorkspace(Workspace panel);
+	void setWorkspace(Workspace panel);
 	
-    public ICommand<Texture> use(Texture workpiece, int x, int y);
+    ICommand<Texture> use(Texture workpiece, int x, int y);
     
-    public void startUsage(Texture workpiece, int x, int y);
+    void startUsage(Texture workpiece, int x, int y);
     
-    public void updateUsage(Texture workpiece, int x, int y);
+    void updateUsage(Texture workpiece, int x, int y);
     
-    public ICommand<Texture> finishUsage(Texture workpiece, int x, int y);
+    ICommand<Texture> finishUsage(Texture workpiece, int x, int y);
     
-    public void abortUsage();
+    void abortUsage();
     
-    public String getName();
+    String getName();
 }

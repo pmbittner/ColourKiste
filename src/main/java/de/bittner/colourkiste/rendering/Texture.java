@@ -147,7 +147,7 @@ public class Texture implements Serializable
 
     /**
      * This method makes images becoming more or less transparent.
-     * @param value The intensity of transparency. It has to be between 0 and 255 (including both). (It represents the alpha value of a RGB-color.)
+     * @param value The intensity of transparency. It has to be between 0 and 255 (including both). (It represents the alpha value of an RGB-color.)
      */
     public void setTransparency(int value){
         for(int y = 0; y < getHeight(); y++){
@@ -241,10 +241,10 @@ public class Texture implements Serializable
                 (int)( h*cos + w*sin ),
                 BufferedImage.TYPE_INT_ARGB);
 
-        Graphics2D turnedG = (Graphics2D) rotated.createGraphics();
+        Graphics2D turnedG = rotated.createGraphics();
         turnedG.rotate(r,
-            rotated.getWidth()/2,
-            rotated.getHeight()/2
+            rotated.getWidth()/2.f,
+            rotated.getHeight()/2.f
         );
 
         turnedG.drawImage(image, null, 
@@ -654,7 +654,7 @@ public class Texture implements Serializable
             for(int x = 0; x < getWidth(); x++){
                 int RGB = image.getRGB(x, y);
                 Color o = new Color(RGB);
-                int clrAvg = (int) ((o.getRed() + o.getGreen() + o.getBlue()) / 3);
+                int clrAvg = (o.getRed() + o.getGreen() + o.getBlue()) / 3;
                 Color n = new Color(clrAvg, clrAvg, clrAvg, o.getAlpha());
                 copy.setRGB(x, y, n.getRGB());
             }
@@ -752,13 +752,13 @@ public class Texture implements Serializable
      * @return a java.awt.image.BufferdImage representing the image in file.
      */
     private static BufferedImage loadImage(File file){
-        BufferedImage img = null;
+        BufferedImage img;
         try {
             img = ImageIO.read(file);
             if(img == null)
-                throw new IllegalArgumentException("The image file "+file.toString()+" isn't a supported image file!");
+                throw new IllegalArgumentException("The image file "+ file +" isn't a supported image file!");
         } catch (IOException e) {
-            throw new IllegalArgumentException("The image file "+file.toString()+" could not be found!");
+            throw new IllegalArgumentException("The image file "+ file +" could not be found!");
         }
         return img;
     }
@@ -771,8 +771,7 @@ public class Texture implements Serializable
         Font font = null;
         try{
             font = Font.createFont(Font.TRUETYPE_FONT , new File(filename));
-        }catch(java.awt.FontFormatException f){}
-        catch(java.io.IOException ioe){}
+        }catch(FontFormatException | IOException ignored){}
         return font;
     }
 

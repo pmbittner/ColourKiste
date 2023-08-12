@@ -7,7 +7,7 @@ import de.bittner.colourkiste.rendering.Texture;
 
 public class ColorSwitchTool extends ToolAdapter
 {
-	private Color switchToColor;
+	private final Color switchToColor;
 	
 	public ColorSwitchTool(Color color) {
     	super("Color Deleter");

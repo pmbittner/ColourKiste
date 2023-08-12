@@ -6,7 +6,7 @@ import de.bittner.colourkiste.rendering.Texture;
 
 public class CutRectangleCommand implements ICommand<Texture>
 {
-    private Rectangle2D.Double rect;
+    private final Rectangle2D.Double rect;
     private Texture textureBefore;
     
     public CutRectangleCommand(Rectangle2D.Double rect) {

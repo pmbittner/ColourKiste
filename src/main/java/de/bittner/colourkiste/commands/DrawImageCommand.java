@@ -5,8 +5,9 @@ import de.bittner.colourkiste.rendering.Texture;
 
 public class DrawImageCommand implements ICommand<Texture>
 {
-    private int x, y;
-    private Texture texture;
+    private final int x;
+    private final int y;
+    private final Texture texture;
     private BufferedImage textureBefore = null;
     
     public DrawImageCommand(Texture texture, int x, int y) {

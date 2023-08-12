@@ -201,7 +201,8 @@ public class MainFrame extends JFrame
     			toolPanel.add(toolButton, c);
     			++row;
     		}
-    		firstTool.setSelected(true);
+            assert firstTool != null;
+            firstTool.setSelected(true);
 
     		// Empty space at bottom (a bit hacky)
             c.weighty = 1;
