@@ -5,7 +5,7 @@ import de.bittner.colourkiste.rendering.Texture;
 
 public interface Tool
 {
-	public void setImagePanel(Workspace panel);
+	public void setWorkspace(Workspace panel);
 	
     public ICommand<Texture> use(Texture workpiece, int x, int y);
     

@@ -13,15 +13,15 @@ import de.bittner.colourkiste.tools.ToolBox;
 
 public class InputHandler implements MouseListener, MouseMotionListener, MouseWheelListener
 {
-	private Workspace imagePanel;
-    private ToolBox toolBox;
+	private final Workspace workspace;
+    private final ToolBox toolBox;
 
     private double xOnPress, yOnPress;
 
     private int buttonHold;
 
-    public InputHandler(Workspace imagePanel, ToolBox user) {
-    	this.imagePanel = imagePanel;
+    public InputHandler(Workspace workspace, ToolBox user) {
+    	this.workspace = workspace;
         this.toolBox = user;
         buttonHold = -1;
     }
@@ -38,14 +38,14 @@ public class InputHandler implements MouseListener, MouseMotionListener, MouseWh
     @Override
     public void mouseClicked(MouseEvent arg0){
         if (arg0.getButton() == MouseEvent.BUTTON1) {
-            Point2D p = imagePanel.screenToTextureCoord(arg0.getX(), arg0.getY());
-            if (imagePanel.isPointOnImage(p.getX(), p.getY())) {
+            Point2D p = workspace.screenToTextureCoord(arg0.getX(), arg0.getY());
+            if (workspace.isPointOnImage(p.getX(), p.getY())) {
                 ICommand<Texture> toolCommand = toolBox.getTool().use(
-                        imagePanel.getTexture(),
+                        workspace.getTexture(),
                         (int) p.getX(),
                         (int) p.getY());
                 if (toolCommand != null)
-                    imagePanel.runCommand(toolCommand);
+                    workspace.runCommand(toolCommand);
             }
         }
     }
@@ -77,11 +77,11 @@ public class InputHandler implements MouseListener, MouseMotionListener, MouseWh
             cancelButtonAction();
         
         if (buttonHold == MouseEvent.BUTTON1) {
-            Point2D p = imagePanel.screenToTextureCoord(arg0.getX(), arg0.getY());
-            toolBox.getTool().startUsage(imagePanel.getTexture(), (int)p.getX(), (int)p.getY());
-            imagePanel.update();
+            Point2D p = workspace.screenToTextureCoord(arg0.getX(), arg0.getY());
+            toolBox.getTool().startUsage(workspace.getTexture(), (int)p.getX(), (int)p.getY());
+            workspace.refreshAll();
         } else if (buttonHold == MouseEvent.BUTTON3) {
-            Camera c = imagePanel.getCamera();
+            Camera c = workspace.getCamera();
             xOnPress = arg0.getX() - c.getX();
             yOnPress = arg0.getY() - c.getY();
         }
@@ -94,13 +94,13 @@ public class InputHandler implements MouseListener, MouseMotionListener, MouseWh
     public void mouseReleased(MouseEvent arg0){
         if (buttonHold == arg0.getButton()) {
             if (buttonHold == MouseEvent.BUTTON1) {
-                Point2D p = imagePanel.screenToTextureCoord(arg0.getX(), arg0.getY());
-                ICommand<Texture> command = toolBox.getTool().finishUsage(imagePanel.getTexture(), (int)p.getX(), (int)p.getY());
+                Point2D p = workspace.screenToTextureCoord(arg0.getX(), arg0.getY());
+                ICommand<Texture> command = toolBox.getTool().finishUsage(workspace.getTexture(), (int)p.getX(), (int)p.getY());
                 if (command != null)
-                    imagePanel.runCommand(command);
+                    workspace.runCommand(command);
             }
             buttonHold = -1;
-            imagePanel.update();
+            workspace.refreshAll();
         }
     }
 
@@ -110,14 +110,14 @@ public class InputHandler implements MouseListener, MouseMotionListener, MouseWh
     @Override
     public void mouseDragged(MouseEvent arg0){
         if (buttonHold == MouseEvent.BUTTON1) {
-            Point2D p = imagePanel.screenToTextureCoord(arg0.getX(), arg0.getY());
-            toolBox.getTool().updateUsage(imagePanel.getTexture(), (int)p.getX(), (int)p.getY());
+            Point2D p = workspace.screenToTextureCoord(arg0.getX(), arg0.getY());
+            toolBox.getTool().updateUsage(workspace.getTexture(), (int)p.getX(), (int)p.getY());
         } else if (buttonHold == MouseEvent.BUTTON3) {
-            imagePanel.getCamera().setLocation(
+            workspace.getCamera().setLocation(
                 arg0.getX() - xOnPress,
                 arg0.getY() - yOnPress);
         }
-        imagePanel.update();
+        workspace.refreshAll();
     }
 
     /**
@@ -133,12 +133,12 @@ public class InputHandler implements MouseListener, MouseMotionListener, MouseWh
      */
     @Override
     public void mouseWheelMoved(MouseWheelEvent arg0) {
-        Camera c = imagePanel.getCamera();
-        Point2D p = imagePanel.screenToLocalCoord(arg0.getX(), arg0.getY());
+        Camera c = workspace.getCamera();
+        Point2D p = workspace.screenToLocalCoord(arg0.getX(), arg0.getY());
         c.zoom(
             -arg0.getWheelRotation(),
             p.getX(),
             p.getY());
-        imagePanel.update();
+        workspace.refreshAll();
     }
 }

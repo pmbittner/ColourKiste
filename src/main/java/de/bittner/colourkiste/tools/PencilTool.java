@@ -51,7 +51,7 @@ public class PencilTool extends ToolAdapter
 	        	strokeAtEdge(t, x, y, lastX, lastY);
 	        }
 	        
-	        getImagePanel().update();
+	        getWorkspace().refreshAll();
     	}
     	
         lastX = x;
@@ -73,7 +73,7 @@ public class PencilTool extends ToolAdapter
         
         myElement = new TextureWorkingElement(t);
         myElement.setLocation(0, 0);
-        getImagePanel().spawn(myElement);
+        getWorkspace().spawn(myElement);
         lastX = x;
         lastY = y;
     }
@@ -96,9 +96,9 @@ public class PencilTool extends ToolAdapter
 
     public void abortUsage() {
     	if (myElement != null) {
-	        Workspace ip = getImagePanel();
+	        Workspace ip = getWorkspace();
 	        ip.despawn(myElement);
-	        ip.update();
+	        ip.refreshAll();
 	        myElement = null;
     	}
     }

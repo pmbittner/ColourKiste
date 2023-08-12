@@ -11,7 +11,7 @@ public class Pipette extends ToolAdapter {
     }
 
     public ICommand<Texture> use(Texture t, int x, int y) {
-        final MainFrame main = getImagePanel().getMainFrame();
+        final MainFrame main = getWorkspace().getMainFrame();
         return new PipetteCommand(x, y,
                 main::setColor
 //               , this::getActiveColor // uncomment this to have undo for pipette

@@ -11,7 +11,7 @@ public class ToolBox {
 	}
 
     private Tool currentTool;
-    private List<ToolChangedListener> toolChangedListeners;
+    private final List<ToolChangedListener> toolChangedListeners;
     
     private Workspace currentWorkspace;
     
@@ -25,13 +25,13 @@ public class ToolBox {
     	if (currentTool == tool) return;
     	
     	if (currentTool != null)
-    		currentTool.setImagePanel(null);
+    		currentTool.setWorkspace(null);
     	
     	if (tool == null)
     		tool = NullTool.Instance;
     	
         currentTool = tool;
-        currentTool.setImagePanel(currentWorkspace);
+        currentTool.setWorkspace(currentWorkspace);
         
         for (ToolChangedListener l : toolChangedListeners)
         	l.onToolChanged(currentTool);
@@ -50,9 +50,9 @@ public class ToolBox {
 		return toolChangedListeners.remove(listener);
 	}
 
-	public void setCurrentWorkspace(Workspace imagePanel) {
-		currentWorkspace = imagePanel;
+	public void setCurrentWorkspace(Workspace workspace) {
+		currentWorkspace = workspace;
 		if (currentTool != null)
-			currentTool.setImagePanel(currentWorkspace);
+			currentTool.setWorkspace(currentWorkspace);
 	}
 }

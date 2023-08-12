@@ -1,9 +1,9 @@
 package de.bittner.colourkiste.gui;
 
 public interface ImageSaver {
-	void showSavingPrompt(WorkspaceTab workspaceTab);
+	void showSavingPrompt(Workspace workspace);
 
-	public void saveAs(WorkspaceTab workspaceTab);
+	void saveAs(Workspace workspaceTab);
 	
-	public void save(WorkspaceTab workspaceTab);
+	void save(Workspace workspaceTab);
 }

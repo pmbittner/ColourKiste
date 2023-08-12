@@ -1,66 +1,52 @@
 package de.bittner.colourkiste.gui;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.dnd.DropTargetAdapter;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import javax.swing.JPanel;
-
+import de.bittner.colourkiste.binding.ReadBinding;
 import de.bittner.colourkiste.commands.ICommand;
-import de.bittner.colourkiste.rendering.Camera;
-import de.bittner.colourkiste.rendering.Texture;
-import de.bittner.colourkiste.rendering.TextureWorkingElement;
-import de.bittner.colourkiste.rendering.WorkingElement;
+import de.bittner.colourkiste.event.EventHandler;
+import de.bittner.colourkiste.rendering.*;
 
-public class Workspace extends JPanel
+public class Workspace
 {
     /** GUI **/
-    private MainFrame frame;
-    private DropTargetAdapter dropTargetHandler;
-    private InputHandler inputHandler;
+    private final MainFrame frame;
+
+    /** THE FILE WE ARE EDITING HERE **/
+    private final TextureWorkingElement mainImage;
+    private File workingFile = null;
 
     /** EDITING **/
-    private Stack<ICommand<Texture>> actionsDone;
-    private Stack<ICommand<Texture>> actionsUndone;
+    private final Stack<ICommand<Texture>> actionsDone;
+    private final Stack<ICommand<Texture>> actionsUndone;
 
+    private final List<WorkingElement> workingElements;
 
-    private TextureWorkingElement mainImage;
-    private List<WorkingElement> workingElements;
-
-    /** GRAPHICS and RENDERING **/
-    private Camera camera;
-    private Texture background;
+    private final Camera camera;
     AffineTransform viewTransform;
 
-    public Workspace(MainFrame frame) {
-    	super(true);
-    	
+    private final ReadBinding<Integer> width, height;
+
+    public final EventHandler<File> OnWorkingFileChanged = new EventHandler<>();
+
+    public Workspace(MainFrame frame, ReadBinding<Integer> width, ReadBinding<Integer> height) {
         this.frame = frame;
-        
-        dropTargetHandler = new ImagePanelDropHandler(this);
-        
-        inputHandler = new InputHandler(this, frame.getToolBox());
+        this.width = width;
+        this.height = height;
 
-        this.addMouseListener(inputHandler);
-        this.addMouseMotionListener(inputHandler);
-        this.addMouseWheelListener(inputHandler);
-
-        actionsDone = new Stack<ICommand<Texture>>();
-        actionsUndone = new Stack<ICommand<Texture>>();
+        actionsDone = new Stack<>();
+        actionsUndone = new Stack<>();
 
         mainImage = new TextureWorkingElement(null);
-        workingElements = new ArrayList<WorkingElement>();
-
-        viewTransform = new AffineTransform();
+        workingElements = new ArrayList<>();
 
         camera = new Camera();
-
-        background = createBackground();
+        viewTransform = new AffineTransform();
     }
 
     /** EDITING **/
@@ -70,7 +56,7 @@ public class Workspace extends JPanel
 	        actionsDone.push(command);
 	        actionsUndone.clear();
         }
-        update();
+        refreshAll();
     }
 
     public void undo() {
@@ -78,7 +64,7 @@ public class Workspace extends JPanel
             ICommand<Texture> undoCommand = actionsDone.pop();
             undoCommand.undo(mainImage.getTexture());
             actionsUndone.push(undoCommand);
-            update();
+            refreshAll();
         }
     }
 
@@ -87,7 +73,7 @@ public class Workspace extends JPanel
             ICommand<Texture> redoCommand = actionsUndone.pop();
             redoCommand.execute(mainImage.getTexture());
             actionsDone.push(redoCommand);
-            update();
+            refreshAll();
         }
     }
 
@@ -103,46 +89,30 @@ public class Workspace extends JPanel
 
     public void spawn(WorkingElement element) {
         workingElements.add(element);
-        update();
+        refreshAll();
     }
 
     public void despawn(WorkingElement element) {
         workingElements.remove(element);
-        update();
+        refreshAll();
     }
 
-    protected void paintComponent(Graphics gc) {
-        super.paintComponent(gc);
-
-        updateViewTransform();
-
-        Graphics2D g2 = (Graphics2D) gc;
-
-        // draw Background
-        for (int x = 0; x < this.getWidth(); x += background.getWidth())
-            for (int y = 0; y < this.getHeight(); y += background.getHeight())
-                g2.drawImage(background.getAwtImage(), null, x, y);
-
-        // draw all WorkingElements
-        for (WorkingElement we : workingElements) {
-            we.draw(g2, viewTransform);
-        }
-    }
-
-    public void update() {
+    public void refresh() {
     	mainImage.updateTransform();
-        frame.updateGuiComponents();
-        repaint();
+    }
+
+    public void refreshAll() {
+        frame.refresh();
     }
     
-    private void updateViewTransform() {
+    public void updateViewTransform() {
         double zoom = camera.getZoom();
         
         viewTransform.setTransform(
             zoom, 0,
             0, zoom,
-            camera.getX() + getWidth() / 2,
-            camera.getY() + getHeight() / 2);
+            camera.getX() + width.get() / 2.0,
+            camera.getY() + height.get() / 2.0);
     }
     
     /** GET AND SET **/
@@ -151,8 +121,7 @@ public class Workspace extends JPanel
         mainImage.setTexture(texture);
         
         if (texture == null) {
-        	if (workingElements.contains(mainImage))
-        		workingElements.remove(mainImage);
+            workingElements.remove(mainImage);
         } else {
         	if (!workingElements.contains(mainImage))
         		workingElements.add(0, mainImage);
@@ -163,8 +132,8 @@ public class Workspace extends JPanel
 
         camera.setLocation(0, 0);
         camera.setZoom(1);
-            
-        update();
+
+        refreshAll();
     }
 
     public Texture getTexture(){
@@ -177,23 +146,6 @@ public class Workspace extends JPanel
 
     public Camera getCamera() {
         return camera;
-    }
-
-    private Texture createBackground() {
-        int size = 100;
-        int step = 10;
-
-        Texture background = new Texture(size, size);
-
-        background.setColor(new java.awt.Color(100, 100, 100));
-        background.fill();
-
-        background.setColor(new java.awt.Color(120, 120, 120));
-        for (int x = 0; x < size; x += step)
-            for (int y = x % (2*step); y < size; y += 2*step)
-                background.fillRect(x, y, step, step);
-
-        return background;
     }
 
     ///////////// MATH /////////////////
@@ -235,10 +187,37 @@ public class Workspace extends JPanel
         return null;
     }
 
-    /** EVENTS **/
+    public List<WorkingElement> getWorkingElements() {
+        return workingElements;
+    }
 
-    public void onWindowResized() {
-        //setBounds(0, 0, frame.getContentPane().getWidth(), frame.getContentPane().getHeight());
-        repaint();
+    public AffineTransform getViewTransform() {
+        return viewTransform;
+    }
+
+    public void closeWorkingFile() {
+        if (workingFile != null) {
+            frame.getSaver().showSavingPrompt(this);
+        }
+    }
+
+    public void setWorkingFile(File file) {
+        closeWorkingFile();
+        setTexture(new Texture(file));
+        reassignWorkingFile(file);
+    }
+
+    public void reassignWorkingFile(File file) {
+        workingFile = file;
+        OnWorkingFileChanged.fire(workingFile);
+        frame.refreshGuiComponents();
+    }
+
+    public File getWorkingFile() {
+        return workingFile;
+    }
+
+    public boolean hasWorkingFile() {
+        return workingFile != null;
     }
 }

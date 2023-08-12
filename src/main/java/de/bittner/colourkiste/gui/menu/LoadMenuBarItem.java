@@ -18,8 +18,8 @@ public class LoadMenuBarItem implements MenuBarItem {
 			OpenImageFileDialog od = new OpenImageFileDialog(frame, null);
 			File choosenFile = od.getFile();
 			if(choosenFile != null) {
-				WorkspaceTab t = frame.createWorkspace(choosenFile.getName());
-				t.setWorkingFile(choosenFile);
+				WorkspaceTab t = frame.createWorkspace(choosenFile);
+				t.getWorkspace().setWorkingFile(choosenFile);
 			}
 		});
         frame.getMenuWithName("File").add(openMenuItem);

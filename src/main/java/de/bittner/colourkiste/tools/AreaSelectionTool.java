@@ -22,9 +22,9 @@ public class AreaSelectionTool extends ToolAdapter {
 	public void startUsage(Texture workpiece, int x, int y) {
 		if (workpiece == null) return;
 		
-		selectionArea.setLocation(x - workpiece.getWidth()/2, y - workpiece.getHeight()/2);
+		selectionArea.setLocation(x - workpiece.getWidth()/2.0, y - workpiece.getHeight()/2.0);
 		selectionArea.setSize(0, 0);
-        getImagePanel().spawn(selectionArea);
+        getWorkspace().spawn(selectionArea);
         
         startX = x;
         startY = y;
@@ -39,7 +39,7 @@ public class AreaSelectionTool extends ToolAdapter {
     	
     	if (workpiece != null) {
 	    	Rectangle2D.Double rect = selectionArea.getRect();
-	    	rect.setRect(rect.getX() + (workpiece.getWidth()/2), rect.getY() + (workpiece.getHeight()/2), rect.getWidth()+1, rect.getHeight()+1);
+	    	rect.setRect(rect.getX() + (workpiece.getWidth()/2.0), rect.getY() + (workpiece.getHeight()/2.0), rect.getWidth()+1, rect.getHeight()+1);
 	    	Rectangle2D.Double textureBounds = new Rectangle2D.Double(0, 0, workpiece.getWidth()+1, workpiece.getHeight()+1);
 	    	Rectangle2D.intersect(rect, textureBounds, textureBounds);	    	
 	        command = new CutRectangleCommand(textureBounds);
@@ -50,8 +50,8 @@ public class AreaSelectionTool extends ToolAdapter {
     }
 
     public void abortUsage() {
-        Workspace ip = getImagePanel();
+        Workspace ip = getWorkspace();
         ip.despawn(selectionArea);
-        ip.update();
+        ip.refreshAll();
     }
 }

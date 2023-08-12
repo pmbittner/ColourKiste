@@ -7,23 +7,23 @@ import java.awt.*;
 
 public abstract class ToolAdapter implements Tool
 {
-	private Workspace imagePanel;
-	private String name;
+	private Workspace workspace;
+	private final String name;
 	
 	public ToolAdapter(String name) {
 		this.name = name;
 	}
 	
-	public void setImagePanel(Workspace panel) {
-		imagePanel = panel;
+	public void setWorkspace(Workspace panel) {
+		workspace = panel;
 	}
 	
-	protected Workspace getImagePanel() {
-		return imagePanel;
+	protected Workspace getWorkspace() {
+		return workspace;
 	}
 	
 	protected Color getActiveColor() {
-		return getImagePanel().getMainFrame().getColor();
+		return getWorkspace().getMainFrame().getColor();
 	}
 	
     public ICommand<Texture> use(Texture workpiece, int x, int y) { return null; }

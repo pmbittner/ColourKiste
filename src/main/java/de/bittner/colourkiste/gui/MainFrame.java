@@ -6,24 +6,27 @@ import de.bittner.colourkiste.tools.ToolBox;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class MainFrame extends JFrame
 {
-    private ImageSaver saver;
-    private ToolBox tools;
+    private static final String NEW_TAB_TITLE = " + ";
+
+    private final ImageSaver saver;
+    private final ToolBox tools;
     
-	private JPanel toolPanel;
-	private JTabbedPane tabbedPane;
-    private JColorChooser colorChooser;
+	private final JPanel toolPanel;
+	private final JTabbedPane tabbedPane;
+    private final JColorChooser colorChooser;
 	private WorkspaceTab currentWorkspaceTab;
     
-    private Map<String, JMenu> menusByName;
-    private List<MenuBarItem> menuBarItems;
-    private JMenuBar menuBar;
+    private final Map<String, JMenu> menusByName;
+    private final List<MenuBarItem> menuBarItems;
+    private final JMenuBar menuBar;
 
     private boolean newTabClickLock;
     
@@ -59,23 +62,17 @@ public class MainFrame extends JFrame
         tabbedPane = new JTabbedPane();
         tabbedPane.addChangeListener(e -> {
             if (newTabClickLock) return;
-            
-            if (tabbedPane.getSelectedComponent() instanceof WorkspaceTab) {
-                WorkspaceTab wt = (WorkspaceTab) tabbedPane.getSelectedComponent();
-                if (wt != null)
-                    setCurrentWorkspaceTab(wt);
-            }
-            
-            JTabbedPane tabbedPane = (JTabbedPane)e.getSource();
-            if(tabbedPane.getSelectedIndex() == tabbedPane.indexOfTab(" + "))
+
+            final JTabbedPane tabbedPane = (JTabbedPane) e.getSource();
+            if(tabbedPane.getSelectedIndex() == tabbedPane.indexOfTab(NEW_TAB_TITLE))
             {
                 newTabClickLock = true;
-                WorkspaceTab wt = createWorkspace("new");
+                WorkspaceTab wt = createWorkspace();
                 tabbedPane.setSelectedComponent(wt);
                 newTabClickLock = false;
+            } else if (tabbedPane.getSelectedComponent() instanceof WorkspaceTab wt) {
+                setCurrentWorkspace(wt);
             }
-            
-            updateGuiComponents();
         });
         
         colorChooser = new JColorChooser(Color.BLACK);
@@ -141,21 +138,38 @@ public class MainFrame extends JFrame
         
         //// FINAL SETUP
 
-        tabbedPane.addTab(" + ", null, new JPanel(), null);
+        tabbedPane.addTab(NEW_TAB_TITLE, null, new JPanel(), null);
         //createWorkspace("new"); // This is done implicitly, as addChangeListener is invoked once the tabbedPane is added.
-        setCurrentWorkspaceTab((WorkspaceTab) tabbedPane.getSelectedComponent());
+        setCurrentWorkspace((WorkspaceTab) tabbedPane.getSelectedComponent());
+    }
+
+    public WorkspaceTab createWorkspace(final File file) {
+        final WorkspaceTab wt = new WorkspaceTab(this, tabbedPane);
+        wt.getWorkspace().setWorkingFile(file);
+        addTab(wt, file.getName());
+        return wt;
     }
     
-    public WorkspaceTab createWorkspace(String title) {
-    	WorkspaceTab wt = new WorkspaceTab(this, tabbedPane);
-        tabbedPane.insertTab(title, null, wt, "", tabbedPane.getTabCount() - 1);
+    public WorkspaceTab createWorkspace() {
+        WorkspaceTab wt = new WorkspaceTab(this, tabbedPane);
+        addTab(wt, "new");
         return wt;
     }
 
-	private void setCurrentWorkspaceTab(WorkspaceTab wt) {
+    private void addTab(final WorkspaceTab wt, final String title) {
+        final int newTabIndex = tabbedPane.getTabCount() - 1;
+
+        tabbedPane.insertTab(title, null, wt, "", newTabIndex);
+
+        final ClosableTabComponent closer = new ClosableTabComponent(this, tabbedPane);
+        closer.OnClose.addListener(u -> wt.getWorkspace().closeWorkingFile());
+        tabbedPane.setTabComponentAt(newTabIndex, closer);
+    }
+
+	public void setCurrentWorkspace(WorkspaceTab wt) {
 		this.currentWorkspaceTab = wt;
-		tools.setCurrentWorkspace(wt.getImagePanel());
-        updateGuiComponents();
+		tools.setCurrentWorkspace(wt.getWorkspace());
+        refreshGuiComponents();
 	}
     
     public void addMenuBarItems(List<MenuBarItem> items) {
@@ -196,7 +210,7 @@ public class MainFrame extends JFrame
     }
     
     public void finalizeInitialization() {
-        updateGuiComponents();
+        refreshGuiComponents();
         setVisible(true);
     }
     
@@ -210,9 +224,22 @@ public class MainFrame extends JFrame
     	return menu;
     }
 
-    public void updateGuiComponents() {
-    	for (MenuBarItem mbi : menuBarItems)
+    public void refresh() {
+        refreshWorkspace();
+        refreshGuiComponents();
+    }
+
+    public void refreshWorkspace() {
+        currentWorkspaceTab.refresh();
+    }
+
+    public void refreshGuiComponents() {
+    	for (final MenuBarItem mbi : menuBarItems)
     		mbi.update(this);
+    }
+
+    public WorkspaceTab getWorkspace(int i) {
+        return (WorkspaceTab) tabbedPane.getComponentAt(i);
     }
 
 	public WorkspaceTab getCurrentWorkspaceTab() {
