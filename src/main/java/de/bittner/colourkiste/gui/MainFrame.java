@@ -14,7 +14,8 @@ import java.util.Map;
 
 public class MainFrame extends JFrame
 {
-    private static final String NEW_TAB_TITLE = " + ";
+    private static final String TITLE_FOR_TABS_WITHOUT_FILE = "unnamed";
+    private static final String MAKE_NEW_TAB_TITLE = " + ";
 
     private final ImageSaver saver;
     private final ToolBox tools;
@@ -64,7 +65,7 @@ public class MainFrame extends JFrame
             if (newTabClickLock) return;
 
             final JTabbedPane tabbedPane = (JTabbedPane) e.getSource();
-            if(tabbedPane.getSelectedIndex() == tabbedPane.indexOfTab(NEW_TAB_TITLE))
+            if(tabbedPane.getSelectedIndex() == tabbedPane.indexOfTab(MAKE_NEW_TAB_TITLE))
             {
                 newTabClickLock = true;
                 WorkspaceTab wt = createWorkspace();
@@ -138,7 +139,7 @@ public class MainFrame extends JFrame
         
         //// FINAL SETUP
 
-        tabbedPane.addTab(NEW_TAB_TITLE, null, new JPanel(), null);
+        tabbedPane.addTab(MAKE_NEW_TAB_TITLE, null, new JPanel(), null);
         //createWorkspace("new"); // This is done implicitly, as addChangeListener is invoked once the tabbedPane is added.
         setCurrentWorkspace((WorkspaceTab) tabbedPane.getSelectedComponent());
     }
@@ -152,7 +153,7 @@ public class MainFrame extends JFrame
     
     public WorkspaceTab createWorkspace() {
         WorkspaceTab wt = new WorkspaceTab(this, tabbedPane);
-        addTab(wt, "new");
+        addTab(wt, TITLE_FOR_TABS_WITHOUT_FILE);
         return wt;
     }
 
@@ -161,7 +162,7 @@ public class MainFrame extends JFrame
 
         tabbedPane.insertTab(title, null, wt, "", newTabIndex);
 
-        final ClosableTabComponent closer = new ClosableTabComponent(this, tabbedPane);
+        final ClosableTabComponent closer = new ClosableTabComponent(tabbedPane);
         closer.OnClose.addListener(u -> wt.getWorkspace().closeWorkingFile());
         tabbedPane.setTabComponentAt(newTabIndex, closer);
     }

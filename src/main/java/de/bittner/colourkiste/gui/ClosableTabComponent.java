@@ -45,12 +45,11 @@ import java.awt.event.*;
  * a JButton to close the tab it belongs to
  */
 public class ClosableTabComponent extends JPanel {
-    private final MainFrame mainFrame;
     private final JTabbedPane pane;
 
     public final EventHandler<Unit> OnClose = new EventHandler<>();
 
-    public ClosableTabComponent(final MainFrame mainFrame, final JTabbedPane pane) {
+    public ClosableTabComponent(final JTabbedPane pane) {
         //unset default FlowLayout' gaps
 //        super(false);
         super(new FlowLayout(FlowLayout.LEFT, 0, 0));
@@ -58,7 +57,6 @@ public class ClosableTabComponent extends JPanel {
             throw new NullPointerException("TabbedPane is null");
         }
         this.pane = pane;
-        this.mainFrame = mainFrame;
 
         setOpaque(false);
 
@@ -108,10 +106,7 @@ public class ClosableTabComponent extends JPanel {
             int i = pane.indexOfTabComponent(ClosableTabComponent.this);
             if (i != -1) {
                 OnClose.fire(Unit.Instance);
-//                if (i > 0) {
-                    pane.setSelectedIndex(i - 1);
-//                    mainFrame.setCurrentWorkspace(mainFrame.getCurrentWorkspaceTab());
-//                }
+                pane.setSelectedIndex(i - 1);
                 pane.remove(i);
             }
         }
