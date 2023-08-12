@@ -1,8 +1,8 @@
 package de.bittner.colourkiste.gui;
 
 import de.bittner.colourkiste.gui.menu.MenuBarItem;
-import de.bittner.colourkiste.tools.Tool;
-import de.bittner.colourkiste.tools.ToolBox;
+import de.bittner.colourkiste.workspace.tools.Tool;
+import de.bittner.colourkiste.workspace.tools.ToolBox;
 
 import javax.swing.*;
 import java.awt.*;
@@ -64,12 +64,15 @@ public class MainFrame extends JFrame
         tabbedPane.addChangeListener(e -> {
             if (newTabClickLock) return;
 
+            System.out.println("TabbedPane Change: " + e);
+
             final JTabbedPane tabbedPane = (JTabbedPane) e.getSource();
             if(tabbedPane.getSelectedIndex() == tabbedPane.indexOfTab(MAKE_NEW_TAB_TITLE))
             {
                 newTabClickLock = true;
                 WorkspaceTab wt = createWorkspace();
                 tabbedPane.setSelectedComponent(wt);
+                setCurrentWorkspace(wt);
                 newTabClickLock = false;
             } else if (tabbedPane.getSelectedComponent() instanceof WorkspaceTab wt) {
                 setCurrentWorkspace(wt);
@@ -140,8 +143,9 @@ public class MainFrame extends JFrame
         //// FINAL SETUP
 
         tabbedPane.addTab(MAKE_NEW_TAB_TITLE, null, new JPanel(), null);
-        //createWorkspace("new"); // This is done implicitly, as addChangeListener is invoked once the tabbedPane is added.
-        setCurrentWorkspace((WorkspaceTab) tabbedPane.getSelectedComponent());
+        // This is done implicitly, as addChangeListener is invoked once the tabbedPane is added.
+        //    createWorkspace("new");
+        //    setCurrentWorkspace((WorkspaceTab) tabbedPane.getSelectedComponent());
     }
 
     public WorkspaceTab createWorkspace(final File file) {

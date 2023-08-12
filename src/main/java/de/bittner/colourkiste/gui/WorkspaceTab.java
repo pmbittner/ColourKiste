@@ -1,11 +1,16 @@
 package de.bittner.colourkiste.gui;
 
+import de.bittner.colourkiste.engine.input.CameraDragAndDrop;
+import de.bittner.colourkiste.engine.input.ZoomViaMouseWheel;
+import de.bittner.colourkiste.gui.io.ApplyTool;
 import de.bittner.colourkiste.rendering.WorkspaceScreen;
+import de.bittner.colourkiste.workspace.Workspace;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.MouseEvent;
 
 public class WorkspaceTab extends JPanel {
     private final MainFrame frame;
@@ -13,17 +18,17 @@ public class WorkspaceTab extends JPanel {
 
     private final Workspace workspace;
     private final WorkspaceScreen screen;
+
+    private final ApplyTool applyTool;
     
     public WorkspaceTab(MainFrame frame, final JTabbedPane tabbedPane) {
     	this.frame = frame;
         this.tabbedPane = tabbedPane;
 
-        this.workspace = new Workspace(
-                frame,
-                () -> getWorkspaceScreen().getWidth(),
-                () -> getWorkspaceScreen().getHeight()
-        );
+        this.workspace = new Workspace(frame);
         this.screen = new WorkspaceScreen(workspace);
+
+        this.applyTool = new ApplyTool(screen, workspace, frame.getToolBox());
 
         setupWorkspace();
         setupWorkspaceScreen();
@@ -52,10 +57,9 @@ public class WorkspaceTab extends JPanel {
 
         new ImagePanelDropHandler(frame, screen);
 
-        InputHandler inputHandler = new InputHandler(workspace, frame.getToolBox());
-        screen.addMouseListener(inputHandler);
-        screen.addMouseMotionListener(inputHandler);
-        screen.addMouseWheelListener(inputHandler);
+        screen.addInputListener(new CameraDragAndDrop(MouseEvent.BUTTON3));
+        screen.addInputListener(new ZoomViaMouseWheel());
+        screen.addInputListener(applyTool);
 
         setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();

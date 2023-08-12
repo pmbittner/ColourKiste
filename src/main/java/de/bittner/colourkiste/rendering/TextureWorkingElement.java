@@ -3,6 +3,7 @@ package de.bittner.colourkiste.rendering;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 
+@Deprecated
 public class TextureWorkingElement extends WorkingElement {
     private Texture texture;
     

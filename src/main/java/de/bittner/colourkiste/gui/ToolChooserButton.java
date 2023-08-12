@@ -5,9 +5,9 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JToggleButton;
 
-import de.bittner.colourkiste.tools.Tool;
-import de.bittner.colourkiste.tools.ToolBox;
-import de.bittner.colourkiste.tools.ToolBox.ToolChangedListener;
+import de.bittner.colourkiste.workspace.tools.Tool;
+import de.bittner.colourkiste.workspace.tools.ToolBox;
+import de.bittner.colourkiste.workspace.tools.ToolBox.ToolChangedListener;
 
 public class ToolChooserButton extends JToggleButton implements ActionListener, ToolChangedListener {
 	private final ToolBox user;

@@ -32,7 +32,7 @@ package de.bittner.colourkiste.gui;
  */
 
 import de.bittner.colourkiste.event.EventHandler;
-import de.bittner.colourkiste.util.Unit;
+import org.variantsync.functjonal.Unit;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicButtonUI;
@@ -105,7 +105,7 @@ public class ClosableTabComponent extends JPanel {
         public void actionPerformed(ActionEvent e) {
             int i = pane.indexOfTabComponent(ClosableTabComponent.this);
             if (i != -1) {
-                OnClose.fire(Unit.Instance);
+                OnClose.fire(Unit.Instance());
                 if (i > 0) {
                     pane.setSelectedIndex(i - 1);
                 }

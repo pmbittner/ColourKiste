@@ -2,7 +2,7 @@ package de.bittner.colourkiste.gui.menu;
 
 import de.bittner.colourkiste.gui.ImageSaver;
 import de.bittner.colourkiste.gui.MainFrame;
-import de.bittner.colourkiste.gui.Workspace;
+import de.bittner.colourkiste.workspace.Workspace;
 import de.bittner.colourkiste.gui.io.SaveImageFileDialog;
 import de.bittner.colourkiste.rendering.Texture;
 

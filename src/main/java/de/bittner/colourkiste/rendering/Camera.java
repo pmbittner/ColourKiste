@@ -1,23 +1,29 @@
 package de.bittner.colourkiste.rendering;
+
+import de.bittner.colourkiste.math.Vec2;
+
 public class Camera
 {
     private static final double zoomMin = 0.5, zoomMax = 50;
 
-    private double x, y;
-    private double zoom = 1;
+    private Vec2 location;
+    private double zoom;
+
+    public Camera() {
+        reset();
+    }
 
     /**
      * The camera zooms the given steps. If steps > 0 the camera will zoom in, else out.
      * x and y are the point, the camera should zoom at.
      */
-    public void zoom(int steps, double x, double y) {
+    public void zoomTowards(int steps, Vec2 pos) {
         double zoomPrev = zoom;
         double newZoomSqrt = 0.2*steps + Math.sqrt(zoom);
         zoom = Math.min(zoomMax, Math.max(zoomMin, newZoomSqrt * newZoomSqrt));
 
         double dZoom = zoom - zoomPrev;
-        this.x -= dZoom * x;
-        this.y -= dZoom * y;
+        this.location = this.location.minus(pos.scale(dZoom));
     }
 
     public void setZoom(double zoom) {
@@ -26,14 +32,18 @@ public class Camera
         this.zoom = zoom;
     }
 
-    public void setLocation(double x, double y) {
-        this.x = x;
-        this.y = y;
+    public double getZoom() { return zoom; }
+
+    public void setLocation(final Vec2 location) {
+        this.location = location;
     }
 
-    public double getX() { return x; }
+    public Vec2 getLocation() {
+        return location;
+    }
 
-    public double getY() { return y; }
-
-    public double getZoom() { return zoom; }
+    public void reset() {
+        location = new Vec2(0, 0);
+        zoom = 1;
+    }
 }
