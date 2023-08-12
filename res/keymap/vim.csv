@@ -1,0 +1,4 @@
+pressed U = Undo
+control pressed R = Redo
+control pressed S = Save
+pressed PERIOD = Open

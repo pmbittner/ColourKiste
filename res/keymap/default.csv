@@ -1,0 +1,4 @@
+control pressed Z = Undo
+control pressed Y = Redo
+control pressed S = Save
+control pressed O = Open

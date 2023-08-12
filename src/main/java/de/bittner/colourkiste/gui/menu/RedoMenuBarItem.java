@@ -1,8 +1,12 @@
 package de.bittner.colourkiste.gui.menu;
 
-import javax.swing.JMenuItem;
 
+import de.bittner.colourkiste.gui.ActionMap;
 import de.bittner.colourkiste.gui.MainFrame;
+import org.tinylog.Logger;
+
+import javax.swing.*;
+
 
 public class RedoMenuBarItem implements MenuBarItem {
 
@@ -11,8 +15,8 @@ public class RedoMenuBarItem implements MenuBarItem {
 	@Override
 	public void create(MainFrame frame) {
         redoMenuItem = new JMenuItem("Redo");
-        redoMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Y, java.awt.event.InputEvent.CTRL_MASK));
-        redoMenuItem.addActionListener(evt -> frame.getCurrentWorkspaceTab().getWorkspace().redo());
+		frame.registerAccelerator(redoMenuItem, frame.getKeyMap().getFirstKeybindingForAction(ActionMap.REDO));
+        redoMenuItem.addActionListener(evt -> frame.getActionMap().runAction(ActionMap.REDO));
         frame.getMenuWithName("Edit").add(redoMenuItem);
 	}
 

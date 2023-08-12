@@ -9,9 +9,7 @@ import de.bittner.colourkiste.workspace.Workspace;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 
 public class WorkspaceTab extends JPanel {
     private static final String TITLE_FOR_TABS_WITHOUT_FILE = "unnamed";
@@ -68,6 +66,9 @@ public class WorkspaceTab extends JPanel {
         screen.addInputListener(new CameraDragAndDrop(MouseEvent.BUTTON3));
         screen.addInputListener(new ZoomViaMouseWheel());
         screen.addInputListener(applyTool);
+
+//        screen.addInputListener(new KeyTypeListener(KeyEvent.VK_U, e -> workspace.undo()));
+//        screen.addInputListener(new KeyTypeListener(KeyEvent.CTRL_DOWN_MASK, KeyEvent.VK_R, e -> workspace.redo()));
 
         setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();

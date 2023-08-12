@@ -1,18 +1,25 @@
 package de.bittner.colourkiste;
 
+import de.bittner.colourkiste.gui.KeyMap;
 import de.bittner.colourkiste.workspace.commands.Comicify;
 import de.bittner.colourkiste.workspace.commands.UndoableTextureManipulation;
 import de.bittner.colourkiste.gui.MainFrame;
 import de.bittner.colourkiste.gui.menu.*;
 import de.bittner.colourkiste.imageprocessing.kernels.Convolution;
 import de.bittner.colourkiste.workspace.tools.*;
+import org.tinylog.Logger;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Main
 {
+    public static Path DEFAULT_KEYBINDINGS_FILE = Path.of("res", "keymap", "default.csv");
+    public static Path VIM_KEYBINDINGS_FILE = Path.of("res", "keymap", "vim.csv");
+
     public static MainFrame mainFrame;
     
     public static void main(String[] args) {
@@ -45,8 +52,16 @@ public abstract class Main
         menu.add(save);
         menu.add(new UndoMenuBarItem());
         menu.add(new RedoMenuBarItem());
+
         
         mainFrame = new MainFrame(800, 600, save);
+
+        mainFrame.getKeyMap().bindAll(KeyMap.fromFile(DEFAULT_KEYBINDINGS_FILE, KeyMap.CSV_DELIMITER_DEFAULT), true);
+        mainFrame.getKeyMap().bindAll(KeyMap.fromFile(VIM_KEYBINDINGS_FILE, KeyMap.CSV_DELIMITER_DEFAULT), false);
+
+        Logger.info("Keybindings loaded");
+        mainFrame.getKeyMap().getAllBindings().forEach((k, a) -> System.out.println(k + " = " + a));
+
         mainFrame.addTools(tools);
         mainFrame.addMenuBarItems(menu);
         mainFrame.finalizeInitialization();

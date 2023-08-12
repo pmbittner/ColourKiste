@@ -1,8 +1,14 @@
 package de.bittner.colourkiste.gui.menu;
 
-import javax.swing.JMenuItem;
+import javax.swing.*;
 
+import de.bittner.colourkiste.gui.ActionMap;
 import de.bittner.colourkiste.gui.MainFrame;
+import org.tinylog.Logger;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.beans.PropertyChangeListener;
 
 public class UndoMenuBarItem implements MenuBarItem {
 	
@@ -11,8 +17,8 @@ public class UndoMenuBarItem implements MenuBarItem {
 	@Override
 	public void create(MainFrame frame) {
 		undoMenuItem = new JMenuItem("Undo");
-        undoMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_MASK));
-        undoMenuItem.addActionListener(evt -> frame.getCurrentWorkspaceTab().getWorkspace().undo());
+		frame.registerAccelerator(undoMenuItem, frame.getKeyMap().getFirstKeybindingForAction(ActionMap.UNDO));
+		undoMenuItem.addActionListener(evt -> frame.getActionMap().runAction(ActionMap.UNDO));
         frame.getMenuWithName("Edit").add(undoMenuItem);
 	}
 

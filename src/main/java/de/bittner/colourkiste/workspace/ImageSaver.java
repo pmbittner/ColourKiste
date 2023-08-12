@@ -1,4 +1,4 @@
-package de.bittner.colourkiste.gui;
+package de.bittner.colourkiste.workspace;
 
 import de.bittner.colourkiste.workspace.Workspace;
 
@@ -13,6 +13,11 @@ public interface ImageSaver {
 	}
 
 	SaveResult showSavingPrompt(Workspace workspace);
+
+
+	boolean trySaveAs(Workspace workspace);
+
+	boolean trySave(Workspace workspace);
 
 	void saveAs(Workspace workspaceTab) throws IOException;
 	

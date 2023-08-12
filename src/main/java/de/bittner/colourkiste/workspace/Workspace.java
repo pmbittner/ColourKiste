@@ -4,7 +4,6 @@ import de.bittner.colourkiste.engine.Entity;
 import de.bittner.colourkiste.engine.World;
 import de.bittner.colourkiste.engine.components.TextureGraphics;
 import de.bittner.colourkiste.event.EventHandler;
-import de.bittner.colourkiste.gui.ImageSaver;
 import de.bittner.colourkiste.gui.MainFrame;
 import de.bittner.colourkiste.math.Vec2;
 import de.bittner.colourkiste.rendering.Texture;
@@ -12,7 +11,6 @@ import de.bittner.colourkiste.util.SizedStack;
 import de.bittner.colourkiste.workspace.remember.RememberFileSave;
 import de.bittner.colourkiste.workspace.remember.RememberSomething;
 import org.tinylog.Logger;
-import org.variantsync.functjonal.Unit;
 
 import java.io.File;
 import java.io.IOException;

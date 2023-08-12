@@ -1,16 +1,16 @@
 package de.bittner.colourkiste.gui;
 
 import de.bittner.colourkiste.gui.menu.MenuBarItem;
+import de.bittner.colourkiste.workspace.ImageSaver;
 import de.bittner.colourkiste.workspace.tools.Tool;
 import de.bittner.colourkiste.workspace.tools.ToolBox;
+import org.tinylog.Logger;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class MainFrame extends JFrame
 {
@@ -18,6 +18,10 @@ public class MainFrame extends JFrame
 
     private final ImageSaver saver;
     private final ToolBox tools;
+
+    private final KeyMap keyMap;
+    private final Set<KeyStroke> acceleratorKeyStrokes = new HashSet<>();
+    private final ActionMap actionMap;
     
 	private final JPanel toolPanel;
 	private final JTabbedPane tabbedPane;
@@ -31,10 +35,10 @@ public class MainFrame extends JFrame
     private boolean newTabClickLock;
     
     public MainFrame(int resolutionWidth, int resolutionHeight, ImageSaver saver) {
-        super("ColorKiller");
+        super("ColourKiste");
         
         //// DOMAIN-SPECIFIC INITIALIZATION
-        
+
         this.saver = saver;
         tools = new ToolBox();
         
@@ -143,6 +147,9 @@ public class MainFrame extends JFrame
         // This is done implicitly, as addChangeListener is invoked once the tabbedPane is added.
         //    createWorkspace("new");
         //    setCurrentWorkspace((WorkspaceTab) tabbedPane.getSelectedComponent());
+
+        this.actionMap = new ActionMap(this);
+        this.keyMap = new KeyMap();
     }
 
     public WorkspaceTab createWorkspace(final File file) {
@@ -161,7 +168,6 @@ public class MainFrame extends JFrame
     private void addTab(final WorkspaceTab wt) {
         final int newTabIndex = tabbedPane.getTabCount() - 1;
         wt.addToTabPaneAt(newTabIndex);
-//        tabbedPane.insertTab(title, null, wt, "", newTabIndex);
     }
 
 	public void setCurrentWorkspace(WorkspaceTab wt) {
@@ -209,6 +215,14 @@ public class MainFrame extends JFrame
     }
     
     public void finalizeInitialization() {
+        // Register listeners for all keybindings (that were not already covered by accelerators of menu items)
+        for (final Map.Entry<KeyStroke, String> keybinding : keyMap.getAllBindings().entrySet()) {
+            if (!acceleratorKeyStrokes.contains(keybinding.getKey())) {
+                Logger.info("Registered remaining keybinding: " + keybinding.getKey() + " = " + keybinding.getValue());
+                getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(keybinding.getKey(), keybinding.getValue());
+            }
+        }
+
         refreshGuiComponents();
         setVisible(true);
     }
@@ -259,5 +273,19 @@ public class MainFrame extends JFrame
     
     public void setColor(final Color color) {
         colorChooser.setColor(color);
+    }
+
+    public ActionMap getActionMap() {
+        return actionMap;
+    }
+
+    public KeyMap getKeyMap() {
+        return keyMap;
+    }
+
+    public void registerAccelerator(JMenuItem item, KeyStroke keyStroke) {
+        item.setAccelerator(keyStroke);
+        acceleratorKeyStrokes.add(keyStroke);
+        Logger.info("Accelerator registered for " + keyStroke);
     }
 }

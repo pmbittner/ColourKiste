@@ -1,17 +1,19 @@
 package de.bittner.colourkiste.gui.menu;
 
-import de.bittner.colourkiste.gui.ImageSaver;
+import de.bittner.colourkiste.gui.ActionMap;
+import de.bittner.colourkiste.workspace.ImageSaver;
 import de.bittner.colourkiste.gui.MainFrame;
 import de.bittner.colourkiste.workspace.Workspace;
 import de.bittner.colourkiste.gui.io.SaveImageFileDialog;
-import de.bittner.colourkiste.rendering.Texture;
-import de.bittner.colourkiste.workspace.remember.RememberFileSave;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * TODO: Refactor: extract imagesaver
+ */
 public class SaveMenuBarItem implements MenuBarItem, ImageSaver {
     private MainFrame frame;
 	private JMenuItem saveMenuItem, saveAsMenuItem;
@@ -23,12 +25,12 @@ public class SaveMenuBarItem implements MenuBarItem, ImageSaver {
 		JMenu fileMenu = frame.getMenuWithName("File");
 		
 		saveMenuItem = new JMenuItem("Save");
-        saveMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
-        saveMenuItem.addActionListener(evt -> trySave(frame.getCurrentWorkspaceTab().getWorkspace()));
+        frame.registerAccelerator(saveMenuItem, frame.getKeyMap().getFirstKeybindingForAction(de.bittner.colourkiste.gui.ActionMap.SAVE));
+        saveMenuItem.addActionListener(evt -> frame.getActionMap().runAction(ActionMap.SAVE));
         fileMenu.add(saveMenuItem);
 
         saveAsMenuItem = new JMenuItem("Save as");
-        saveAsMenuItem.addActionListener(evt -> trySaveAs(frame.getCurrentWorkspaceTab().getWorkspace()));
+        saveAsMenuItem.addActionListener(evt -> frame.getActionMap().runAction(ActionMap.SAVEAS));
         fileMenu.add(saveAsMenuItem);
 	}
 
@@ -76,6 +78,7 @@ public class SaveMenuBarItem implements MenuBarItem, ImageSaver {
                 JOptionPane.ERROR_MESSAGE);
     }
 
+    @Override
     public boolean trySaveAs(Workspace workspace) {
         try {
             saveAs(workspace);
@@ -86,6 +89,7 @@ public class SaveMenuBarItem implements MenuBarItem, ImageSaver {
         }
     }
 
+    @Override
     public boolean trySave(Workspace workspace) {
         try {
             save(workspace);
