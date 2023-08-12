@@ -36,7 +36,7 @@ public abstract class Main
                 new DotTool(),
                 new PencilTool(1),
                 new PencilTool(12),
-                new FillTool(new Color(0, 0, 0, 0), "Make Transparent"),
+                new FillTool(),
                 new ColorSwitchTool(),
                 new AreaSelectionTool(),
                 comicTool,
