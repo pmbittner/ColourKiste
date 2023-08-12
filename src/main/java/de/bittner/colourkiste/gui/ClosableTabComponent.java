@@ -106,7 +106,9 @@ public class ClosableTabComponent extends JPanel {
             int i = pane.indexOfTabComponent(ClosableTabComponent.this);
             if (i != -1) {
                 OnClose.fire(Unit.Instance);
-                pane.setSelectedIndex(i - 1);
+                if (i > 0) {
+                    pane.setSelectedIndex(i - 1);
+                }
                 pane.remove(i);
             }
         }
