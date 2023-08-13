@@ -51,7 +51,8 @@ public class RenderTarget {
     }
 
     public void popTransform() {
-        screen.setTransform(popButNotLast(transforms));
+        popButNotLast(transforms);
+        screen.setTransform(transforms.peek());
     }
 
     public Graphics2D getTarget() {
