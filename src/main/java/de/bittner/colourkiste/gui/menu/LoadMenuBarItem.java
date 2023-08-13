@@ -1,13 +1,9 @@
 package de.bittner.colourkiste.gui.menu;
 
-import java.io.File;
-
 import javax.swing.JMenuItem;
 
-import de.bittner.colourkiste.gui.ActionMap;
+import de.bittner.colourkiste.ActionMap;
 import de.bittner.colourkiste.gui.MainFrame;
-import de.bittner.colourkiste.gui.WorkspaceTab;
-import de.bittner.colourkiste.gui.io.OpenImageFileDialog;
 
 public class LoadMenuBarItem implements MenuBarItem {
 

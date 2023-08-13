@@ -2,13 +2,8 @@ package de.bittner.colourkiste.gui.menu;
 
 import javax.swing.*;
 
-import de.bittner.colourkiste.gui.ActionMap;
+import de.bittner.colourkiste.ActionMap;
 import de.bittner.colourkiste.gui.MainFrame;
-import org.tinylog.Logger;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.beans.PropertyChangeListener;
 
 public class UndoMenuBarItem implements MenuBarItem {
 	

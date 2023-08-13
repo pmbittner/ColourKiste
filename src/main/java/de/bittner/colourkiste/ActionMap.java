@@ -1,5 +1,7 @@
-package de.bittner.colourkiste.gui;
+package de.bittner.colourkiste;
 
+import de.bittner.colourkiste.gui.MainFrame;
+import de.bittner.colourkiste.gui.WorkspaceTab;
 import de.bittner.colourkiste.gui.io.OpenImageFileDialog;
 
 import javax.swing.*;

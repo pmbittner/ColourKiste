@@ -1,9 +1,8 @@
 package de.bittner.colourkiste.gui.menu;
 
 
-import de.bittner.colourkiste.gui.ActionMap;
+import de.bittner.colourkiste.ActionMap;
 import de.bittner.colourkiste.gui.MainFrame;
-import org.tinylog.Logger;
 
 import javax.swing.*;
 

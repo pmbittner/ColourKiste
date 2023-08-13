@@ -1,6 +1,5 @@
 package de.bittner.colourkiste;
 
-import de.bittner.colourkiste.gui.KeyMap;
 import de.bittner.colourkiste.workspace.commands.Comicify;
 import de.bittner.colourkiste.workspace.commands.UndoableTextureManipulation;
 import de.bittner.colourkiste.gui.MainFrame;
@@ -10,7 +9,6 @@ import de.bittner.colourkiste.workspace.tools.*;
 import org.tinylog.Logger;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;

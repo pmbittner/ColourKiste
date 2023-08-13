@@ -1,6 +1,6 @@
 package de.bittner.colourkiste.gui.menu;
 
-import de.bittner.colourkiste.gui.ActionMap;
+import de.bittner.colourkiste.ActionMap;
 import de.bittner.colourkiste.workspace.ImageSaver;
 import de.bittner.colourkiste.gui.MainFrame;
 import de.bittner.colourkiste.workspace.Workspace;
@@ -25,7 +25,7 @@ public class SaveMenuBarItem implements MenuBarItem, ImageSaver {
 		JMenu fileMenu = frame.getMenuWithName("File");
 		
 		saveMenuItem = new JMenuItem("Save");
-        frame.registerAccelerator(saveMenuItem, frame.getKeyMap().getFirstKeybindingForAction(de.bittner.colourkiste.gui.ActionMap.SAVE));
+        frame.registerAccelerator(saveMenuItem, frame.getKeyMap().getFirstKeybindingForAction(ActionMap.SAVE));
         saveMenuItem.addActionListener(evt -> frame.getActionMap().runAction(ActionMap.SAVE));
         fileMenu.add(saveMenuItem);
 

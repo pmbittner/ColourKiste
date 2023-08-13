@@ -1,5 +1,7 @@
 package de.bittner.colourkiste.gui;
 
+import de.bittner.colourkiste.ActionMap;
+import de.bittner.colourkiste.KeyMap;
 import de.bittner.colourkiste.gui.menu.MenuBarItem;
 import de.bittner.colourkiste.workspace.ImageSaver;
 import de.bittner.colourkiste.workspace.tools.Tool;
@@ -21,7 +23,7 @@ public class MainFrame extends JFrame
 
     private final KeyMap keyMap;
     private final Set<KeyStroke> acceleratorKeyStrokes = new HashSet<>();
-    private final ActionMap actionMap;
+    private final de.bittner.colourkiste.ActionMap actionMap;
     
 	private final JPanel toolPanel;
 	private final JTabbedPane tabbedPane;
@@ -148,7 +150,7 @@ public class MainFrame extends JFrame
         //    createWorkspace("new");
         //    setCurrentWorkspace((WorkspaceTab) tabbedPane.getSelectedComponent());
 
-        this.actionMap = new ActionMap(this);
+        this.actionMap = new de.bittner.colourkiste.ActionMap(this);
         this.keyMap = new KeyMap();
     }
 
