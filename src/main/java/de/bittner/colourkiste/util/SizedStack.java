@@ -1,15 +1,16 @@
 package de.bittner.colourkiste.util;
 
-import org.tinylog.Logger;
-
 import java.util.Stack;
 import java.util.function.Predicate;
 
+/**
+ * TODO: Move to Functjonal
+ * @param <T>
+ */
 public class SizedStack<T> extends Stack<T> {
     private final int capacity;
     private int size;
     private final Predicate<T> countTowardsCapacity;
-public String name;
     public SizedStack(int capacity) {
         this(capacity, t -> true);
     }
@@ -31,7 +32,6 @@ public String name;
 
                 // remove the deepest counted element and everything before it
                 while (!countTowardsCapacity.test(get(0))) {
-                    Logger.debug("Forget " + get(0));
                     this.removeElementAt(0);
                 }
                 this.removeElementAt(0);
