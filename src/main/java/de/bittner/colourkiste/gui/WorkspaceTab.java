@@ -1,15 +1,22 @@
 package de.bittner.colourkiste.gui;
 
 import de.bittner.colourkiste.binding.Property;
+import de.bittner.colourkiste.engine.Entity;
+import de.bittner.colourkiste.engine.graphics.FilledRectangleGraphics;
+import de.bittner.colourkiste.engine.hitbox.RectangleHitbox;
 import de.bittner.colourkiste.engine.input.CameraDragAndDrop;
 import de.bittner.colourkiste.engine.input.ZoomViaMouseWheel;
 import de.bittner.colourkiste.gui.io.ApplyTool;
-import de.bittner.colourkiste.workspace.WorkspaceScreen;
+import de.bittner.colourkiste.math.Vec2;
+import de.bittner.colourkiste.math.geometry.Box;
 import de.bittner.colourkiste.workspace.Workspace;
+import de.bittner.colourkiste.workspace.WorkspaceScreen;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.awt.event.MouseEvent;
 
 public class WorkspaceTab extends JPanel {
     private static final String TITLE_FOR_TABS_WITHOUT_FILE = "unnamed";
@@ -40,6 +47,9 @@ public class WorkspaceTab extends JPanel {
     }
 
     private void setupWorkspace() {
+        // Event listeners that update the tab header name to
+        // "<filename>" in the image was saved or freshly laoded
+        // "*<filename>" in case the image was edited
         workspace.OnWorkingFileChanged.addListener(file -> title.set(file.getName()));
         workspace.OnSave.addListener(file -> {
             if (file == null) {
@@ -49,6 +59,17 @@ public class WorkspaceTab extends JPanel {
             }
         });
         workspace.AfterEdit.addListener(wp -> title.set("*" + wp.getWorkingFile().getName()));
+
+        final Entity debug = new Entity();
+        final Box debugBox = new Box(
+                new Vec2(-50, -50),
+                new Vec2(50, 50)
+//                new Vec2(0, 0),
+//                new Vec2(50, 50)
+        );
+        debug.add(new RectangleHitbox(debugBox));
+        debug.add(new FilledRectangleGraphics(Color.GREEN));
+        workspace.getWorld().spawn(debug);
     }
 
     private void setupWorkspaceScreen() {

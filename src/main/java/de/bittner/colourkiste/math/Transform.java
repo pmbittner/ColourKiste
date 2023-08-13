@@ -19,6 +19,24 @@ public final class Transform {
         return result;
     }
 
+    public static void setAsBox(final AffineTransform transform, double width, double height) {
+        transform.setTransform(
+                1, 0,
+                0, 1,
+                -width / 2.0,
+                -height / 2.0);
+    }
+
+    public static AffineTransform box(double width, double height) {
+        final AffineTransform transform = new AffineTransform();
+        transform.setTransform(
+                1, 0,
+                0, 1,
+                -width / 2.0,
+                -height / 2.0);
+        return transform;
+    }
+
     public static Box box(AffineTransform t, double width, double height)
     {
         return new Box(

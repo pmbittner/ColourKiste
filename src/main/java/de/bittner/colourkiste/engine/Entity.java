@@ -23,7 +23,7 @@ public final class Entity {
         this.components = new HashMap<>();
     }
 
-    public void add(EntityComponent component) {
+    public void add(final EntityComponent component) {
         Assert.assertNull(component.getEntity());
 
         Class<?> cls = component.getClass();
@@ -38,7 +38,7 @@ public final class Entity {
         component.setEntity(this);
     }
 
-    public void remove(EntityComponent component) {
+    public void remove(final EntityComponent component) {
         Assert.assertTrue(component.getEntity() == this);
 
         Class<?> cls = component.getClass();
@@ -54,9 +54,22 @@ public final class Entity {
         return Cast.unchecked(components.get(type));
     }
 
+    /**
+     * Same as {@link #get(Class)} but never returns null.
+     * In case this entity does not have the requested component, this method will crash.
+     */
+    public <T extends EntityComponent> T require(final Class<T> type) {
+        final T comp = get(type);
+        Assert.assertNotNull(comp);
+        return comp;
+    }
+
+    /**
+     * Runs the given consumer in case this entity has the desired component.
+     */
     public <T extends EntityComponent> void forComponent(
             final Class<T> type,
-            Consumer<T> ifPresent
+            final Consumer<T> ifPresent
     ) {
         final T component = get(type);
         if (component != null) {
@@ -97,7 +110,7 @@ public final class Entity {
         return z;
     }
 
-    void setWorld(World world) {
+    void setWorld(final World world) {
         this.world = world;
     }
 

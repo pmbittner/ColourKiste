@@ -2,7 +2,7 @@ package de.bittner.colourkiste.workspace;
 
 import de.bittner.colourkiste.engine.Entity;
 import de.bittner.colourkiste.engine.World;
-import de.bittner.colourkiste.engine.components.TextureGraphics;
+import de.bittner.colourkiste.engine.graphics.TextureGraphics;
 import de.bittner.colourkiste.event.EventHandler;
 import de.bittner.colourkiste.gui.MainFrame;
 import de.bittner.colourkiste.math.Vec2;
@@ -151,7 +151,7 @@ public class Workspace
 
     public void refresh() {
         // TODO: Do we need this?
-    	workpiece.updateTransform();
+    	workpiece.refreshRelativeTransform();
     }
 
     public void refreshAll() {

@@ -1,11 +1,10 @@
 package de.bittner.colourkiste.workspace;
 
 import de.bittner.colourkiste.engine.*;
-import de.bittner.colourkiste.engine.components.EntityGraphics;
+import de.bittner.colourkiste.engine.graphics.EntityGraphics;
 import de.bittner.colourkiste.math.Transform;
 import de.bittner.colourkiste.math.Vec2;
 import de.bittner.colourkiste.rendering.Texture;
-import de.bittner.colourkiste.workspace.Workspace;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +15,7 @@ public class WorkspaceScreen extends JPanel implements Screen {
     private final Workspace workspace;
 
     private final Camera camera;
-    AffineTransform viewTransform;
+    private final AffineTransform viewTransform;
 
     /** GRAPHICS and RENDERING **/
     private final Texture background;
@@ -65,23 +64,26 @@ public class WorkspaceScreen extends JPanel implements Screen {
         final World w = workspace.getWorld();
         updateViewTransform();
 
-        Graphics2D renderTarget = (Graphics2D) gc;
+        final Graphics2D screen = (Graphics2D) gc;
 
         // draw Background
         for (int x = 0; x < this.getWidth(); x += background.getWidth()) {
             for (int y = 0; y < this.getHeight(); y += background.getHeight()) {
-                renderTarget.drawImage(background.getAwtImage(), null, x, y);
+                screen.drawImage(background.getAwtImage(), null, x, y);
             }
         }
 
         // draw all WorkingElements
+        final RenderTarget renderTarget = new RenderTarget(screen);
+        renderTarget.pushTransform(viewTransform);
         w.sortEntities();
         for (final Entity e : w.getEntities()) {
             final EntityGraphics eGraphics = e.get(EntityGraphics.class);
             if (eGraphics != null) {
-                eGraphics.draw(renderTarget, viewTransform);
+                eGraphics.render(renderTarget);
             }
         }
+        renderTarget.popTransform();
     }
 
     @Override
@@ -112,7 +114,7 @@ public class WorkspaceScreen extends JPanel implements Screen {
                     Transform.mult(
                             viewTransform,
                             workspace.getWorkpiece().getEntity().getRelativeTransform(),
-                            workspace.getWorkpiece().getTransform()
+                            workspace.getWorkpiece().getRelativeTransform()
                     ).inverseTransform(
                             new Point2D.Double(x, y),
                             null)
