@@ -26,6 +26,14 @@ public record Box(Vec2 upperLeft, Vec2 lowerRight) {
         return shrink(new Vec2(delta, delta));
     }
 
+    public boolean contains(Vec2 point) {
+        return
+                upperLeft.x() <= point.x()
+                && upperLeft.y() >= point.y()
+                && lowerRight.x() >= point.x()
+                && lowerRight.y() <= point.y();
+    }
+
     @Override
     public String toString() {
         return "Box{" +
