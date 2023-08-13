@@ -23,11 +23,13 @@ public class World {
 
     public void spawn(Entity entity) {
         entities.add(entity);
+        entity.setWorld(this);
         OnEntitySpawned.fire(entity);
     }
 
     public void despawn(Entity entity) {
         entities.remove(entity);
+        entity.setWorld(null);
         OnEntityDespawned.fire(entity);
     }
 
