@@ -1,6 +1,7 @@
 package de.bittner.colourkiste.engine;
 
 import de.bittner.colourkiste.event.EventHandler;
+import org.tinylog.Logger;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -36,11 +37,7 @@ public class World {
 
     ///////////// MATH /////////////////
 
-//    public Vec2 worldToViewportCoord(final Vec2 pos) {
-//        return pos.transform(getApp().getWindow().getScreen().getViewTransform());
-//    }
-
-    public Iterable<? extends Entity> getEntities() {
+    public List<Entity> getEntities() {
         return entities;
     }
 
@@ -48,7 +45,7 @@ public class World {
         return entities.contains(entity);
     }
 
-    public void sortEntities() {
+    private void sortEntities() {
         entities.sort(Comparator.comparingDouble(Entity::getZ));
     }
 }

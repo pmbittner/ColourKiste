@@ -3,8 +3,10 @@ package de.bittner.colourkiste.workspace;
 import de.bittner.colourkiste.engine.Entity;
 import de.bittner.colourkiste.engine.World;
 import de.bittner.colourkiste.engine.components.graphics.TextureGraphics;
+import de.bittner.colourkiste.engine.components.hitbox.TextureHitbox;
 import de.bittner.colourkiste.event.EventHandler;
 import de.bittner.colourkiste.gui.MainFrame;
+import de.bittner.colourkiste.gui.io.ApplyTool;
 import de.bittner.colourkiste.math.Vec2;
 import de.bittner.colourkiste.rendering.Texture;
 import de.bittner.colourkiste.util.SizedStack;
@@ -48,12 +50,14 @@ public class Workspace
         world.spawn(workpiece.getEntity());
     }
 
-    private static TextureGraphics createNewWorkpiece() {
-        final Entity workpieceEntity = new Entity();
+    private TextureGraphics createNewWorkpiece() {
+        final Entity workpieceEntity = new Entity("Workpiece");
         workpieceEntity.setZ(World.BACKGROUND * 1000);
 
         final TextureGraphics workpiece = new TextureGraphics(null);
         workpieceEntity.add(workpiece);
+        workpieceEntity.add(new TextureHitbox());
+        workpieceEntity.add(new ApplyTool(this, frame.getToolBox()));
 
         return workpiece;
     }

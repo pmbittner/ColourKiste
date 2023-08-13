@@ -6,6 +6,12 @@ public record Box(Vec2 upperLeft, Vec2 lowerRight) {
     public Box(Vec2 upperLeft, double width, double height) {
         this(upperLeft, upperLeft.add(width, height));
     }
+    public Box(double width, double height) {
+        this(
+                new Vec2(-width / 2.0, -height / 2.0),
+                new Vec2( width / 2.0,  height / 2.0)
+        );
+    }
 
     public double getWidth() {
         return lowerRight.x() - upperLeft().x();

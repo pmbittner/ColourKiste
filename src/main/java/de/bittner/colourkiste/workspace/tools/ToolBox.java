@@ -3,20 +3,17 @@ package de.bittner.colourkiste.workspace.tools;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.bittner.colourkiste.event.EventHandler;
 import de.bittner.colourkiste.workspace.Workspace;
 
 public class ToolBox {
-	public interface ToolChangedListener {
-		void onToolChanged(Tool newTool);
-	}
+	public final EventHandler<Tool> OnToolChanged = new EventHandler<>();
 
     private Tool currentTool;
-    private final List<ToolChangedListener> toolChangedListeners;
     
     private Workspace currentWorkspace;
     
     public ToolBox() {
-        toolChangedListeners = new ArrayList<>();
         currentWorkspace = null;
         setTool(NullTool.Instance);
     }
@@ -32,23 +29,13 @@ public class ToolBox {
     	
         currentTool = tool;
         currentTool.setWorkspace(currentWorkspace);
-        
-        for (ToolChangedListener l : toolChangedListeners)
-        	l.onToolChanged(currentTool);
+
+		OnToolChanged.fire(currentTool);
     }
 
     public Tool getTool() {
         return currentTool;
     }
-
-	public void addToolChangedListener(ToolChangedListener listener) {
-		if (!toolChangedListeners.contains(listener))
-			toolChangedListeners.add(listener);
-	}
-
-	public boolean removeToolChangedListener(ToolChangedListener listener) {
-		return toolChangedListeners.remove(listener);
-	}
 
 	public void setCurrentWorkspace(Workspace workspace) {
 		currentWorkspace = workspace;

@@ -7,9 +7,8 @@ import javax.swing.JToggleButton;
 
 import de.bittner.colourkiste.workspace.tools.Tool;
 import de.bittner.colourkiste.workspace.tools.ToolBox;
-import de.bittner.colourkiste.workspace.tools.ToolBox.ToolChangedListener;
 
-public class ToolChooserButton extends JToggleButton implements ActionListener, ToolChangedListener {
+public class ToolChooserButton extends JToggleButton implements ActionListener {
 	private final ToolBox user;
 	private final Tool tool;
 	
@@ -19,7 +18,7 @@ public class ToolChooserButton extends JToggleButton implements ActionListener, 
 		this.user = user;
 		this.tool = tool;
 		
-		user.addToolChangedListener(this);
+		user.OnToolChanged.addListener(this::onToolChanged);
 		this.addActionListener(this);
 	}
 	
@@ -40,8 +39,7 @@ public class ToolChooserButton extends JToggleButton implements ActionListener, 
 		updateSelectionStatus();
 	}
 
-	@Override
-	public void onToolChanged(Tool newTool) {
+	private void onToolChanged(Tool newTool) {
 		if (newTool != tool)
 			this.setSelected(false);
 	}

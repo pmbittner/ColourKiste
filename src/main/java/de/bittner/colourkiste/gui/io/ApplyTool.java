@@ -1,30 +1,52 @@
 package de.bittner.colourkiste.gui.io;
 
-import de.bittner.colourkiste.engine.InputListener;
+import de.bittner.colourkiste.engine.components.graphics.TextureGraphics;
+import de.bittner.colourkiste.engine.components.input.InputComponent;
+import de.bittner.colourkiste.math.Transform;
 import de.bittner.colourkiste.math.Vec2;
 import de.bittner.colourkiste.rendering.Texture;
-import de.bittner.colourkiste.workspace.WorkspaceScreen;
-import de.bittner.colourkiste.workspace.Workspace;
 import de.bittner.colourkiste.workspace.ICommand;
+import de.bittner.colourkiste.workspace.Workspace;
 import de.bittner.colourkiste.workspace.tools.ToolBox;
 
 import java.awt.event.MouseEvent;
 
-public class ApplyTool extends InputListener {
-    private final WorkspaceScreen screen;
+public class ApplyTool extends InputComponent {
+    private static final int MOUSE_BUTTON = MouseEvent.BUTTON1;
     private final Workspace workspace;
     private final ToolBox toolBox;
 
-    private int buttonHold = -1;
+    private int dragButton = -1;
 
-    public ApplyTool(WorkspaceScreen screen, Workspace workspace, ToolBox user) {
-        this.screen = screen;
+    public ApplyTool(Workspace workspace, ToolBox user) {
         this.workspace = workspace;
         this.toolBox = user;
     }
 
-    private void cancelButtonAction() {
+    private Vec2 toTextureCoord(final Vec2 entitySpaceCoord) {
+        final TextureGraphics textureGraphics = getEntity().require(TextureGraphics.class);
+        return Transform.invert(textureGraphics.getRelativeTransform(), entitySpaceCoord);
+    }
+
+    private void startUsageAt(Vec2 pos) {
+        final Vec2 p = toTextureCoord(pos);
+        dragButton = MOUSE_BUTTON;
+        toolBox.getTool().startUsage(workspace.getTexture(), (int)p.x(), (int)p.y());
+        workspace.refreshAll();
+    }
+
+    private void abortUsage() {
+        dragButton = -1;
         toolBox.getTool().abortUsage();
+    }
+
+    private void finishUsageAt(final Vec2 pos) {
+        dragButton = -1;
+        Vec2 p = toTextureCoord(pos);
+        ICommand<Texture> command = toolBox.getTool().finishUsage(workspace.getTexture(), (int)p.x(), (int)p.y());
+        if (command != null) {
+            workspace.runCommand(command);
+        }
     }
 
     /**
@@ -32,73 +54,69 @@ public class ApplyTool extends InputListener {
      * Invoked when the mouse button has been clicked (pressed and released) on a component.
      */
     @Override
-    public void mouseClicked(MouseEvent arg0) {
-        if (arg0.getButton() == MouseEvent.BUTTON1) {
-            final Vec2 p = screen.screenToTextureCoord(arg0.getX(), arg0.getY());
+    public boolean mouseClicked(int button, Vec2 pos) {
+        if (button == MouseEvent.BUTTON1) {
+            final Vec2 p = toTextureCoord(pos);
             if (workspace.isPointOnImage(p)) {
-                ICommand<Texture> toolCommand = toolBox.getTool().use(
-                        screen.getWorkspace().getTexture(),
+                final ICommand<Texture> toolCommand = toolBox.getTool().use(
+                        workspace.getTexture(),
                         (int) p.x(),
                         (int) p.y());
                 if (toolCommand != null) {
                     workspace.runCommand(toolCommand);
+                    return true;
                 }
             }
         }
+
+        return false;
     }
 
     /**
      * Invoked when a mouse button has been pressed on a component.
      */
     @Override
-    public void mousePressed(MouseEvent arg0) {
-        boolean refresh = false;
-
-        if (buttonHold == -1 || buttonHold == arg0.getButton()) {
-            buttonHold = arg0.getButton();
-        } else {
-            cancelButtonAction();
-            refresh = true;
+    public boolean mouseDragStart(int button, Vec2 pos) {
+        if (isDragging()) {
+            abortUsage();
+            return true;
+        } else if (button == MOUSE_BUTTON) {
+            startUsageAt(pos);
+            return true;
         }
 
-        if (buttonHold == MouseEvent.BUTTON1) {
-            final Vec2 p = screen.screenToTextureCoord(arg0.getX(), arg0.getY());
-            toolBox.getTool().startUsage(workspace.getTexture(), (int)p.x(), (int)p.y());
-            refresh = true;
-        }
-
-        if (refresh) {
-            screen.refresh();
-        }
+        return false;
     }
 
     /**
      * Invoked when a mouse button has been released on a component.
      */
     @Override
-    public void mouseReleased(MouseEvent arg0) {
-        if (buttonHold == arg0.getButton()) {
-            if (buttonHold == MouseEvent.BUTTON1) {
-                Vec2 p = screen.screenToTextureCoord(arg0.getX(), arg0.getY());
-                ICommand<Texture> command = toolBox.getTool().finishUsage(workspace.getTexture(), (int)p.x(), (int)p.y());
-                if (command != null) {
-                    workspace.runCommand(command);
-                }
-            }
+    public boolean mouseDragEnd(int button, Vec2 pos) {
+        if (button == dragButton) {
+            finishUsageAt(pos);
+            return true;
         }
 
-        buttonHold = -1;
+        return false;
     }
 
     /**
      * Invoked when a mouse button is pressed on a component and then dragged.
      */
     @Override
-    public void mouseDragged(MouseEvent arg0) {
-        if (buttonHold == MouseEvent.BUTTON1) {
-            Vec2 p = screen.screenToTextureCoord(arg0.getX(), arg0.getY());
+    public boolean mouseDragged(int button, Vec2 pos) {
+        if (isDragging()) {
+            Vec2 p = toTextureCoord(pos);
             toolBox.getTool().updateUsage(workspace.getTexture(), (int)p.x(), (int)p.y());
-            screen.refresh();
+            workspace.refreshAll();
+            return true;
         }
+
+        return false;
+    }
+
+    private boolean isDragging() {
+        return dragButton == MOUSE_BUTTON;
     }
 }

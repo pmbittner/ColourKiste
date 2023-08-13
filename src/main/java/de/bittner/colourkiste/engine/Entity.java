@@ -13,11 +13,13 @@ import java.util.function.Consumer;
 public final class Entity {
     private World world;
     private Vec2 location;
+    private final String name;
     private double z;
     private final AffineTransform relativeTransform;
     private final Map<Class<?>, EntityComponent> components;
 
-    public Entity() {
+    public Entity(final String name) {
+        this.name = name;
         z = 0;
         location = Vec2.all(0);
         relativeTransform = new AffineTransform();
@@ -122,5 +124,14 @@ public final class Entity {
 
     public World getWorld() {
         return world;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String toString() {
+        return getName();
     }
 }

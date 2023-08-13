@@ -73,9 +73,10 @@ public class PencilTool extends ToolAdapter
             t.setColorAt(x, y, getActiveColor());
         }
 
-        final Entity myElementEntity = new Entity();
+        final Entity myElementEntity = new Entity("Pencil Stroke");
         myElementEntity.add(myElement = new TextureGraphics(t));
         myElementEntity.setLocation(Vec2.all(0));
+        myElementEntity.setZ(getWorkspace().getWorkpiece().getEntity().getZ() + 1); // closely above draw texture
         getWorkspace().getWorld().spawn(myElementEntity);
         lastX = x;
         lastY = y;
