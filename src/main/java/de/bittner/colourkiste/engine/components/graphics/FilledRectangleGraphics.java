@@ -1,7 +1,7 @@
-package de.bittner.colourkiste.engine.graphics;
+package de.bittner.colourkiste.engine.components.graphics;
 
 import de.bittner.colourkiste.engine.RenderTarget;
-import de.bittner.colourkiste.engine.hitbox.RectangleHitbox;
+import de.bittner.colourkiste.engine.components.hitbox.RectangleHitbox;
 import de.bittner.colourkiste.math.Vec2;
 
 import java.awt.*;

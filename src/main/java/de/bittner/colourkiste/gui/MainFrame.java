@@ -220,7 +220,7 @@ public class MainFrame extends JFrame
         // Register listeners for all keybindings (that were not already covered by accelerators of menu items)
         for (final Map.Entry<KeyStroke, String> keybinding : keyMap.getAllBindings().entrySet()) {
             if (!acceleratorKeyStrokes.contains(keybinding.getKey())) {
-                Logger.info("Registered remaining keybinding: " + keybinding.getKey() + " = " + keybinding.getValue());
+//                Logger.info("Registered remaining keybinding: " + keybinding.getKey() + " = " + keybinding.getValue());
                 getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(keybinding.getKey(), keybinding.getValue());
             }
         }
@@ -288,6 +288,6 @@ public class MainFrame extends JFrame
     public void registerAccelerator(JMenuItem item, KeyStroke keyStroke) {
         item.setAccelerator(keyStroke);
         acceleratorKeyStrokes.add(keyStroke);
-        Logger.info("Accelerator registered for " + keyStroke);
+//        Logger.info("Accelerator registered for " + keyStroke);
     }
 }

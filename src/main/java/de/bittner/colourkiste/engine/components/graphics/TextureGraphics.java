@@ -1,10 +1,9 @@
-package de.bittner.colourkiste.engine.graphics;
+package de.bittner.colourkiste.engine.components.graphics;
 
 import de.bittner.colourkiste.engine.RenderTarget;
 import de.bittner.colourkiste.math.Transform;
 import de.bittner.colourkiste.rendering.Texture;
 
-import java.awt.*;
 import java.awt.geom.AffineTransform;
 
 public class TextureGraphics extends EntityGraphics {

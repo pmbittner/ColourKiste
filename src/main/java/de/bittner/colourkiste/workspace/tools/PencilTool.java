@@ -2,7 +2,7 @@ package de.bittner.colourkiste.workspace.tools;
 import java.awt.*;
 
 import de.bittner.colourkiste.engine.Entity;
-import de.bittner.colourkiste.engine.graphics.TextureGraphics;
+import de.bittner.colourkiste.engine.components.graphics.TextureGraphics;
 import de.bittner.colourkiste.math.Vec2;
 import de.bittner.colourkiste.workspace.commands.DrawImageCommand;
 import de.bittner.colourkiste.workspace.ICommand;

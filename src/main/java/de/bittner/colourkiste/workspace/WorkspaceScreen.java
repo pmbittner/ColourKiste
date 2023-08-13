@@ -1,7 +1,7 @@
 package de.bittner.colourkiste.workspace;
 
 import de.bittner.colourkiste.engine.*;
-import de.bittner.colourkiste.engine.graphics.EntityGraphics;
+import de.bittner.colourkiste.engine.components.graphics.EntityGraphics;
 import de.bittner.colourkiste.math.Transform;
 import de.bittner.colourkiste.math.Vec2;
 import de.bittner.colourkiste.rendering.Texture;
@@ -76,7 +76,6 @@ public class WorkspaceScreen extends JPanel implements Screen {
         // draw all WorkingElements
         final RenderTarget renderTarget = new RenderTarget(screen);
         renderTarget.pushTransform(viewTransform);
-        w.sortEntities();
         for (final Entity e : w.getEntities()) {
             final EntityGraphics eGraphics = e.get(EntityGraphics.class);
             if (eGraphics != null) {

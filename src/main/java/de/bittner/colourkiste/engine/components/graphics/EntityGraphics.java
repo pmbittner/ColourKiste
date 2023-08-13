@@ -1,4 +1,4 @@
-package de.bittner.colourkiste.engine.graphics;
+package de.bittner.colourkiste.engine.components.graphics;
 
 import de.bittner.colourkiste.engine.EntityComponent;
 import de.bittner.colourkiste.engine.RenderTarget;

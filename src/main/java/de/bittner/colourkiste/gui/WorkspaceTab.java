@@ -2,9 +2,11 @@ package de.bittner.colourkiste.gui;
 
 import de.bittner.colourkiste.binding.Property;
 import de.bittner.colourkiste.engine.Entity;
-import de.bittner.colourkiste.engine.graphics.FilledRectangleGraphics;
-import de.bittner.colourkiste.engine.hitbox.RectangleHitbox;
+import de.bittner.colourkiste.engine.components.graphics.FilledRectangleGraphics;
+import de.bittner.colourkiste.engine.components.hitbox.RectangleHitbox;
+import de.bittner.colourkiste.engine.components.input.EntityDragNDrop;
 import de.bittner.colourkiste.engine.input.CameraDragAndDrop;
+import de.bittner.colourkiste.engine.input.EntityInputManager;
 import de.bittner.colourkiste.engine.input.ZoomViaMouseWheel;
 import de.bittner.colourkiste.gui.io.ApplyTool;
 import de.bittner.colourkiste.math.Vec2;
@@ -69,6 +71,7 @@ public class WorkspaceTab extends JPanel {
         );
         debug.add(new RectangleHitbox(debugBox));
         debug.add(new FilledRectangleGraphics(Color.GREEN));
+        debug.add(new EntityDragNDrop());
         workspace.getWorld().spawn(debug);
     }
 
@@ -86,6 +89,7 @@ public class WorkspaceTab extends JPanel {
 
         screen.addInputListener(new CameraDragAndDrop(MouseEvent.BUTTON3));
         screen.addInputListener(new ZoomViaMouseWheel());
+        screen.addInputListener(new EntityInputManager(screen, workspace.getWorld()));
         screen.addInputListener(applyTool);
 
 //        screen.addInputListener(new KeyTypeListener(KeyEvent.VK_U, e -> workspace.undo()));

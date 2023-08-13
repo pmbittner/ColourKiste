@@ -1,5 +1,6 @@
 package de.bittner.colourkiste.engine;
 
+import de.bittner.colourkiste.math.Transform;
 import de.bittner.colourkiste.math.Vec2;
 import de.bittner.colourkiste.util.Assert;
 import org.variantsync.functjonal.Cast;
@@ -96,6 +97,11 @@ public final class Entity {
 
     public Vec2 getLocation() {
         return location;
+    }
+
+    public Vec2 toEntitySpace(final Vec2 worldPos) {
+        updateTransform();
+        return Transform.invert(getRelativeTransform(), worldPos);
     }
 
     /**

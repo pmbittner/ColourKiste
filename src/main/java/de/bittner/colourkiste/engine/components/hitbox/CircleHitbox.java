@@ -1,4 +1,4 @@
-package de.bittner.colourkiste.engine.hitbox;
+package de.bittner.colourkiste.engine.components.hitbox;
 
 import de.bittner.colourkiste.math.Vec2;
 import de.bittner.colourkiste.math.geometry.Circle;

@@ -57,8 +57,8 @@ public abstract class Main
         mainFrame.getKeyMap().bindAll(KeyMap.fromFile(DEFAULT_KEYBINDINGS_FILE, KeyMap.CSV_DELIMITER_DEFAULT), true);
         mainFrame.getKeyMap().bindAll(KeyMap.fromFile(VIM_KEYBINDINGS_FILE, KeyMap.CSV_DELIMITER_DEFAULT), false);
 
-        Logger.info("Keybindings loaded");
-        mainFrame.getKeyMap().getAllBindings().forEach((k, a) -> System.out.println(k + " = " + a));
+//        Logger.info("Keybindings loaded");
+//        mainFrame.getKeyMap().getAllBindings().forEach((k, a) -> System.out.println(k + " = " + a));
 
         mainFrame.addTools(tools);
         mainFrame.addMenuBarItems(menu);

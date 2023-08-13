@@ -29,9 +29,9 @@ public record Box(Vec2 upperLeft, Vec2 lowerRight) {
     public boolean contains(Vec2 point) {
         return
                 upperLeft.x() <= point.x()
-                && upperLeft.y() >= point.y()
+                && upperLeft.y() <= point.y()
                 && lowerRight.x() >= point.x()
-                && lowerRight.y() <= point.y();
+                && lowerRight.y() >= point.y();
     }
 
     @Override

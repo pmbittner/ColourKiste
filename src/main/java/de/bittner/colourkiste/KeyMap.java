@@ -29,7 +29,7 @@ public class KeyMap {
         try (final Stream<String> lines = Files.lines(filepath)) {
             return new KeyMap(lines
                     .map(line -> {
-                        Logger.info("Parse line " + line);
+//                        Logger.info("Parse line " + line);
                         return line.split(delimiter);
                     })
                     .collect(Collectors.toMap(

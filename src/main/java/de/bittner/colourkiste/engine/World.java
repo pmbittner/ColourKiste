@@ -24,6 +24,7 @@ public class World {
     public void spawn(Entity entity) {
         entities.add(entity);
         entity.setWorld(this);
+        sortEntities();
         OnEntitySpawned.fire(entity);
     }
 
