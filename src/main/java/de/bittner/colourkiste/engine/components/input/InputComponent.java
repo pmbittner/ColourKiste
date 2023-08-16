@@ -5,19 +5,23 @@ import de.bittner.colourkiste.math.Vec2;
 
 public class InputComponent extends EntityComponent {
 
-    public boolean mouseClicked(int button, Vec2 pos) {
+    public boolean mouseClicked(int button, Vec2 worldPos) {
         return false;
     }
 
-    public boolean mouseDragStart(int button, Vec2 pos) {
+    public boolean mouseDragStart(int button, Vec2 worldPos) {
         return false;
     }
 
-    public boolean mouseDragged(int button, Vec2 pos) {
+    public boolean mouseDragged(int button, Vec2 worldPos) {
         return false;
     }
 
-    public boolean mouseDragEnd(int button, Vec2 pos) {
+    public boolean mouseDragEnd(int button, Vec2 worldPos) {
+        return false;
+    }
+
+    public boolean mouseMoved(int button, Vec2 worldPos) {
         return false;
     }
 }

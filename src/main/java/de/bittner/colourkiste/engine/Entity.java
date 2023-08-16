@@ -1,5 +1,7 @@
 package de.bittner.colourkiste.engine;
 
+import de.bittner.colourkiste.math.Degrees;
+import de.bittner.colourkiste.math.Radians;
 import de.bittner.colourkiste.math.Transform;
 import de.bittner.colourkiste.math.Vec2;
 import de.bittner.colourkiste.util.Assert;
@@ -10,9 +12,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
+
 public final class Entity {
     private World world;
     private Vec2 location;
+    private Radians rotation;
     private final String name;
     private double z;
     private final AffineTransform relativeTransform;
@@ -20,9 +26,10 @@ public final class Entity {
 
     public Entity(final String name) {
         this.name = name;
-        z = 0;
-        location = Vec2.all(0);
-        relativeTransform = new AffineTransform();
+        this.rotation = new Radians(0);
+        this.z = 0;
+        this.location = Vec2.all(0);
+        this.relativeTransform = new AffineTransform();
         this.components = new HashMap<>();
     }
 
@@ -85,9 +92,12 @@ public final class Entity {
     }
 
     public void updateTransform() {
+        relativeTransform.setToRotation(3);
+        final double c = cos(rotation.radians());
+        final double s = sin(rotation.radians());
         relativeTransform.setTransform(
-                1, 0,
-                0, 1,
+                c, s,
+                -s, c,
                 location.x(), location.y());
     }
 
@@ -101,9 +111,17 @@ public final class Entity {
         return location;
     }
 
-    public Vec2 toEntitySpace(final Vec2 worldPos) {
+    public void setRotation(final Degrees rotation) {
+        setRotation(rotation.toRadians());
         updateTransform();
-        return Transform.invert(getRelativeTransform(), worldPos);
+    }
+
+    public void setRotation(final Radians rotation) {
+        this.rotation = rotation;
+    }
+
+    public Radians getRotation() {
+        return rotation;
     }
 
     /**
@@ -116,6 +134,11 @@ public final class Entity {
 
     public double getZ() {
         return z;
+    }
+
+    public Vec2 toEntitySpace(final Vec2 worldPos) {
+        updateTransform();
+        return Transform.invert(getRelativeTransform(), worldPos);
     }
 
     void setWorld(final World world) {

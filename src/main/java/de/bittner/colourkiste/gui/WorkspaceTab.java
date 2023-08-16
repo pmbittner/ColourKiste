@@ -1,19 +1,11 @@
 package de.bittner.colourkiste.gui;
 
 import de.bittner.colourkiste.binding.Property;
-import de.bittner.colourkiste.engine.Entity;
-import de.bittner.colourkiste.engine.World;
-import de.bittner.colourkiste.engine.components.graphics.FilledRectangleGraphics;
-import de.bittner.colourkiste.engine.components.hitbox.RectangleHitbox;
-import de.bittner.colourkiste.engine.components.input.EntityDragNDrop;
 import de.bittner.colourkiste.engine.input.CameraDragAndDrop;
 import de.bittner.colourkiste.engine.input.EntityInputManager;
 import de.bittner.colourkiste.engine.input.ZoomViaMouseWheel;
-import de.bittner.colourkiste.math.Vec2;
-import de.bittner.colourkiste.math.geometry.Box;
 import de.bittner.colourkiste.workspace.Workspace;
 import de.bittner.colourkiste.workspace.WorkspaceScreen;
-import de.bittner.colourkiste.gui.io.ApplyTool;
 
 import javax.swing.*;
 import java.awt.*;
@@ -60,15 +52,28 @@ public class WorkspaceTab extends JPanel {
         workspace.AfterEdit.addListener(wp -> title.set("*" + wp.getWorkingFile().getName()));
 
 //        final Entity debug = new Entity("Green Debug Square");
-//        debug.setZ(World.FOREGROUND * 1000);
+//        debug.setZ(World.FOREGROUND * 10);
 //        final Box debugBox = new Box(
 //                new Vec2(-50, -50),
 //                new Vec2(50, 50)
 //        );
 //        debug.add(new RectangleHitbox(debugBox));
 //        debug.add(new FilledRectangleGraphics(Color.GREEN));
+//        debug.add(new OnClickComponent((entity, button, pos) -> {
+//            if (button == MouseEvent.BUTTON1) {
+//                entity.setRotation(entity.getRotation().toDegrees().add(10));
+//                screen.refresh();
+//            }
+//            return true;
+//        }, screen));
 //        debug.add(new EntityDragNDrop());
+
 //        workspace.getWorld().spawn(debug);
+
+//        final Entity rbr = ResizeBar.createRight(workspace);
+//        rbr.setZ(World.FOREGROUND * 100);
+//        rbr.setLocation(rbr.getLocation().withX(debugBox.getWidth() / 2.0));
+//        workspace.getWorld().spawn(rbr);
     }
 
     private void setupWorkspaceScreen() {

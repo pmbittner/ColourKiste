@@ -10,12 +10,21 @@ import de.bittner.colourkiste.gui.io.ApplyTool;
 import de.bittner.colourkiste.math.Vec2;
 import de.bittner.colourkiste.rendering.Texture;
 import de.bittner.colourkiste.util.SizedStack;
+import de.bittner.colourkiste.workspace.commands.resize.ResizeCommand;
+import de.bittner.colourkiste.workspace.elements.resize.ResizeBar;
+import de.bittner.colourkiste.workspace.elements.resize.Directions.Down;
+import de.bittner.colourkiste.workspace.elements.resize.Directions.Left;
+import de.bittner.colourkiste.workspace.elements.resize.Directions.Right;
+import de.bittner.colourkiste.workspace.elements.resize.Directions.Top;
 import de.bittner.colourkiste.workspace.remember.RememberFileSave;
 import de.bittner.colourkiste.workspace.remember.RememberSomething;
 import org.tinylog.Logger;
+import org.variantsync.functjonal.Unit;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Workspace
 {
@@ -28,6 +37,10 @@ public class Workspace
     private final TextureGraphics workpiece;
     private File workingFile = null;
 
+    /** RESIZE BARS **/
+    private final List<ResizeBar> resizeBars;
+    private boolean resizersVisible = false;
+
     /** EDITING **/
     private final SizedStack<ICommand<Texture>> actionsDone;
     private final SizedStack<ICommand<Texture>> actionsUndone;
@@ -37,6 +50,7 @@ public class Workspace
     public final EventHandler<File> OnWorkingFileChanged = new EventHandler<>();
     public final EventHandler<Workspace> AfterEdit = new EventHandler<>();
     public final EventHandler<File> OnSave = new EventHandler<>();
+    public final EventHandler<Unit> OnWorkpieceResized = new EventHandler<>();
 
     public Workspace(MainFrame frame) {
         this.frame = frame;
@@ -48,6 +62,14 @@ public class Workspace
 
         workpiece = createNewWorkpiece();
         world.spawn(workpiece.getEntity());
+
+        resizeBars = new ArrayList<>(4);
+        for (final ResizeBar d : List.of(new Left(this), new Down(this), new Right(this), new Top(this))) {
+            resizeBars.add(ResizeBar.create(d).require(ResizeBar.class));
+        }
+
+        this.OnWorkpieceResized.addListener(this::onResize);
+        this.OnWorkingFileChanged.addListener(file -> getWorld().getCamera().reset());
     }
 
     private TextureGraphics createNewWorkpiece() {
@@ -62,19 +84,48 @@ public class Workspace
         return workpiece;
     }
 
+    private void showResizers() {
+        if (!resizersVisible) {
+            resizeBars.forEach(r -> {
+                world.spawn(r.getEntity());
+                r.reset();
+            });
+        }
+
+        resizersVisible = true;
+    }
+
+    private void hideResizers() {
+        if (resizersVisible) {
+            resizeBars.forEach(r -> world.despawn(r.getEntity()));
+        }
+
+        resizersVisible = false;
+    }
+
     /** EDITING **/
 
     public void runCommand(ICommand<Texture> command) {
+        if (getTexture() == null) {
+            Logger.warn("Tried to run command {} on null workpiece! I am discarding it.", command);
+            return;
+        }
+
         if (command instanceof RememberSomething rs) {
             Logger.warn("Did not expect a remembrance command but got " + rs + " of type " + rs.getClass() + ". I am going to remember it but you should fix your code.");
             remember(rs);
             return;
         }
 
-        if (command.execute(workpiece.getTexture())) {
+        if (command.execute(getTexture())) {
 	        actionsDone.push(command);
 	        actionsUndone.clear();
             AfterEdit.fire(this);
+        }
+
+        // TODO: Find a better way to determine when to do this
+        if (command instanceof ResizeCommand) {
+            OnWorkpieceResized.fire(Unit.Instance());
         }
 
         refreshAll();
@@ -105,6 +156,10 @@ public class Workspace
                 undo();
             } else {
                 undoCommand.undo(workpiece.getTexture());
+                // TODO: Find a better way to determine when to do this
+                if (undoCommand instanceof ResizeCommand) {
+                    OnWorkpieceResized.fire(Unit.Instance());
+                }
                 refreshAll();
             }
 
@@ -128,6 +183,10 @@ public class Workspace
             } else {
                 // redo the command
                 redoCommand.execute(workpiece.getTexture());
+                // TODO: Find a better way to determine when to do this
+                if (redoCommand instanceof ResizeCommand) {
+                    OnWorkpieceResized.fire(Unit.Instance());
+                }
                 AfterEdit.fire(this);
                 refreshAll();
 
@@ -169,12 +228,14 @@ public class Workspace
         
         if (texture == null) {
             world.despawn(workpiece.getEntity());
+            hideResizers();
         } else {
         	if (!world.contains(workpiece.getEntity())) {
                 world.spawn(workpiece.getEntity());
             }
+            showResizers();
         }
-        
+
         actionsDone.clear();
         actionsUndone.clear();
 
@@ -240,5 +301,9 @@ public class Workspace
         Texture.saveAsPng(getTexture(), dest);
         rememberFileSave();
         OnSave.fire(dest);
+    }
+
+    private void onResize(final Unit unit) {
+        resizeBars.forEach(ResizeBar::reset);
     }
 }

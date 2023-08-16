@@ -24,6 +24,48 @@ public record Vec2(double x, double y) {
         return new Point2D.Double(x(), y());
     }
 
+    public Vec2 withX(double newX) {
+        return new Vec2(
+                newX,
+                y()
+        );
+    }
+
+    public Vec2 withXMin(double xMin) {
+        return new Vec2(
+                Math.max(xMin, x()),
+                y()
+        );
+    }
+
+    public Vec2 withXMax(double xMax) {
+        return new Vec2(
+                Math.min(xMax, x()),
+                y()
+        );
+    }
+
+    public Vec2 withY(double newY) {
+        return new Vec2(
+                x(),
+                newY
+        );
+    }
+
+    public Vec2 withYMin(double yMin) {
+        return new Vec2(
+                x(),
+                Math.max(yMin, y())
+        );
+    }
+
+    public Vec2 withYMax(double yMax) {
+        return new Vec2(
+                x(),
+                Math.min(yMax, y())
+        );
+    }
+
     public Vec2 scale(double s) {
         return new Vec2(
                 s * x(),
@@ -67,6 +109,20 @@ public record Vec2(double x, double y) {
         return this.add(b.flip());
     }
 
+    public Vec2 minusX(Vec2 b) {
+        return new Vec2(
+                x() - b.x(),
+                y()
+        );
+    }
+
+    public Vec2 minusY(Vec2 b) {
+        return new Vec2(
+                x(),
+                y() - b.y()
+        );
+    }
+
     public Vec2 normalize() {
         final double l = length();
         return new Vec2(
@@ -81,6 +137,29 @@ public record Vec2(double x, double y) {
 
     public double distanceTo(Vec2 b) {
         return this.minus(b).length();
+    }
+
+    public Vec2 roundToInt() {
+        return new Vec2(
+                Math.round(x()),
+                Math.round(y())
+        );
+    }
+
+    public Vec2 castToInt() {
+        return new Vec2(
+                (int) x(),
+                (int) y()
+        );
+    }
+
+    public Vec2 snapToPixels(int width, int height) {
+        final double evenWidth  = 0.5 * (width  % 2);
+        final double evenHeight = 0.5 * (height % 2);
+        return new Vec2(
+                Math.round(evenWidth  + x()) - evenWidth,
+                Math.round(evenHeight + y()) - evenHeight
+        );
     }
 
     public Vec2 rotate90DegreesClockwise() {

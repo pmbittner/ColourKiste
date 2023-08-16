@@ -1,4 +1,7 @@
 package de.bittner.colourkiste.gui;
+import org.tinylog.Logger;
+import org.variantsync.functjonal.Cast;
+
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -29,12 +32,11 @@ public class ImagePanelDropHandler extends DropTargetAdapter
         try {
             Transferable data = evt.getTransferable();
             if (data.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
-                List<File> list = (List<File>)
-                    data.getTransferData(DataFlavor.javaFileListFlavor);
+                List<File> list = Cast.unchecked(data.getTransferData(DataFlavor.javaFileListFlavor));
                 processFiles(list);
             }
         } catch (UnsupportedFlavorException | IOException e) {
-            e.printStackTrace();
+            Logger.error(e);
         } finally {
             evt.dropComplete(true);
             dropTargetComponent.repaint();

@@ -11,9 +11,11 @@ public class RenderTarget {
     private final Stack<Color> backgrounds;
     private final Stack<Color> colors;
     private final Stack<AffineTransform> transforms;
+    private final Camera camera;
 
-    public RenderTarget(Graphics2D screen) {
+    public RenderTarget(Graphics2D screen, Camera camera) {
         this.screen = screen;
+        this.camera = camera;
         backgrounds = new Stack<>();
         colors = new Stack<>();
         transforms = new Stack<>();
@@ -57,5 +59,9 @@ public class RenderTarget {
 
     public Graphics2D getTarget() {
         return screen;
+    }
+
+    public Camera getCamera() {
+        return camera;
     }
 }

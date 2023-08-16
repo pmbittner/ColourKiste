@@ -13,11 +13,14 @@ public class World {
 
     private final List<Entity> entities;
 
+    private final Camera camera;
+
     public EventHandler<Entity> OnEntitySpawned = new EventHandler<>();
     public EventHandler<Entity> OnEntityDespawned = new EventHandler<>();
 
     public World() {
-        entities = new ArrayList<>();
+        this.entities = new ArrayList<>();
+        this.camera = new Camera();
     }
 
     /** RENDERING **/
@@ -47,5 +50,9 @@ public class World {
 
     private void sortEntities() {
         entities.sort(Comparator.comparingDouble(Entity::getZ));
+    }
+
+    public Camera getCamera() {
+        return camera;
     }
 }

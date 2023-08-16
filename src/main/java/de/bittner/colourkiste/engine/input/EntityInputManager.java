@@ -8,11 +8,13 @@ import de.bittner.colourkiste.engine.components.hitbox.Hitbox;
 import de.bittner.colourkiste.engine.components.input.InputComponent;
 import de.bittner.colourkiste.math.Vec2;
 import org.tinylog.Logger;
+import org.variantsync.functjonal.functions.TriFunction;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.util.List;
+import java.util.function.BiFunction;
 
 /**
  * TODO: Refactor duplicate code in here
@@ -21,9 +23,46 @@ public class EntityInputManager extends InputListener {
     private final Screen screen;
     private final World world;
 
+    @FunctionalInterface
+    private interface OnHit {
+        boolean consumes(InputComponent i, Vec2 worldPos);
+    }
+
     public EntityInputManager(Screen screen, World world) {
         this.screen = screen;
         this.world = world;
+    }
+
+    private void forAllInputEntities(
+            final MouseEvent e,
+            final OnHit onHit
+    ) {
+        final Vec2 worldPos = screen.screenToViewportCoord(new Vec2(e.getX(), e.getY()));
+
+        final List<Entity> entities = world.getEntities();
+        for (int i = entities.size() - 1; i >= 0; --i) {
+            final Entity entity = entities.get(i);
+            final InputComponent inputComponent = entity.get(InputComponent.class);
+            if (inputComponent != null) {
+                if (onHit.consumes(inputComponent, worldPos)) {
+                    break;
+                }
+            }
+        }
+    }
+
+    private void forAllInputEntitiesAt(
+            final MouseEvent e,
+            final OnHit onHit
+    ) {
+        forAllInputEntities(e, (i, worldPos) -> {
+            final Hitbox hitbox = i.getEntity().require(Hitbox.class);
+            if (hitbox.contains(worldPos)) {
+                return onHit.consumes(i, worldPos);
+            }
+
+            return false;
+        });
     }
 
     @Override
@@ -37,89 +76,47 @@ public class EntityInputManager extends InputListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        final Vec2 pos = screen.screenToViewportCoord(new Vec2(e.getX(), e.getY()));
-
-        final List<Entity> entities = world.getEntities();
-        for (int i = entities.size() - 1; i >= 0; --i) {
-            final Entity entity = entities.get(i);
-            final InputComponent inputComponent = entity.get(InputComponent.class);
-            if (inputComponent != null) {
-                final Hitbox hitbox = entity.require(Hitbox.class);
-                if (hitbox.contains(pos)) {
-                    final boolean consumed = inputComponent.mouseClicked(e.getButton(), entity.toEntitySpace(pos));
-                    if (consumed) {
-                        break;
-                    }
-                }
-            }
-        }
+        forAllInputEntitiesAt(e, (i, worldPos) ->
+                i.mouseClicked(e.getButton(), worldPos)
+        );
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        final Vec2 pos = screen.screenToViewportCoord(new Vec2(e.getX(), e.getY()));
-
-        final List<Entity> entities = world.getEntities();
-        for (int i = entities.size() - 1; i >= 0; --i) {
-            final Entity entity = entities.get(i);
-            Logger.info(entity);
-            final InputComponent inputComponent = entity.get(InputComponent.class);
-            if (inputComponent != null) {
-                final Hitbox hitbox = entity.require(Hitbox.class);
-                if (hitbox.contains(pos)) {
-                    final boolean consumed = inputComponent.mouseDragStart(e.getButton(), entity.toEntitySpace(pos));
-                    if (consumed) {
-                        break;
-                    }
-                }
-            }
-        }
+        forAllInputEntitiesAt(e, (i, worldPos) ->
+                i.mouseDragStart(e.getButton(), worldPos)
+        );
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        final Vec2 pos = screen.screenToViewportCoord(new Vec2(e.getX(), e.getY()));
-
-        final List<Entity> entities = world.getEntities();
-        for (int i = entities.size() - 1; i >= 0; --i) {
-            final Entity entity = entities.get(i);
-            final InputComponent inputComponent = entity.get(InputComponent.class);
-            if (inputComponent != null) {
-                final boolean consumed = inputComponent.mouseDragged(e.getButton(), entity.toEntitySpace(pos));
-                if (consumed) {
-                    break;
-                }
-            }
-        }
+        forAllInputEntities(e, (i, worldPos) ->
+                i.mouseDragged(e.getButton(), worldPos)
+        );
 
         screen.refresh();
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        final Vec2 pos = screen.screenToViewportCoord(new Vec2(e.getX(), e.getY()));
-
-        final List<Entity> entities = world.getEntities();
-        for (int i = entities.size() - 1; i >= 0; --i) {
-            final Entity entity = entities.get(i);
-            final InputComponent inputComponent = entity.get(InputComponent.class);
-            if (inputComponent != null) {
-                final boolean consumed = inputComponent.mouseDragEnd(e.getButton(), entity.toEntitySpace(pos));
-                if (consumed) {
-                    break;
-                }
-            }
-        }
+        forAllInputEntities(e, (i, worldPos) ->
+                i.mouseDragEnd(e.getButton(), worldPos)
+        );
     }
 
     @Override
-    public void mouseEntered(MouseEvent e) {}
+    public void mouseEntered(MouseEvent e) {
+    }
 
     @Override
     public void mouseExited(MouseEvent e) {}
 
     @Override
-    public void mouseMoved(MouseEvent e) {}
+    public void mouseMoved(MouseEvent e) {
+        forAllInputEntities(e, (i, worldPos) ->
+                i.mouseMoved(e.getButton(), worldPos)
+        );
+    }
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {}

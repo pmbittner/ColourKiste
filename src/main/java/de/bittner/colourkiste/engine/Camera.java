@@ -4,7 +4,7 @@ import de.bittner.colourkiste.math.Vec2;
 
 public class Camera
 {
-    private static final double zoomMin = 0.5, zoomMax = 50;
+    public static final double zoomMin = 0.5, zoomMax = 50;
 
     private Vec2 location;
     private double zoom;

@@ -1,5 +1,6 @@
 package de.bittner.colourkiste.engine.components.graphics;
 
+import de.bittner.colourkiste.engine.Draw;
 import de.bittner.colourkiste.engine.RenderTarget;
 import de.bittner.colourkiste.engine.components.hitbox.RectangleHitbox;
 import de.bittner.colourkiste.math.Vec2;
@@ -20,11 +21,8 @@ public class FilledRectangleGraphics extends EntityGraphics {
     @Override
     public void draw(RenderTarget screen) {
         final RectangleHitbox r = getEntity().require(RectangleHitbox.class);
-        final Vec2 ul = r.getBox().upperLeft();
-        final Vec2 lr = r.getBox().lowerRight();
-
         screen.pushColor(color);
-        screen.getTarget().fillRect((int)ul.x(), (int)ul.y(), (int)(lr.x() - ul.x()), (int)(lr.y() - ul.y()));
+        Draw.fillRect(screen, r.getBox());
         screen.popColor();
     }
 

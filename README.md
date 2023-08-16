@@ -4,14 +4,14 @@ A small image editing application, designed for pixel-precise operations similar
 
 ## TODO
 
-- Make work piece resizable
 - Make Tools have custom UI (e.g., for pencil thickness)
 - selections
 - mirror
-- rotate
 
 ## TODO minor
+- new blank canvas
 - make tools use vec2
 - refactor dupes in drag n drops
 - refactor dupes in entityinputmanager
 - ask for save on close
+- show resolution

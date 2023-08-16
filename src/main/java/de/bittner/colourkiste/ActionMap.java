@@ -1,13 +1,13 @@
 package de.bittner.colourkiste;
 
 import de.bittner.colourkiste.gui.MainFrame;
-import de.bittner.colourkiste.gui.WorkspaceTab;
 import de.bittner.colourkiste.gui.io.OpenImageFileDialog;
+import de.bittner.colourkiste.gui.WorkspaceTab;
+import org.variantsync.functjonal.functions.Procedure;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
-import java.util.Map;
 
 public class ActionMap {
     public static final String UNDO = "Undo";
@@ -19,15 +19,15 @@ public class ActionMap {
     private final MainFrame frame;
 
     private static class ActionAdapter extends AbstractAction {
-        private final Runnable runnable;
+        private final Procedure procedure;
 
-        private ActionAdapter(Runnable runnable) {
-            this.runnable = runnable;
+        private ActionAdapter(Procedure procedure) {
+            this.procedure = procedure;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            this.runnable.run();
+            this.procedure.run();
         }
     }
 
@@ -48,7 +48,7 @@ public class ActionMap {
         registerAction(SAVEAS, () -> frame.getSaver().trySaveAs(frame.getCurrentWorkspaceTab().getWorkspace()));
     }
 
-    public void registerAction(final String id, final Runnable action) {
+    public void registerAction(final String id, final Procedure action) {
         if (frame.getRootPane().getActionMap().get(id) != null) {
             throw new IllegalArgumentException("Given id \"" + id + "\" already exists!");
         }

@@ -24,12 +24,23 @@ public record Box(Vec2 upperLeft, Vec2 lowerRight) {
     public Box shrink(Vec2 delta) {
         return new Box(
                 this.upperLeft().add(delta),
-                this.lowerRight.minus(delta)
+                this.lowerRight().minus(delta)
         );
     }
 
     public Box shrink(double delta) {
         return shrink(new Vec2(delta, delta));
+    }
+
+    public Box scale(Vec2 delta) {
+        return new Box(
+                this.upperLeft().scale(delta),
+                this.lowerRight().scale(delta)
+        );
+    }
+
+    public Box translate(final Vec2 v) {
+        return new Box(upperLeft().add(v), lowerRight().add(v));
     }
 
     public boolean contains(Vec2 point) {

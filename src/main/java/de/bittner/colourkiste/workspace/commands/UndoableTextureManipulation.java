@@ -19,7 +19,7 @@ public abstract class UndoableTextureManipulation implements ICommand<Texture> {
     }
 
     @Override
-    public final void undo(Texture t) {
+    public void undo(Texture t) {
         t.setAwtImage(previous.getAwtImage());
     }
 

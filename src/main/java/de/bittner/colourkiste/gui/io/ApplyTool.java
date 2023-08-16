@@ -23,9 +23,9 @@ public class ApplyTool extends InputComponent {
         this.toolBox = user;
     }
 
-    private Vec2 toTextureCoord(final Vec2 entitySpaceCoord) {
+    private Vec2 toTextureCoord(final Vec2 worldPos) {
         final TextureGraphics textureGraphics = getEntity().require(TextureGraphics.class);
-        return Transform.invert(textureGraphics.getRelativeTransform(), entitySpaceCoord);
+        return Transform.invert(textureGraphics.getRelativeTransform(), getEntity().toEntitySpace(worldPos));
     }
 
     private void startUsageAt(Vec2 pos) {

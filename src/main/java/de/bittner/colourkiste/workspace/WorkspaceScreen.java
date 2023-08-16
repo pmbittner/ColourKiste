@@ -5,6 +5,7 @@ import de.bittner.colourkiste.engine.components.graphics.EntityGraphics;
 import de.bittner.colourkiste.math.Transform;
 import de.bittner.colourkiste.math.Vec2;
 import de.bittner.colourkiste.rendering.Texture;
+import org.tinylog.Logger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +15,6 @@ import java.awt.geom.Point2D;
 public class WorkspaceScreen extends JPanel implements Screen {
     private final Workspace workspace;
 
-    private final Camera camera;
     private final AffineTransform viewTransform;
 
     /** GRAPHICS and RENDERING **/
@@ -24,10 +24,7 @@ public class WorkspaceScreen extends JPanel implements Screen {
         super(true);
         this.workspace = workspace;
         this.background = createBackground();
-        this.camera = new Camera();
         this.viewTransform = new AffineTransform();
-
-        workspace.OnWorkingFileChanged.addListener(file -> camera.reset());
     }
 
     private static Texture createBackground() {
@@ -48,8 +45,9 @@ public class WorkspaceScreen extends JPanel implements Screen {
     }
 
     private void updateViewTransform() {
-        final double zoom = camera.getZoom();
-        final Vec2 camPos = camera.getLocation();
+        final Camera c = getWorkspace().getWorld().getCamera();
+        final double zoom = c.getZoom();
+        final Vec2 camPos = c.getLocation();
 
         viewTransform.setTransform(
                 zoom, 0,
@@ -74,7 +72,7 @@ public class WorkspaceScreen extends JPanel implements Screen {
         }
 
         // draw all WorkingElements
-        final RenderTarget renderTarget = new RenderTarget(screen);
+        final RenderTarget renderTarget = new RenderTarget(screen, getCamera());
         renderTarget.pushTransform(viewTransform);
         for (final Entity e : w.getEntities()) {
             final EntityGraphics eGraphics = e.get(EntityGraphics.class);
@@ -92,11 +90,6 @@ public class WorkspaceScreen extends JPanel implements Screen {
 
     public Workspace getWorkspace() {
         return workspace;
-    }
-
-    @Override
-    public Camera getCamera() {
-        return camera;
     }
 
     public AffineTransform getViewTransform() {
@@ -118,7 +111,9 @@ public class WorkspaceScreen extends JPanel implements Screen {
                             new Point2D.Double(x, y),
                             null)
             );
-        } catch (java.awt.geom.NoninvertibleTransformException e) {e.printStackTrace();}
+        } catch (java.awt.geom.NoninvertibleTransformException e) {
+            Logger.error(e);
+        }
         return null;
     }
 
@@ -133,8 +128,15 @@ public class WorkspaceScreen extends JPanel implements Screen {
             return Vec2.from(
                     viewTransform.inverseTransform(vec2.toPoint2D(), null)
             );
-        } catch (java.awt.geom.NoninvertibleTransformException e) { e.printStackTrace(); }
+        } catch (java.awt.geom.NoninvertibleTransformException e) {
+            Logger.error(e);
+        }
         return null;
+    }
+
+    @Override
+    public Camera getCamera() {
+        return workspace.getWorld().getCamera();
     }
 
     @Override
