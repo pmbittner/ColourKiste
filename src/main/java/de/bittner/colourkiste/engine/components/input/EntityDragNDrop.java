@@ -44,7 +44,7 @@ public class EntityDragNDrop extends InputComponent {
         dragBeginPos = getEntity().getLocation();
         dragDelta = pos.minus(dragBeginPos);
         OnDragStart.fire(Unit.Instance());
-        Logger.info("delta = {}, pos = {}", dragDelta, dragBeginPos);
+//        Logger.info("delta = {}, pos = {}", dragDelta, dragBeginPos);
     }
 
     private void stopDragNDrop() {
@@ -54,7 +54,7 @@ public class EntityDragNDrop extends InputComponent {
 
     private void dragTo(Vec2 pos) {
         final Vec2 newPos = dragPosition.computeNewEntityPosition(dragBeginPos, pos, dragDelta);
-        Logger.info(newPos);
+//        Logger.info(newPos);
         getEntity().setLocation(newPos);
     }
 

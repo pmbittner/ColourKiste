@@ -92,7 +92,6 @@ public final class Entity {
     }
 
     public void updateTransform() {
-        relativeTransform.setToRotation(3);
         final double c = cos(rotation.radians());
         final double s = sin(rotation.radians());
         relativeTransform.setTransform(
