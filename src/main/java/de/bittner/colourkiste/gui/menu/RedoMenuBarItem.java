@@ -15,7 +15,7 @@ public class RedoMenuBarItem implements MenuBarItem {
 	public void create(MainFrame frame) {
         redoMenuItem = new JMenuItem("Redo");
 		frame.registerAccelerator(redoMenuItem, frame.getKeyMap().getFirstKeybindingForAction(ActionMap.REDO));
-        redoMenuItem.addActionListener(evt -> frame.getActionMap().runAction(ActionMap.REDO));
+        redoMenuItem.addActionListener(evt -> frame.getActionMap().runAction(ActionMap.REDO, evt));
         frame.getMenuWithName("Edit").add(redoMenuItem);
 	}
 

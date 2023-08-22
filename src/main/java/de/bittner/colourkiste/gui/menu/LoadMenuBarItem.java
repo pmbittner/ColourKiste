@@ -11,7 +11,7 @@ public class LoadMenuBarItem implements MenuBarItem {
 	public void create(MainFrame frame) {
 		JMenuItem openMenuItem = new JMenuItem("Open");
 		frame.registerAccelerator(openMenuItem, frame.getKeyMap().getFirstKeybindingForAction(ActionMap.OPEN));
-        openMenuItem.addActionListener(evt -> frame.getActionMap().runAction(ActionMap.OPEN));
+        openMenuItem.addActionListener(evt -> frame.getActionMap().runAction(ActionMap.OPEN, evt));
         frame.getMenuWithName("File").add(openMenuItem);
 	}
 	

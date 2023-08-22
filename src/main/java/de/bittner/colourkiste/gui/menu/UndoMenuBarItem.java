@@ -13,7 +13,7 @@ public class UndoMenuBarItem implements MenuBarItem {
 	public void create(MainFrame frame) {
 		undoMenuItem = new JMenuItem("Undo");
 		frame.registerAccelerator(undoMenuItem, frame.getKeyMap().getFirstKeybindingForAction(ActionMap.UNDO));
-		undoMenuItem.addActionListener(evt -> frame.getActionMap().runAction(ActionMap.UNDO));
+		undoMenuItem.addActionListener(evt -> frame.getActionMap().runAction(ActionMap.UNDO, evt));
         frame.getMenuWithName("Edit").add(undoMenuItem);
 	}
 

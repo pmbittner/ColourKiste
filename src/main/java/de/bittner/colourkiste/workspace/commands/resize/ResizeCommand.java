@@ -14,7 +14,7 @@ public abstract class ResizeCommand extends UndoableTextureManipulation {
 
     protected ResizeCommand(Camera camera) {
         this.camera = camera;
-        this.fillColor = Color.WHITE;
+        this.fillColor = new Color(0, 0, 0, 0);
     }
 
     @Override

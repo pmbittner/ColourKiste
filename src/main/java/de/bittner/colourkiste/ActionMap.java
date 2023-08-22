@@ -56,10 +56,10 @@ public class ActionMap {
         frame.getRootPane().getActionMap().put(id, new ActionAdapter(action));
     }
 
-    public boolean runAction(final String id) {
+    public boolean runAction(final String id, final ActionEvent event) {
         final Action r = frame.getRootPane().getActionMap().get(id);
         if (r == null) return false;
-        r.accept(null);
+        r.actionPerformed(event);
         return true;
     }
 }
