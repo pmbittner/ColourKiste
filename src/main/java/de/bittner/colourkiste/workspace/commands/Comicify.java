@@ -8,7 +8,7 @@ public class Comicify extends UndoableTextureManipulation {
         Erosion erode = Erosion.Erosion();
         Erosion dilate = Erosion.Dilatation();
 
-        Texture bw = texture.contrast(120);
+        Texture bw = texture.contrast(140);
 
         bw = erode.apply(bw);
         bw = erode.apply(bw);

@@ -1,5 +1,9 @@
 package de.bittner.colourkiste;
 
+import de.bittner.colourkiste.imageprocessing.kernels.Erosion;
+import de.bittner.colourkiste.rendering.Texture;
+import de.bittner.colourkiste.workspace.ICommand;
+import de.bittner.colourkiste.workspace.Workspace;
 import de.bittner.colourkiste.workspace.commands.Comicify;
 import de.bittner.colourkiste.workspace.commands.UndoableTextureManipulation;
 import de.bittner.colourkiste.gui.MainFrame;
@@ -34,15 +38,43 @@ public abstract class Main
                 new Pipette(),
                 new DotTool(),
                 new PencilTool(1),
-                new PencilTool(12),
+                new PencilTool(5),
+                new PencilTool(20),
+                new PencilTool(30),
+                new PencilTool(50),
                 new FillTool(),
                 new ColorSwitchTool(),
                 new AreaSelectionTool(),
+                new ToolAdapter("Eroder") {
+                    @Override
+                    public ICommand<Texture> use(Texture workpiece, int x, int y) {
+                        return new ICommand<Texture>() {
+                            private Texture prev;
+                            @Override
+                            public boolean execute(Texture texture) {
+                                prev = texture;
+                                texture = new Texture(prev);
+                                texture.convolution(Erosion.Erosion());
+                                texture.convolution(Erosion.Erosion());
+                                texture.convolution(Erosion.Erosion());
+                                texture.convolution(Erosion.Dilatation());
+                                texture.convolution(Erosion.Dilatation());
+                                texture.convolution(Erosion.Dilatation());
+                                return true;
+                            }
+
+                            @Override
+                            public void undo(Texture texture) {
+                                texture.setAwtImage(prev.getAwtImage());
+                            }
+                        };
+                    }
+                },
                 comicTool,
                 new ClickTool(
                         "Smoothen",
                         () -> UndoableTextureManipulation.Convert(t -> Convolution.smoothing().apply(t))
-                        ));
+                ));
         
         List<MenuBarItem> menu = new ArrayList<>();
         SaveMenuBarItem save = new SaveMenuBarItem();

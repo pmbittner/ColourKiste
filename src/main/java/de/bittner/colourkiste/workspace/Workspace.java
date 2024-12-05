@@ -28,7 +28,7 @@ import java.util.List;
 
 public class Workspace
 {
-    private static final int UNDOABLE_ACTIONS_MAX = 50;
+    private static final int UNDOABLE_ACTIONS_MAX = 10;
 
     /** GUI **/
     private final MainFrame frame;
