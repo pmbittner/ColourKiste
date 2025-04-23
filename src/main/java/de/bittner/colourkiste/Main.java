@@ -29,7 +29,7 @@ public abstract class Main
             System.err.println("Error when setting look and feel");
         }
 
-        Tool comicTool = new ClickTool("Comic", Comicify::new);
+        Tool comicTool = new ClickTool("Comic", (workspace, x, y) -> new Comicify(workspace.getComicifyValue()));
         List<Tool> tools = List.of(
                 new Pipette(),
                 new DotTool(),
@@ -41,7 +41,7 @@ public abstract class Main
                 comicTool,
                 new ClickTool(
                         "Smoothen",
-                        () -> UndoableTextureManipulation.Convert(t -> Convolution.smoothing().apply(t))
+                        (w, x, y) -> UndoableTextureManipulation.Convert(t -> Convolution.smoothing().apply(t))
                         ));
         
         List<MenuBarItem> menu = new ArrayList<>();
