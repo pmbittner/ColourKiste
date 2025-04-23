@@ -28,6 +28,7 @@ public class MainFrame extends JFrame
 	private final JPanel toolPanel;
 	private final JTabbedPane tabbedPane;
     private final JColorChooser colorChooser;
+    private final JSlider comicifyValueSlider;// FIXME: This is a hack
 	private WorkspaceTab currentWorkspaceTab;
     
     private final Map<String, JMenu> menusByName;
@@ -84,6 +85,14 @@ public class MainFrame extends JFrame
         
         colorChooser = new JColorChooser(Color.BLACK);
         colorChooser.setPreviewPanel(new JPanel());
+
+        comicifyValueSlider = new JSlider(0, 255, 120 /* default value */);
+        comicifyValueSlider.setPaintTrack(true);
+        comicifyValueSlider.setPaintTicks(true);
+        comicifyValueSlider.setPaintLabels(true);
+        comicifyValueSlider.setMajorTickSpacing(50);
+        comicifyValueSlider.setMinorTickSpacing(5);
+        comicifyValueSlider.setOrientation(SwingConstants.VERTICAL);
         
         //// ADDING ELEMENTS TO UI
         
@@ -141,6 +150,7 @@ public class MainFrame extends JFrame
 //            bottomRow.add(colorCc = new GridBagConstraints();
 //            c.fill = GridBagCohooser, c);
             bottomRow.add(colorChooser);
+            bottomRow.add(comicifyValueSlider);
         }
         
         //// FINAL SETUP
@@ -268,11 +278,17 @@ public class MainFrame extends JFrame
 	public ToolBox getToolBox() {
 		return tools;
 	}
-    
+
+    // TODO: This is a hack.
+    public int getComicifyValue() {
+        return comicifyValueSlider.getValue();
+    }
+
+    // TODO: This is rather a hack. I think the Workspace as the MVC Controller should probably hold the color.
     public Color getColor() {
         return colorChooser.getColor();
     }
-    
+
     public void setColor(final Color color) {
         colorChooser.setColor(color);
     }

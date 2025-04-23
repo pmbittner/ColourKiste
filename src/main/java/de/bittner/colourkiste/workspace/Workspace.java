@@ -250,6 +250,11 @@ public class Workspace
         return frame;
     }
 
+    // TODO: Fix this dirty hack.
+    public int getComicifyValue() {
+        return frame.getComicifyValue();
+    }
+
     public TextureGraphics getWorkpiece() {
         return workpiece;
     }
